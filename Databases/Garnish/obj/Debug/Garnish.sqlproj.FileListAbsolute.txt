@@ -1,0 +1,9 @@
+D:\Development\JobOptions_PTS\Garnish\bin\Debug\Garnish.dacpac
+D:\Development\JobOptions_PTS\Garnish\bin\Debug\Garnish.dll
+D:\Development\JobOptions_PTS\Garnish\bin\Debug\Garnish.pdb
+D:\Development\JobOptions_PTS\Garnish\obj\Debug\Model.xml
+D:\Development\JobOptions_PTS\Garnish\obj\Debug\refactor.xml
+D:\Development\JobOptions_PTS\Garnish\obj\Debug\postdeploy.sql
+D:\Development\JobOptions_PTS\Garnish\obj\Debug\predeploy.sql
+D:\Development\JobOptions_PTS\Garnish\obj\Debug\Garnish.dll
+D:\Development\JobOptions_PTS\Garnish\obj\Debug\Garnish.pdb

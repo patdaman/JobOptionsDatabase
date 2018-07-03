@@ -1,0 +1,16 @@
+[
+  {
+    "name": "default",
+    "type": "mssql",
+    "host": "Hal9000",
+    "port": 1433,
+    "username": "patman",
+    "password": "Patman7474!",
+    "database": "Applications",
+    "schema": "dbo",
+    "synchronize": false,
+    "entities": [
+      "entities/*.js"
+    ]
+  }
+]

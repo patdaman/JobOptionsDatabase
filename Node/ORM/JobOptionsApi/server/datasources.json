@@ -1,0 +1,12 @@
+{
+  "Applications": {
+    "host": "Hal9000",
+    "port": 1433,
+    "url": "mssql://patman:Patman7474!@hal9000/Applications",
+    "database": "Applications",
+    "password": "Patman7474!",
+    "name": "Applications",
+    "user": "patman",
+    "connector": "mssql"
+  }
+}

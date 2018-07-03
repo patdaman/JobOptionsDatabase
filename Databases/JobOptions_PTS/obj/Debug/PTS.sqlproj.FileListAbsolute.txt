@@ -1,0 +1,10 @@
+D:\Development\JobOptions_PTS\JobOptions_PTS\bin\Debug\PTS.dacpac
+D:\Development\JobOptions_PTS\JobOptions_PTS\bin\Debug\JobOptions_PTS.dll
+D:\Development\JobOptions_PTS\JobOptions_PTS\bin\Debug\JobOptions_PTS.pdb
+D:\Development\JobOptions_PTS\JobOptions_PTS\obj\Debug\PTS.sqlprojResolveAssemblyReference.cache
+D:\Development\JobOptions_PTS\JobOptions_PTS\obj\Debug\Model.xml
+D:\Development\JobOptions_PTS\JobOptions_PTS\obj\Debug\refactor.xml
+D:\Development\JobOptions_PTS\JobOptions_PTS\obj\Debug\postdeploy.sql
+D:\Development\JobOptions_PTS\JobOptions_PTS\obj\Debug\predeploy.sql
+D:\Development\JobOptions_PTS\JobOptions_PTS\obj\Debug\JobOptions_PTS.dll
+D:\Development\JobOptions_PTS\JobOptions_PTS\obj\Debug\JobOptions_PTS.pdb

@@ -1,0 +1,24 @@
+{
+   "type": "mssql",
+   "host": "Hal9000",
+   "port": "1433",
+   "username": "patman",
+   "password": "Patman7474!",
+   "database": "Applications",
+   "synchronize": true,
+   "logging": false,
+   "entities": [
+      "src/entity/**/*.ts"
+   ],
+   "migrations": [
+      "src/migration/**/*.ts"
+   ],
+   "subscribers": [
+      "src/subscriber/**/*.ts"
+   ],
+   "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration",
+      "subscribersDir": "src/subscriber"
+   }
+}

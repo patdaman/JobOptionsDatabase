@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>PTS</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{79c51023-91bc-49dd-bcdb-2468c8b4ed28}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>JobOptions_PTS</RootNamespace>
+    <AssemblyName>JobOptions_PTS</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables\" />
+    <Folder Include="Views\" />
+    <Folder Include="Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Applicant011.sql" />
+    <Build Include="Tables\Applicant01.sql" />
+    <Build Include="Tables\Applicant08212012.sql" />
+    <Build Include="Tables\Applicants.sql" />
+    <Build Include="Tables\CaseCodes.sql" />
+    <Build Include="Tables\Defaults.sql" />
+    <Build Include="Tables\Disabilities.sql" />
+    <Build Include="Tables\MissingColumns.sql" />
+    <Build Include="Tables\EmailRecipients.sql" />
+    <Build Include="Tables\EmployeeAddresses.sql" />
+    <Build Include="Tables\EmployeeMultiDept.sql" />
+    <Build Include="Tables\EmployeeMultiTitle.sql" />
+    <Build Include="Tables\EmployeeNotes.sql" />
+    <Build Include="Tables\EmployeePhone.sql" />
+    <Build Include="Tables\Employees.sql" />
+    <Build Include="Tables\Employees2.sql" />
+    <Build Include="Tables\Employees3.sql" />
+    <Build Include="Tables\Employees6002-3-10-2011.sql" />
+    <Build Include="Tables\Employees6-9.sql" />
+    <Build Include="Tables\EmployeeVacationTime.sql" />
+    <Build Include="Tables\Holidays.sql" />
+    <Build Include="Tables\ID.sql" />
+    <Build Include="Tables\InternetExp.sql" />
+    <Build Include="Tables\PositionsOfInterest.sql" />
+    <Build Include="Tables\positionsofinterest2.sql" />
+    <Build Include="Tables\PrepReports.sql" />
+    <Build Include="Tables\ReferralAgency.sql" />
+    <Build Include="Tables\RunMonitor.sql" />
+    <Build Include="Tables\SectionStandards.sql" />
+    <Build Include="Tables\SectionTaskCodes.sql" />
+    <Build Include="Tables\Sites.sql" />
+    <Build Include="Tables\SpecialtyCodes.sql" />
+    <Build Include="Tables\StatusChange.sql" />
+    <Build Include="Tables\TasksAndTimesWorked.sql" />
+    <Build Include="Tables\Tasksandtimesworkedxferred.sql" />
+    <Build Include="Tables\TitleCodes.sql" />
+    <Build Include="Tables\User.sql" />
+    <Build Include="Tables\Applicant.sql" />
+    <Build Include="Tables\UserPrefs.sql" />
+    <Build Include="Tables\Usersites.sql" />
+    <Build Include="Tables\Var.sql" />
+    <Build Include="Tables\WorkersComp.sql" />
+    <Build Include="Tables\XFERempGPS.sql" />
+    <Build Include="Views\Employees Query.sql" />
+    <Build Include="Views\Find duplicates for Applicant01.sql" />
+    <Build Include="Stored Procedures\usp_GenerateAuditTables.sql" />
+    <Build Include="Stored Procedures\usp_InsertErrorDetails.sql" />
+    <Build Include="Stored Procedures\usp_MergeTables.sql" />
+    <Build Include="Tables\Employee.sql" />
+  </ItemGroup>
+</Project>

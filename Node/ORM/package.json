@@ -1,0 +1,14 @@
+{
+  "name": "orm",
+  "version": "0.4.2",
+  "description": "Create JobOptions application models from MSSQL Server Database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Patrick de los Reyes",
+  "license": "ISC",
+  "dependencies": {
+    "loopback-connector-mssql": "^3.2.1"
+  }
+}

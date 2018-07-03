@@ -1,0 +1,16 @@
+{
+  "name": "JO_typeorm",
+  "version": "0.4.2",
+  "description": "Create database models for use in auto generating api functionality",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Patrick de los Reyes",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^10.5.1",
+    "mssql": "^4.1.0",
+    "reflect-metadata": "^0.1.12"
+  }
+}

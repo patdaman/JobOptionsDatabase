@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Garnish</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{08bcefd3-ad84-4804-8230-ce76705d9d01}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>Garnish</RootNamespace>
+    <AssemblyName>Garnish</AssemblyName>
+    <ModelCollation>1033,CI</ModelCollation>
+    <DefaultFileStructure>BySchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables\" />
+    <Folder Include="Views\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\32nd.sql" />
+    <Build Include="Tables\AF10000.sql" />
+    <Build Include="Tables\AF100001.sql" />
+    <Build Include="Tables\AF100002.sql" />
+    <Build Include="Tables\AF100003.sql" />
+    <Build Include="Tables\AF100004.sql" />
+    <Build Include="Tables\AF100005.sql" />
+    <Build Include="Tables\AF100006.sql" />
+    <Build Include="Tables\AF40100.sql" />
+    <Build Include="Tables\AF401001.sql" />
+    <Build Include="Tables\AF40102.sql" />
+    <Build Include="Tables\AF401021.sql" />
+    <Build Include="Tables\AF401022.sql" />
+    <Build Include="Tables\Changes.sql" />
+    <Build Include="Tables\checkno.sql" />
+    <Build Include="Tables\Departments.sql" />
+    <Build Include="Tables\DEPT.sql" />
+    <Build Include="Tables\DEPTold.sql" />
+    <Build Include="Tables\employees.sql" />
+    <Build Include="Tables\fsdepts.sql" />
+    <Build Include="Tables\gl20000.sql" />
+    <Build Include="Tables\gl200001.sql" />
+    <Build Include="Tables\glcodes.sql" />
+    <Build Include="Tables\glcodesold.sql" />
+    <Build Include="Tables\hwHillNmcDept.sql" />
+    <Build Include="Tables\hwpen.sql" />
+    <Build Include="Tables\JOI EXPORT.sql" />
+    <Build Include="Tables\JOIHW.sql" />
+    <Build Include="Tables\Name AutoCorrect Save Failures.sql" />
+    <Build Include="Tables\nmclookup.sql" />
+    <Build Include="Tables\PM00200.sql" />
+    <Build Include="Tables\PM002001.sql" />
+    <Build Include="Tables\Pos Pay Check.sql" />
+    <Build Include="Tables\Positive Pay.sql" />
+    <Build Include="Tables\pp email.sql" />
+    <Build Include="Tables\pplc.sql" />
+    <Build Include="Tables\rm10101.sql" />
+    <Build Include="Tables\rm101011.sql" />
+    <Build Include="Tables\rm201011.sql" />
+    <Build Include="Tables\Sheet1.sql" />
+    <Build Include="Tables\Sheet2.sql" />
+    <Build Include="Tables\site.sql" />
+    <Build Include="Tables\steve.sql" />
+    <Build Include="Tables\SY03900.sql" />
+    <Build Include="Tables\SY039001.sql" />
+    <Build Include="Tables\SY039002.sql" />
+    <Build Include="Tables\SY039003.sql" />
+    <Build Include="Tables\tblBudgetHrs.sql" />
+    <Build Include="Tables\tblHillgl.sql" />
+    <Build Include="Tables\tblPRGLAccts.sql" />
+    <Build Include="Tables\tblPRGLAcctsOld.sql" />
+    <Build Include="Tables\unionat.sql" />
+    <Build Include="Tables\UPR00100.sql" />
+    <Build Include="Tables\UPR001001.sql" />
+    <Build Include="Tables\UPR00102.sql" />
+    <Build Include="Tables\UPR00400.sql" />
+    <Build Include="Tables\UPR004001.sql" />
+    <Build Include="Tables\UPR00500.sql" />
+    <Build Include="Tables\UPR00600.sql" />
+    <Build Include="Tables\UPR006001.sql" />
+    <Build Include="Tables\UPR10202.sql" />
+    <Build Include="Tables\UPR102021.sql" />
+    <Build Include="Tables\UPR10203.sql" />
+    <Build Include="Tables\UPR102031.sql" />
+    <Build Include="Tables\UPR10204.sql" />
+    <Build Include="Tables\UPR102041.sql" />
+    <Build Include="Tables\UPR10206.sql" />
+    <Build Include="Tables\UPR10207.sql" />
+    <Build Include="Tables\CustPolicy.sql" />
+    <Build Include="Tables\UPR30100.sql" />
+    <Build Include="Tables\datasetup.sql" />
+    <Build Include="Tables\UPR30300.sql" />
+    <Build Include="Tables\Datatablenames.sql" />
+    <Build Include="Tables\UPR30401.sql" />
+    <Build Include="Tables\DISTRIBUTIONEXPORT.sql" />
+    <Build Include="Tables\UPR304011.sql" />
+    <Build Include="Tables\gl00100.sql" />
+    <Build Include="Tables\UPR40300.sql" />
+    <Build Include="Tables\he.sql" />
+    <Build Include="Tables\UPR40600.sql" />
+    <Build Include="Tables\hourlyentries.sql" />
+    <Build Include="Tables\UPR40700.sql" />
+    <Build Include="Tables\hourlyitems.sql" />
+    <Build Include="Tables\Vacationpolicies.sql" />
+    <Build Include="Tables\ies.sql" />
+    <Build Include="Tables\W2 2005.sql" />
+    <Build Include="Tables\Inventory.sql" />
+    <Build Include="Tables\wccode.sql" />
+    <Build Include="Tables\INVENTORY2.sql" />
+    <Build Include="Tables\ivcexport.sql" />
+    <Build Include="Tables\LaundryLocs.sql" />
+    <Build Include="Tables\LaundryTics.sql" />
+    <Build Include="Tables\LaunInv.sql" />
+    <Build Include="Tables\Month.sql" />
+    <Build Include="Tables\Nish.sql" />
+    <Build Include="Tables\NishPercentConvert.sql" />
+    <Build Include="Tables\RepetetiveDistributions.sql" />
+    <Build Include="Tables\RepetetiveExport.sql" />
+    <Build Include="Tables\RM00101.sql" />
+    <Build Include="Tables\RM00102.sql" />
+    <Build Include="Tables\rm00102local.sql" />
+    <Build Include="Tables\rm20101.sql" />
+    <Build Include="Views\cc address.sql" />
+    <Build Include="Views\DistributionErrors.sql" />
+    <Build Include="Views\hourlyitems Query.sql" />
+    <Build Include="Views\launvendsel.sql" />
+    <Build Include="Views\NISH EXPORT.sql" />
+    <Build Include="Views\RepetetiveDistributions Query.sql" />
+    <Build Include="Views\ACN.sql" />
+    <Build Include="Views\ActEmpWgList.sql" />
+    <Build Include="Views\ACTEMPWGLIST2.sql" />
+    <Build Include="Views\ACTIVE LAST CHECK.sql" />
+    <Build Include="Views\ca.sql" />
+    <Build Include="Views\char.sql" />
+    <Build Include="Views\Check Details.sql" />
+    <Build Include="Views\check period summary.sql" />
+    <Build Include="Views\chekdates.sql" />
+    <Build Include="Views\chkdedtot.sql" />
+    <Build Include="Views\chkdedtoteach.sql" />
+    <Build Include="Views\chkdedtotOLD.sql" />
+    <Build Include="Views\fica.sql" />
+    <Build Include="Views\payroll posting.sql" />
+    <Build Include="Views\Pos Pay Check No.sql" />
+    <Build Include="Views\qryBudgetHrs Query.sql" />
+    <Build Include="Views\Query3.sql" />
+    <Build Include="Views\Query5.sql" />
+    <Build Include="Views\Query8.sql" />
+    <Build Include="Views\Query9.sql" />
+    <Build Include="Views\sdi.sql" />
+    <Build Include="Views\UPR30100 Query.sql" />
+    <Build Include="Views\UPR30300 Query.sql" />
+    <Build Include="Views\upr303001.sql" />
+    <Build Include="Views\wgtotal.sql" />
+    <Build Include="Views\Workers Comp Summary Codes.sql" />
+  </ItemGroup>
+</Project>
