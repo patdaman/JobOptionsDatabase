@@ -3,7 +3,7 @@
 -- Create date: 2018-06-28
 -- Description:	Reference the appropriate view based on a JSON object and return the results
 -- =============================================
-CREATE PROCEDURE usp_GetObject 
+CREATE PROCEDURE [dbo].[usp_GetObject] 
 	-- Add the parameters for the stored procedure here
 	@Name varchar(128) = '', 
 	@Parameters varchar(max) = ''
