@@ -1,9 +1,9 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Applicant} from "./Applicant";
+import {applicant} from "./Applicant";
 
 
 @Entity("AlternateNames",{schema:"dbo"})
-export class AlternateNames {
+export class alternateNames {
 
     @Column("int",{ 
         generated:true,
@@ -15,9 +15,9 @@ export class AlternateNames {
         
 
    
-    @ManyToOne(type=>Applicant, Applicant=>Applicant.alternateNamess,{  nullable:false,onDelete: 'CASCADE',onUpdate: 'CASCADE' })
+    @ManyToOne(type=>applicant, applicant=>applicant.alternateNamess,{  nullable:false, })
     @JoinColumn({ name:'ApplicantId'})
-    applicant:Applicant | null;
+    applicant:applicant | null;
 
 
     @Column("varchar",{ 
@@ -60,4 +60,7 @@ export class AlternateNames {
         })
     CreateUser:string;
         
+    constructor(init?: Partial<alternateNames>) {
+		Object.assign(this, init);
+	}
 }

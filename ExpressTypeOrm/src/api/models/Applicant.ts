@@ -1,18 +1,19 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {GenderTypes} from "./GenderTypes";
-import {EthnicityTypes} from "./EthnicityTypes";
-import {Address} from "./Address";
-import {AlternateNames} from "./AlternateNames";
-import {Application} from "./Application";
-import {DisabledDocument} from "./DisabledDocument";
-import {Education} from "./Education";
-import {Phone} from "./Phone";
-import {PreviousEmployer} from "./PreviousEmployer";
-import {ServiceRecord} from "./ServiceRecord";
+import {genderTypes} from "./GenderTypes";
+import {ethnicityTypes} from "./EthnicityTypes";
+import {address} from "./Address";
+import {alternateNames} from "./AlternateNames";
+import {application} from "./Application";
+import {disabledDocument} from "./DisabledDocument";
+import {education} from "./Education";
+import {phone} from "./Phone";
+import {previousEmployer} from "./PreviousEmployer";
+import {references} from "./References";
+import {serviceRecord} from "./ServiceRecord";
 
 
 @Entity("Applicant",{schema:"dbo"})
-export class Applicant {
+export class applicant {
 
     @Column("int",{ 
         generated:true,
@@ -24,19 +25,19 @@ export class Applicant {
         
 
     @Column("varchar",{ 
-        nullable:true,
+        nullable:false,
         length:128,
         name:"FirstName"
         })
-    FirstName:string | null;
+    FirstName:string;
         
 
     @Column("varchar",{ 
-        nullable:true,
+        nullable:false,
         length:128,
         name:"LastName"
         })
-    LastName:string | null;
+    LastName:string;
         
 
     @Column("varchar",{ 
@@ -71,23 +72,23 @@ export class Applicant {
         
 
    
-    @ManyToOne(type=>GenderTypes, GenderTypes=>GenderTypes.applicants,{ onDelete: 'CASCADE',onUpdate: 'CASCADE' })
+    @ManyToOne(type=>genderTypes, genderTypes=>genderTypes.applicants,{  })
     @JoinColumn({ name:'Gender'})
-    gender:GenderTypes | null;
+    gender:genderTypes | null;
 
 
    
-    @ManyToOne(type=>EthnicityTypes, EthnicityTypes=>EthnicityTypes.applicants,{ onDelete: 'CASCADE',onUpdate: 'CASCADE' })
+    @ManyToOne(type=>ethnicityTypes, ethnicityTypes=>ethnicityTypes.applicants,{  })
     @JoinColumn({ name:'Ethnicity'})
-    ethnicity:EthnicityTypes | null;
+    ethnicity:ethnicityTypes | null;
 
 
     @Column("bit",{ 
-        nullable:true,
+        nullable:false,
         default:"((1))",
         name:"Disabled"
         })
-    Disabled:boolean | null;
+    Disabled:boolean;
         
 
     @Column("datetime2",{ 
@@ -125,42 +126,50 @@ export class Applicant {
         
 
    
-    @OneToMany(type=>Address, Address=>Address.applicant,{ onDelete: 'CASCADE' })
-    addresss:Address[];
+    @OneToMany(type=>address, address=>address.applicant)
+    addresss:address[];
     
 
    
-    @OneToMany(type=>AlternateNames, AlternateNames=>AlternateNames.applicant,{ onDelete: 'CASCADE' })
-    alternateNamess:AlternateNames[];
+    @OneToMany(type=>alternateNames, alternateNames=>alternateNames.applicant)
+    alternateNamess:alternateNames[];
     
 
    
-    @OneToMany(type=>Application, Application=>Application.applicant,{ onDelete: 'CASCADE' })
-    applications:Application[];
+    @OneToMany(type=>application, application=>application.applicant)
+    applications:application[];
     
 
    
-    @OneToMany(type=>DisabledDocument, DisabledDocument=>DisabledDocument.applicant,{ onDelete: 'CASCADE' })
-    disabledDocuments:DisabledDocument[];
+    @OneToMany(type=>disabledDocument, disabledDocument=>disabledDocument.applicant)
+    disabledDocuments:disabledDocument[];
     
 
    
-    @OneToMany(type=>Education, Education=>Education.applicant)
-    educations:Education[];
+    @OneToMany(type=>education, education=>education.applicant)
+    educations:education[];
     
 
    
-    @OneToMany(type=>Phone, Phone=>Phone.applicant,{ onDelete: 'CASCADE' })
-    phones:Phone[];
+    @OneToMany(type=>phone, phone=>phone.applicant)
+    phones:phone[];
     
 
    
-    @OneToMany(type=>PreviousEmployer, PreviousEmployer=>PreviousEmployer.applicant,{ onDelete: 'CASCADE' })
-    previousEmployers:PreviousEmployer[];
+    @OneToMany(type=>previousEmployer, previousEmployer=>previousEmployer.applicant)
+    previousEmployers:previousEmployer[];
     
 
    
-    @OneToMany(type=>ServiceRecord, ServiceRecord=>ServiceRecord.applicant)
-    serviceRecords:ServiceRecord[];
+    @OneToMany(type=>references, references=>references.applicant)
+    referencess:references[];
     
+
+   
+    @OneToMany(type=>serviceRecord, serviceRecord=>serviceRecord.applicant)
+    serviceRecords:serviceRecord[];
+    
+    constructor(init?: Partial<applicant>) {
+		Object.assign(this, init);
+	}
 }

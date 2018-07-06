@@ -1,9 +1,9 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Address} from "./Address";
+import {address} from "./Address";
 
 
 @Entity("AddressTypes",{schema:"dbo"})
-export class AddressTypes {
+export class addressTypes {
 
     @Column("varchar",{ 
         nullable:false,
@@ -24,7 +24,6 @@ export class AddressTypes {
 
     @Column("bit",{ 
         nullable:false,
-        default:"((1))",
         name:"Active"
         })
     Active:boolean;
@@ -65,7 +64,10 @@ export class AddressTypes {
         
 
    
-    @OneToMany(type=>Address, Address=>Address.addressType,{ onDelete: 'SET NULL' })
-    addresss:Address[];
+    @OneToMany(type=>address, address=>address.addressType)
+    addresss:address[];
     
+    constructor(init?: Partial<addressTypes>) {
+		Object.assign(this, init);
+	}
 }

@@ -1,9 +1,9 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Applicant} from "./Applicant";
+import {applicant} from "./Applicant";
 
 
 @Entity("EthnicityTypes",{schema:"dbo"})
-export class EthnicityTypes {
+export class ethnicityTypes {
 
     @Column("varchar",{ 
         nullable:false,
@@ -65,7 +65,10 @@ export class EthnicityTypes {
         
 
    
-    @OneToMany(type=>Applicant, Applicant=>Applicant.ethnicity,{ onDelete: 'CASCADE' })
-    applicants:Applicant[];
+    @OneToMany(type=>applicant, applicant=>applicant.ethnicity)
+    applicants:applicant[];
     
+    constructor(init?: Partial<ethnicityTypes>) {
+		Object.assign(this, init);
+	}
 }

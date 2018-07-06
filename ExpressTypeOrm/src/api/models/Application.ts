@@ -1,16 +1,15 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Applicant} from "./Applicant";
-import {ConsiderationTypes} from "./ConsiderationTypes";
-import {StatusTypes} from "./StatusTypes";
-import {Address} from "./Address";
-import {DisabledDocument} from "./DisabledDocument";
-import {Education} from "./Education";
-import {PreviousEmployer} from "./PreviousEmployer";
-import {References} from "./References";
+import {applicant} from "./Applicant";
+import {considerationTypes} from "./ConsiderationTypes";
+import {statusTypes} from "./StatusTypes";
+import {education} from "./Education";
+import {previousEmployer} from "./PreviousEmployer";
+import {references} from "./References";
+import {serviceRecord} from "./ServiceRecord";
 
 
 @Entity("Application",{schema:"dbo"})
-export class Application {
+export class application {
 
     @Column("int",{ 
         generated:true,
@@ -22,9 +21,9 @@ export class Application {
         
 
    
-    @ManyToOne(type=>Applicant, Applicant=>Applicant.applications,{  nullable:false,onDelete: 'CASCADE',onUpdate: 'CASCADE' })
+    @ManyToOne(type=>applicant, applicant=>applicant.applications,{  nullable:false, })
     @JoinColumn({ name:'ApplicantId'})
-    applicant:Applicant | null;
+    applicant:applicant | null;
 
 
     @Column("datetime2",{ 
@@ -44,15 +43,15 @@ export class Application {
         
 
    
-    @ManyToOne(type=>ConsiderationTypes, ConsiderationTypes=>ConsiderationTypes.applications,{ onDelete: 'CASCADE',onUpdate: 'CASCADE' })
+    @ManyToOne(type=>considerationTypes, considerationTypes=>considerationTypes.applications,{  })
     @JoinColumn({ name:'Consideration'})
-    consideration:ConsiderationTypes | null;
+    consideration:considerationTypes | null;
 
 
    
-    @ManyToOne(type=>StatusTypes, StatusTypes=>StatusTypes.applications,{ onDelete: 'SET NULL',onUpdate: 'CASCADE' })
+    @ManyToOne(type=>statusTypes, statusTypes=>statusTypes.applications,{  })
     @JoinColumn({ name:'Status'})
-    status:StatusTypes | null;
+    status:statusTypes | null;
 
 
     @Column("bit",{ 
@@ -224,27 +223,25 @@ export class Application {
         
 
    
-    @OneToMany(type=>Address, Address=>Address.application)
-    addresss:Address[];
+    @OneToMany(type=>education, education=>education.application)
+    educations:education[];
     
 
    
-    @OneToMany(type=>DisabledDocument, DisabledDocument=>DisabledDocument.application)
-    disabledDocuments:DisabledDocument[];
+    @OneToMany(type=>previousEmployer, previousEmployer=>previousEmployer.application)
+    previousEmployers:previousEmployer[];
     
 
    
-    @OneToMany(type=>Education, Education=>Education.application)
-    educations:Education[];
+    @OneToMany(type=>references, references=>references.application)
+    referencess:references[];
     
 
    
-    @OneToMany(type=>PreviousEmployer, PreviousEmployer=>PreviousEmployer.application)
-    previousEmployers:PreviousEmployer[];
+    @OneToMany(type=>serviceRecord, serviceRecord=>serviceRecord.application)
+    serviceRecords:serviceRecord[];
     
-
-   
-    @OneToMany(type=>References, References=>References.application)
-    referencess:References[];
-    
+    constructor(init?: Partial<application>) {
+		Object.assign(this, init);
+	}
 }

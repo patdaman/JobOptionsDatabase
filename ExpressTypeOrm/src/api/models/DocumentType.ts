@@ -1,9 +1,9 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {DisabledDocument} from "./DisabledDocument";
+import {disabledDocument} from "./DisabledDocument";
 
 
 @Entity("DocumentType",{schema:"dbo"})
-export class DocumentType {
+export class documentType {
 
     @Column("varchar",{ 
         nullable:false,
@@ -65,7 +65,10 @@ export class DocumentType {
         
 
    
-    @OneToMany(type=>DisabledDocument, DisabledDocument=>DisabledDocument.documentType,{ onDelete: 'SET NULL' })
-    disabledDocuments:DisabledDocument[];
+    @OneToMany(type=>disabledDocument, disabledDocument=>disabledDocument.documentType)
+    disabledDocuments:disabledDocument[];
     
+    constructor(init?: Partial<documentType>) {
+		Object.assign(this, init);
+	}
 }

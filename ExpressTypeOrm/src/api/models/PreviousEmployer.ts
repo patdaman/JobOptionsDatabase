@@ -1,12 +1,12 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Applicant} from "./Applicant";
-import {Application} from "./Application";
-import {Address} from "./Address";
-import {Phone} from "./Phone";
+import {applicant} from "./Applicant";
+import {application} from "./Application";
+import {address} from "./Address";
+import {phone} from "./Phone";
 
 
 @Entity("PreviousEmployer",{schema:"dbo"})
-export class PreviousEmployer {
+export class previousEmployer {
 
     @Column("int",{ 
         generated:true,
@@ -18,15 +18,15 @@ export class PreviousEmployer {
         
 
    
-    @ManyToOne(type=>Applicant, Applicant=>Applicant.previousEmployers,{  nullable:false,onDelete: 'CASCADE',onUpdate: 'CASCADE' })
+    @ManyToOne(type=>applicant, applicant=>applicant.previousEmployers,{  nullable:false, })
     @JoinColumn({ name:'ApplicantId'})
-    applicant:Applicant | null;
+    applicant:applicant | null;
 
 
    
-    @ManyToOne(type=>Application, Application=>Application.previousEmployers,{  })
+    @ManyToOne(type=>application, application=>application.previousEmployers,{  })
     @JoinColumn({ name:'ApplicationId'})
-    application:Application | null;
+    application:application | null;
 
 
     @Column("varchar",{ 
@@ -39,22 +39,22 @@ export class PreviousEmployer {
 
     @Column("datetime2",{ 
         nullable:false,
-        name:"StartDate"
+        name:"From"
         })
-    StartDate:Date;
+    From:Date;
         
 
     @Column("datetime2",{ 
         nullable:true,
-        name:"EndDate"
+        name:"To"
         })
-    EndDate:Date | null;
+    To:Date | null;
         
 
    
-    @ManyToOne(type=>Address, Address=>Address.previousEmployers,{  })
+    @ManyToOne(type=>address, address=>address.previousEmployers,{  })
     @JoinColumn({ name:'AddressId'})
-    address:Address | null;
+    address:address | null;
 
 
     @Column("varchar",{ 
@@ -90,9 +90,9 @@ export class PreviousEmployer {
         
 
    
-    @ManyToOne(type=>Phone, Phone=>Phone.previousEmployers,{  })
+    @ManyToOne(type=>phone, phone=>phone.previousEmployers,{  })
     @JoinColumn({ name:'SupervisorPhoneId'})
-    supervisorPhone:Phone | null;
+    supervisorPhone:phone | null;
 
 
     @Column("bit",{ 
@@ -134,4 +134,7 @@ export class PreviousEmployer {
         })
     ModifyUser:string;
         
+    constructor(init?: Partial<previousEmployer>) {
+		Object.assign(this, init);
+	}
 }

@@ -1,9 +1,10 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Applicant} from "./Applicant";
+import {applicant} from "./Applicant";
+import {application} from "./Application";
 
 
 @Entity("ServiceRecord",{schema:"dbo"})
-export class ServiceRecord {
+export class serviceRecord {
 
     @Column("int",{ 
         generated:true,
@@ -15,9 +16,15 @@ export class ServiceRecord {
         
 
    
-    @ManyToOne(type=>Applicant, Applicant=>Applicant.serviceRecords,{  nullable:false, })
+    @ManyToOne(type=>applicant, applicant=>applicant.serviceRecords,{  nullable:false, })
     @JoinColumn({ name:'ApplicantId'})
-    applicant:Applicant | null;
+    applicant:applicant | null;
+
+
+   
+    @ManyToOne(type=>application, application=>application.serviceRecords,{  })
+    @JoinColumn({ name:'ApplicationId'})
+    application:application | null;
 
 
     @Column("varchar",{ 
@@ -76,4 +83,7 @@ export class ServiceRecord {
         })
     ModifyUser:string;
         
+    constructor(init?: Partial<serviceRecord>) {
+		Object.assign(this, init);
+	}
 }

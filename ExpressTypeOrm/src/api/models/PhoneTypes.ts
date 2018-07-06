@@ -1,9 +1,9 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Phone} from "./Phone";
+import {phone} from "./Phone";
 
 
 @Entity("PhoneTypes",{schema:"dbo"})
-export class PhoneTypes {
+export class phoneTypes {
 
     @Column("varchar",{ 
         nullable:false,
@@ -65,7 +65,10 @@ export class PhoneTypes {
         
 
    
-    @OneToMany(type=>Phone, Phone=>Phone.phoneType,{ onDelete: 'SET NULL' })
-    phones:Phone[];
+    @OneToMany(type=>phone, phone=>phone.phoneType)
+    phones:phone[];
     
+    constructor(init?: Partial<phoneTypes>) {
+		Object.assign(this, init);
+	}
 }

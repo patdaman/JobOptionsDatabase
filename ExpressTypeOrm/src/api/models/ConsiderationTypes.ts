@@ -1,9 +1,9 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Application} from "./Application";
+import {application} from "./Application";
 
 
 @Entity("ConsiderationTypes",{schema:"dbo"})
-export class ConsiderationTypes {
+export class considerationTypes {
 
     @Column("varchar",{ 
         nullable:false,
@@ -65,7 +65,10 @@ export class ConsiderationTypes {
         
 
    
-    @OneToMany(type=>Application, Application=>Application.consideration,{ onDelete: 'CASCADE' })
-    applications:Application[];
+    @OneToMany(type=>application, application=>application.consideration)
+    applications:application[];
     
+    constructor(init?: Partial<considerationTypes>) {
+		Object.assign(this, init);
+	}
 }

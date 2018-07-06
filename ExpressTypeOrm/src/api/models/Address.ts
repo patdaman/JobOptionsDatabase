@@ -1,133 +1,119 @@
-import {Index, Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from 'typeorm';
-import {Application} from './Application';
-import {Applicant} from './Applicant';
-import {AddressTypes} from './AddressTypes';
-import {PreviousEmployer} from './PreviousEmployer';
+import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
+import {applicant} from "./Applicant";
+import {addressTypes} from "./AddressTypes";
+import {previousEmployer} from "./PreviousEmployer";
 
 
-@Entity('Address', {schema: 'dbo'})
-export class Address {
+@Entity("Address",{schema:"dbo"})
+export class address {
 
-    @Column('int', {
-        generated: true,
-        nullable: false,
-        primary: true,
-        name: 'id',
+    @Column("int",{ 
+        generated:true,
+        nullable:false,
+        primary:true,
+        name:"id"
         })
-    id: number;
+    id:number;
+        
+
+   
+    @ManyToOne(type=>applicant, applicant=>applicant.addresss,{  nullable:false, })
+    @JoinColumn({ name:'ApplicantId'})
+    applicant:applicant | null;
 
 
-
-    @ManyToOne(type => Application, Application => Application.addresss, {  })
-    @JoinColumn({ name: 'ApplicationId'})
-    application: Application | null;
-
-
-
-    // @ManyToOne(type => Applicant, Applicant => Applicant.addresss, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
-    @ManyToOne(type => Applicant, Applicant => Applicant.addresss, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'ApplicantId'})
-    applicant: Applicant | null;
+   
+    @ManyToOne(type=>addressTypes, addressTypes=>addressTypes.addresss,{  nullable:false, })
+    @JoinColumn({ name:'AddressType'})
+    addressType:addressTypes | null;
 
 
-
-    // @ManyToOne(type => AddressTypes, AddressTypes => AddressTypes.addresss, { onDelete: 'SET NULL', onUpdate: 'CASCADE' })
-    @ManyToOne(type => AddressTypes, AddressTypes => AddressTypes.addresss, { onDelete: 'SET NULL' })
-    @JoinColumn({ name: 'AddressType'})
-    addressType: AddressTypes | null;
-
-
-    @Column('varchar', {
-        nullable: true,
-        length: 256,
-        name: 'Address1'
+    @Column("varchar",{ 
+        nullable:false,
+        length:256,
+        name:"Address1"
         })
-    Address1: string | null;
+    Address1:string;
+        
 
-
-    @Column('varchar', {
-        nullable: true,
-        length: 256,
-        name: 'Address2'
+    @Column("varchar",{ 
+        nullable:true,
+        length:256,
+        name:"Address2"
         })
-    Address2: string | null;
+    Address2:string | null;
+        
 
-
-    @Column('varchar', {
-        nullable: true,
-        length: 256,
-        name: 'Address3'
+    @Column("varchar",{ 
+        nullable:true,
+        length:256,
+        name:"Address3"
         })
-    Address3: string | null;
+    Address3:string | null;
+        
 
-
-    @Column('varchar', {
-        nullable: true,
-        length: 128,
-        name: 'City'
+    @Column("varchar",{ 
+        nullable:false,
+        length:128,
+        name:"City"
         })
-    City: string | null;
+    City:string;
+        
 
-
-    @Column('varchar', {
-        nullable: true,
-        length: 50,
-        name: 'State'
+    @Column("varchar",{ 
+        nullable:false,
+        length:50,
+        name:"State"
         })
-    State: string | null;
+    State:string;
+        
 
-
-    @Column('varchar', {
-        nullable: true,
-        length: 50,
-        name: 'PostalCode'
+    @Column("varchar",{ 
+        nullable:true,
+        length:50,
+        name:"PostalCode"
         })
-    PostalCode: string | null;
+    PostalCode:string | null;
+        
 
-
-    @Column('bit', {
-        nullable: true,
-        default: '((1))',
-        name: 'isCurrent'
+    @Column("datetime2",{ 
+        nullable:false,
+        default:"(getdate())",
+        name:"CreateDate"
         })
-    isCurrent: boolean | null;
+    CreateDate:Date;
+        
 
-
-    @Column('datetime2', {
-        nullable: false,
-        default: '(getdate())',
-        name: 'CreateDate'
+    @Column("varchar",{ 
+        nullable:false,
+        length:128,
+        default:"(suser_sname())",
+        name:"CreateUser"
         })
-    CreateDate: Date;
+    CreateUser:string;
+        
 
-
-    @Column('varchar', {
-        nullable: false,
-        length: 128,
-        default: '(suser_sname())',
-        name: 'CreateUser'
+    @Column("datetime2",{ 
+        nullable:false,
+        name:"ModifyDate"
         })
-    CreateUser: string;
+    ModifyDate:Date;
+        
 
-
-    @Column('datetime2', {
-        nullable: false,
-        name: 'ModifyDate'
+    @Column("varchar",{ 
+        nullable:false,
+        length:128,
+        default:"(suser_sname())",
+        name:"ModifyUser"
         })
-    ModifyDate: Date;
+    ModifyUser:string;
+        
 
-
-    @Column('varchar', {
-        nullable: false,
-        length: 128,
-        default: '(suser_sname())',
-        name: 'ModifyUser'
-        })
-    ModifyUser: string;
-
-
-
-    @OneToMany(type => PreviousEmployer, PreviousEmployer => PreviousEmployer.address)
-    previousEmployers: PreviousEmployer[];
-
+   
+    @OneToMany(type=>previousEmployer, previousEmployer=>previousEmployer.address)
+    previousEmployers:previousEmployer[];
+    
+    constructor(init?: Partial<address>) {
+		Object.assign(this, init);
+	}
 }

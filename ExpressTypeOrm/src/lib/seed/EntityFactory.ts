@@ -77,7 +77,7 @@ export class EntityFactory<Entity, Settings> {
     }
 
     // -------------------------------------------------------------------------
-    // Prrivat Helpers
+    // Private Helpers
     // -------------------------------------------------------------------------
 
     private async resolveEntity(entity: Entity): Promise<Entity> {

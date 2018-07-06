@@ -1,11 +1,10 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Applicant} from "./Applicant";
-import {Application} from "./Application";
-import {DocumentType} from "./DocumentType";
+import {applicant} from "./Applicant";
+import {documentType} from "./DocumentType";
 
 
 @Entity("DisabledDocument",{schema:"dbo"})
-export class DisabledDocument {
+export class disabledDocument {
 
     @Column("int",{ 
         generated:true,
@@ -17,21 +16,15 @@ export class DisabledDocument {
         
 
    
-    @ManyToOne(type=>Applicant, Applicant=>Applicant.disabledDocuments,{  nullable:false,onDelete: 'CASCADE',onUpdate: 'CASCADE' })
+    @ManyToOne(type=>applicant, applicant=>applicant.disabledDocuments,{  nullable:false, })
     @JoinColumn({ name:'ApplicantId'})
-    applicant:Applicant | null;
+    applicant:applicant | null;
 
 
    
-    @ManyToOne(type=>Application, Application=>Application.disabledDocuments,{  })
-    @JoinColumn({ name:'ApplicationId'})
-    application:Application | null;
-
-
-   
-    @ManyToOne(type=>DocumentType, DocumentType=>DocumentType.disabledDocuments,{ onDelete: 'SET NULL',onUpdate: 'CASCADE' })
+    @ManyToOne(type=>documentType, documentType=>documentType.disabledDocuments,{  nullable:false, })
     @JoinColumn({ name:'DocumentType'})
-    documentType:DocumentType | null;
+    documentType:documentType | null;
 
 
     @Column("varchar",{ 
@@ -81,4 +74,7 @@ export class DisabledDocument {
         })
     ModifyUser:string;
         
+    constructor(init?: Partial<disabledDocument>) {
+		Object.assign(this, init);
+	}
 }

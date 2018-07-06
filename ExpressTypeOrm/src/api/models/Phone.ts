@@ -1,11 +1,11 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Applicant} from "./Applicant";
-import {PhoneTypes} from "./PhoneTypes";
-import {PreviousEmployer} from "./PreviousEmployer";
+import {applicant} from "./Applicant";
+import {phoneTypes} from "./PhoneTypes";
+import {previousEmployer} from "./PreviousEmployer";
 
 
 @Entity("Phone",{schema:"dbo"})
-export class Phone {
+export class phone {
 
     @Column("int",{ 
         generated:true,
@@ -17,22 +17,15 @@ export class Phone {
         
 
    
-    @ManyToOne(type=>Applicant, Applicant=>Applicant.phones,{ onDelete: 'CASCADE',onUpdate: 'CASCADE' })
+    @ManyToOne(type=>applicant, applicant=>applicant.phones,{  nullable:false, })
     @JoinColumn({ name:'ApplicantId'})
-    applicant:Applicant | null;
+    applicant:applicant | null;
 
-
-    @Column("int",{ 
-        nullable:false,
-        name:"PhoneOwner"
-        })
-    PhoneOwner:number;
-        
 
    
-    @ManyToOne(type=>PhoneTypes, PhoneTypes=>PhoneTypes.phones,{ onDelete: 'SET NULL',onUpdate: 'CASCADE' })
+    @ManyToOne(type=>phoneTypes, phoneTypes=>phoneTypes.phones,{  nullable:false, })
     @JoinColumn({ name:'PhoneType'})
-    phoneType:PhoneTypes | null;
+    phoneType:phoneTypes | null;
 
 
     @Column("varchar",{ 
@@ -86,7 +79,10 @@ export class Phone {
         
 
    
-    @OneToMany(type=>PreviousEmployer, PreviousEmployer=>PreviousEmployer.supervisorPhone)
-    previousEmployers:PreviousEmployer[];
+    @OneToMany(type=>previousEmployer, previousEmployer=>previousEmployer.supervisorPhone)
+    previousEmployers:previousEmployer[];
     
+    constructor(init?: Partial<phone>) {
+		Object.assign(this, init);
+	}
 }

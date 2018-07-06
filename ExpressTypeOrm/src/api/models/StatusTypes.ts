@@ -1,9 +1,9 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Application} from "./Application";
+import {application} from "./Application";
 
 
 @Entity("StatusTypes",{schema:"dbo"})
-export class StatusTypes {
+export class statusTypes {
 
     @Column("varchar",{ 
         nullable:false,
@@ -65,7 +65,10 @@ export class StatusTypes {
         
 
    
-    @OneToMany(type=>Application, Application=>Application.status,{ onDelete: 'SET NULL' })
-    applications:Application[];
+    @OneToMany(type=>application, application=>application.status)
+    applications:application[];
     
+    constructor(init?: Partial<statusTypes>) {
+		Object.assign(this, init);
+	}
 }

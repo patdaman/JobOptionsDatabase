@@ -1,10 +1,10 @@
 import {Index,Entity, PrimaryColumn, Column, OneToOne, OneToMany, ManyToOne, ManyToMany, JoinColumn, JoinTable, RelationId} from "typeorm";
-import {Applicant} from "./Applicant";
-import {Application} from "./Application";
+import {applicant} from "./Applicant";
+import {application} from "./Application";
 
 
 @Entity("Education",{schema:"dbo"})
-export class Education {
+export class education {
 
     @Column("int",{ 
         generated:true,
@@ -16,15 +16,15 @@ export class Education {
         
 
    
-    @ManyToOne(type=>Applicant, Applicant=>Applicant.educations,{  nullable:false, })
+    @ManyToOne(type=>applicant, applicant=>applicant.educations,{  nullable:false, })
     @JoinColumn({ name:'ApplicantId'})
-    applicant:Applicant | null;
+    applicant:applicant | null;
 
 
    
-    @ManyToOne(type=>Application, Application=>Application.educations,{  })
+    @ManyToOne(type=>application, application=>application.educations,{  })
     @JoinColumn({ name:'ApplicationId'})
-    application:Application | null;
+    application:application | null;
 
 
     @Column("varchar",{ 
@@ -155,4 +155,7 @@ export class Education {
         })
     ModifyUser:string;
         
+    constructor(init?: Partial<education>) {
+		Object.assign(this, init);
+	}
 }
