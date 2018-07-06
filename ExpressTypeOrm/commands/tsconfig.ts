@@ -1,6 +1,5 @@
 import * as jsonfile from 'jsonfile';
 import * as path from 'path';
-
 import * as tsconfig from '../tsconfig.json';
 
 const content: any = tsconfig;

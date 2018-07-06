@@ -7,15 +7,15 @@
       "table": "Application"
     },
     "relations": {
-      "FK_Application_Applicant": {
-        "model": "Application",
-        "type": "belongsTo",
-        "foreignKey": "ApplicantId"
-      },
       "FK_Application_StatusTypes": {
         "model": "Application",
         "type": "belongsTo",
         "foreignKey": "Status"
+      },
+      "FK_Application_Applicant": {
+        "model": "Application",
+        "type": "belongsTo",
+        "foreignKey": "ApplicantId"
       },
       "FK_Application_ConsiderationTypes": {
         "model": "Application",

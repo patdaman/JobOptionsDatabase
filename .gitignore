@@ -2,3 +2,4 @@
 *.ldf
 *.cache
 *.user
+node_modules

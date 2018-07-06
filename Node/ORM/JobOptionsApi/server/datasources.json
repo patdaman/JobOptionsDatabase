@@ -1,12 +1,12 @@
 {
   "Applications": {
-    "host": "Hal9000",
+    "host": "databaseserver",
     "port": 1433,
-    "url": "mssql://patman:Patman7474!@hal9000/Applications",
+    "url": "mssql://sa:poipu007@databaseserver/Applications",
     "database": "Applications",
-    "password": "Patman7474!",
+    "password": "poipu007",
     "name": "Applications",
-    "user": "patman",
+    "user": "sa",
     "connector": "mssql"
   }
 }
