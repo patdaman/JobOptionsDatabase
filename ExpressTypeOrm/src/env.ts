@@ -55,6 +55,7 @@ export const env = {
         database: getOsEnv('DB_DATABASE'),
         synchronize: toBool(getOsEnv('DB_SYNCHRONIZE')),
         logging: toBool(getOsEnv('DB_LOGGING')),
+        models: getOsEnv('DB_MODELS'),
     },
     graphql: {
         enabled: toBool(getOsEnv('GRAPHQL_ENABLED')),

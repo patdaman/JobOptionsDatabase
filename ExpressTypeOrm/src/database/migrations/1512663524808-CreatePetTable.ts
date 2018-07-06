@@ -3,7 +3,10 @@ import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 export class CreatePetTable1512663524808 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<any> {
-        const table = new Table('pet', [
+        var tableOptions = new tableOptions();
+        tableOptions = {
+            name: 'pet',
+            columns: [
             {
                 name: 'id',
                 type: 'varchar',
@@ -29,7 +32,8 @@ export class CreatePetTable1512663524808 implements MigrationInterface {
                 isPrimary: false,
                 isNullable: true,
             },
-        ]);
+        ]};
+        const table = new Table(tableOptions);
         await queryRunner.createTable(table);
     }
 

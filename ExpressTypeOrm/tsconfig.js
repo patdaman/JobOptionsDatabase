@@ -1,5 +1,5 @@
-{
-    "compilerOptions": {
+var compilerOptions = {
+
         "target": "es6",
         "module": "commonjs",
         "pretty": true,
@@ -11,7 +11,7 @@
         "strictNullChecks": false,
         "noImplicitThis": true,
         "alwaysStrict": true,
-        "noUnusedLocals": false,
+        "noUnusedLocals": true,
         "noUnusedParameters": false,
         "noImplicitReturns": true,
         "noFallthroughCasesInSwitch": true,
@@ -21,4 +21,3 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true
     }
-}
