@@ -1,12 +1,12 @@
 ﻿-- =============================================
 -- Author:		Patrick de los Reyes
--- Create date: 2018-06-28
--- Description:	Reference the appropriate view based on a JSON object and return the results
+-- Create date: 2018-07-05
+-- Description:	Update
 -- =============================================
-CREATE PROCEDURE usp_GetObject 
+CREATE PROCEDURE usp_UpdateApplication 
 	-- Add the parameters for the stored procedure here
-	@Name varchar(128) = '', 
-	@Parameters varchar(max) = ''
+	@Object varchar(128) = '', 
+	@JSON varchar(max) = ''
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -14,5 +14,5 @@ BEGIN
 	SET NOCOUNT ON;
 
     -- Insert statements for procedure here
-	SELECT @Name, @Parameters
+	SELECT @Object, @JSON
 END

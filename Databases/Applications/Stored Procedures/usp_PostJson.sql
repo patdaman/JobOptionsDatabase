@@ -3,7 +3,7 @@
 -- Create date: 2018-06-28
 -- Description:	Parse JSON object and send to appropriate queries
 -- =============================================
-CREATE PROCEDURE [dbo].[usp_PostJson]
+CREATE PROCEDURE usp_PostJson
 	-- Add the parameters for the stored procedure here
 	@Title varchar(128) = '', 
 	@JSON varchar(max) = ''
