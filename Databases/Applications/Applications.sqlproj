@@ -61,6 +61,8 @@
     <Folder Include="Properties" />
     <Folder Include="Tables\" />
     <Folder Include="Stored Procedures\" />
+    <Folder Include="Views\" />
+    <Folder Include="Functions\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\GenderTypes.sql" />
@@ -85,5 +87,9 @@
     <Build Include="Stored Procedures\usp_InsertErrorDetails.sql" />
     <Build Include="Stored Procedures\usp_PostJson.sql" />
     <Build Include="Stored Procedures\usp_GetObject.sql" />
+    <Build Include="Tables\OwnerTypes.sql" />
+    <Build Include="Views\vi_Applicant.sql" />
+    <Build Include="Functions\HierarchyFromJSON.sql" />
+    <Build Include="Stored Procedures\usp_UpdateApplication.sql" />
   </ItemGroup>
 </Project>
