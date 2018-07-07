@@ -12,9 +12,9 @@
     [SupervisorDepartment] VARCHAR (128) NULL,
     [SupervisorPhoneId]    INT           NULL,
     [SupervisorContact]    BIT           CONSTRAINT [DF_PreviousEmployer_SupervisorContact] DEFAULT ((1)) NULL,
-    [CreateDate]           DATETIME2 (0) NOT NULL,
+    [CreateDate]           DATETIME2 (0) CONSTRAINT [DF_PreviousEmployer_CreateDate] DEFAULT (getdate()) NOT NULL,
     [CreateUser]           VARCHAR (128) CONSTRAINT [DF_PreviousEmployer_CreateUser] DEFAULT (suser_sname()) NOT NULL,
-    [ModifyDate]           DATETIME2 (0) NOT NULL,
+    [ModifyDate]           DATETIME2 (0) CONSTRAINT [DF_PreviousEmployer_ModifyDate] DEFAULT (getdate()) NOT NULL,
     [ModifyUser]           VARCHAR (128) CONSTRAINT [DF_PreviousEmployer_ModifyUser] DEFAULT (suser_sname()) NOT NULL,
     CONSTRAINT [PK_PreviousEmployer] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_PreviousEmployer_Address] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[Address] ([id]),
@@ -22,4 +22,6 @@
     CONSTRAINT [FK_PreviousEmployer_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id]),
     CONSTRAINT [FK_PreviousEmployer_Phone] FOREIGN KEY ([SupervisorPhoneId]) REFERENCES [dbo].[Phone] ([id])
 );
+
+
 

@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Phone] (
     [id]            INT           IDENTITY (10000, 1) NOT NULL,
-    [ApplicantId]   INT           NOT NULL,
+    [ApplicantId]   INT           NULL,
     [ApplicationId] INT           NULL,
     [PhoneType]     VARCHAR (50)  NOT NULL,
     [OwnerType]     VARCHAR (50)  CONSTRAINT [DF_Phone_OwnerType] DEFAULT ('Applicant') NULL,
@@ -16,6 +16,8 @@
     CONSTRAINT [FK_Phone_OwnerTypes] FOREIGN KEY ([OwnerType]) REFERENCES [dbo].[OwnerTypes] ([Name]),
     CONSTRAINT [FK_Phone_PhoneTypes] FOREIGN KEY ([PhoneType]) REFERENCES [dbo].[PhoneTypes] ([Name])
 );
+
+
 
 
 

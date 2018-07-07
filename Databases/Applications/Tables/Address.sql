@@ -12,7 +12,7 @@
     [PostalCode]    VARCHAR (50)  NULL,
     [CreateDate]    DATETIME2 (0) CONSTRAINT [DF_Address_CreateDate] DEFAULT (getdate()) NOT NULL,
     [CreateUser]    VARCHAR (128) CONSTRAINT [DF_Address_CreateUser] DEFAULT (suser_sname()) NOT NULL,
-    [ModifyDate]    DATETIME2 (0) NOT NULL,
+    [ModifyDate]    DATETIME2 (0) CONSTRAINT [DF_Address_ModifyDate] DEFAULT (getdate()) NOT NULL,
     [ModifyUser]    VARCHAR (128) CONSTRAINT [DF_Address_ModifyUser] DEFAULT (suser_sname()) NOT NULL,
     CONSTRAINT [PK_Address] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_Address_AddressTypes] FOREIGN KEY ([AddressType]) REFERENCES [dbo].[AddressTypes] ([Name]),
@@ -20,6 +20,8 @@
     CONSTRAINT [FK_Address_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id]) ON DELETE SET NULL ON UPDATE CASCADE,
     CONSTRAINT [FK_Address_OwnerTypes] FOREIGN KEY ([OwnerType]) REFERENCES [dbo].[OwnerTypes] ([Name])
 );
+
+
 
 
 
