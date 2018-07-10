@@ -1,6 +1,8 @@
 USE [Applications]
 GO
-
+-- *****************************************************
+DELETE FROM [dbo].[AddressTypes]
+GO
 INSERT INTO [dbo].[AddressTypes]
            ([Name], [Description])
      VALUES
@@ -8,7 +10,9 @@ INSERT INTO [dbo].[AddressTypes]
            , ('Home', 'Home Address')
 		   , ('Mailing', 'Mailing Address')
 GO
-
+-- *****************************************************
+DELETE FROM [dbo].[ConsiderationTypes]
+GO
 INSERT INTO [dbo].[ConsiderationTypes]
            ([Name]
            ,[Description])
@@ -18,7 +22,9 @@ INSERT INTO [dbo].[ConsiderationTypes]
 		   , ('Pending Review', 'Pending Review')
 		   , ('Reviewed', 'Reviewed')
 GO
-
+-- *****************************************************
+DELETE FROM [dbo].[DocumentType]
+GO
 INSERT INTO [dbo].[DocumentType]
            ([Name]
            ,[Description])
@@ -31,7 +37,9 @@ INSERT INTO [dbo].[DocumentType]
 		   , ('Audiology Report', 'Audiology Report')
 		   , ('Other', 'Other')
 GO
-
+-- *****************************************************
+DELETE FROM [dbo].[EthnicityTypes]
+GO
 INSERT INTO [dbo].[EthnicityTypes]
            ([Name]
            ,[Description])
@@ -41,7 +49,9 @@ INSERT INTO [dbo].[EthnicityTypes]
 		   , ('African American', 'African American')
 		   , ('Asian', 'Asian')
 GO
-
+-- *****************************************************
+DELETE FROM [dbo].[GenderTypes]
+GO
 INSERT INTO [dbo].[GenderTypes]
            ([Name]
            ,[Description])
@@ -49,7 +59,9 @@ INSERT INTO [dbo].[GenderTypes]
            ('Male', 'Male')
 		   , ('Female', 'Female')
 GO
-
+-- *****************************************************
+DELETE FROM [dbo].[PhoneTypes]
+GO
 INSERT INTO [dbo].[PhoneTypes]
            ([Name]
            ,[Description])
@@ -58,7 +70,9 @@ INSERT INTO [dbo].[PhoneTypes]
 		   , ('Business', 'Business')
 		   , ('Mobile', 'Mobile')
 GO
-
+-- *****************************************************
+DELETE FROM [dbo].[StatusTypes]
+GO
 INSERT INTO [dbo].[StatusTypes]
            ([Name]
            ,[Description])
@@ -70,8 +84,9 @@ INSERT INTO [dbo].[StatusTypes]
 		   , ('Cannot Accommodate', 'Cannot Accommodate')
 		   , ('No Government Clearance', 'No Government Clearance')
 GO
-
-
+-- *****************************************************
+DELETE FROM [dbo].[OwnerTypes]
+GO
 INSERT INTO [dbo].[OwnerTypes]
            ([Name]
            ,[Description])
