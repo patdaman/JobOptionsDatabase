@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[AlternateNames] (
+﻿CREATE TABLE [dbo].[AlternateName] (
     [id]          INT           IDENTITY (10000, 1) NOT NULL,
     [ApplicantId] INT           NOT NULL,
     [FirstName]   VARCHAR (128) NOT NULL,

@@ -74,9 +74,6 @@
     <Build Include="Tables\AddressTypes.sql" />
     <Build Include="Tables\Address.sql" />
     <Build Include="Tables\Applicant.sql" />
-    <Build Include="Tables\AlternateNames.sql" />
-    <Build Include="Tables\DocumentType.sql" />
-    <Build Include="Tables\DisabledDocument.sql" />
     <Build Include="Tables\ObjectMap.sql" />
     <Build Include="Tables\PhoneTypes.sql" />
     <Build Include="Tables\References.sql" />
@@ -91,5 +88,10 @@
     <Build Include="Views\vi_Applicant.sql" />
     <Build Include="Functions\HierarchyFromJSON.sql" />
     <Build Include="Stored Procedures\usp_UpdateApplication.sql" />
+    <Build Include="Tables\DocumentTypes.sql" />
+    <Build Include="Tables\Document.sql" />
+    <Build Include="Tables\AlternateName.sql" />
+    <Build Include="Views\vi_Application_JSON.sql" />
+    <Build Include="Views\vi_Applicant_JSON.sql" />
   </ItemGroup>
 </Project>

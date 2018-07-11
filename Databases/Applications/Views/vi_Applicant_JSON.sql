@@ -1,8 +1,8 @@
 ﻿
 
-CREATE VIEW [dbo].[vi_Applicant]
+CREATE VIEW [dbo].[vi_Applicant_JSON]
 AS
---SELECT * FROM (
+SELECT * FROM (
 	SELECT DISTINCT
 		Applicant.[id]										AS ApplicantId
       , Applicant.[FirstName]							
@@ -90,5 +90,5 @@ FROM [dbo].[Applicant] Applicant
 						LEFT OUTER JOIN [dbo].[Address] A ON P.AddressId = A.id
 						LEFT OUTER JOIN [dbo].[Phone] Phone ON P.SupervisorPhoneId = Phone.id) PreviousEmployer ON Applicant.id = PreviousEmployer.ApplicantId AND (Application.id = PreviousEmployer.ApplicationId OR PreviousEmployer.ApplicationId IS NULL)
 
- --FOR JSON AUTO
- --) AS X(applicantId)
+ FOR JSON AUTO
+ ) AS X(applicantId)
