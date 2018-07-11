@@ -19,7 +19,7 @@ INSERT INTO [dbo].[ConsiderationTypes]
 		   , ('Reviewed', 'Reviewed')
 GO
 
-INSERT INTO [dbo].[DocumentType]
+INSERT INTO [dbo].[DocumentTypes]
            ([Name]
            ,[Description])
      VALUES

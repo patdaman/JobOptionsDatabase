@@ -16,36 +16,36 @@ AS
       , Applicant.[Disabled]
       , Applicant.[CreateDate]
       , Applicant.[CreateUser]
-	  , AlternateNames.[FirstName]							AS AlternateFirstName
-	  , AlternateNames.[MiddleName]							AS AlternateMiddleName
-	  , AlternateNames.[LastName]							AS AlternateLastName
-	  , DisabledDocument.[id]									AS DisabledDocumentId
-      , DisabledDocument.[DocumentType]
-      , DisabledDocument.[DocumentText]
+	  , AlternateName.[FirstName]							AS AlternateFirstName
+	  , AlternateName.[MiddleName]							AS AlternateMiddleName
+	  , AlternateName.[LastName]							AS AlternateLastName
+	  , Document.[id]									AS DisabledDocumentId
+      , Document.[DocumentType]
+      , Document.[DocumentText]
       --, DisabledDocument.[Document]
-      , DisabledDocument.[CreateDate]							AS DisabledDocumentCreateDate
-	  , Application.[id]								AS ApplicationId
-      , Application.[ApplicationDate]
-      , Application.[Position]
-      , Application.[Consideration]
-      , Application.[Status]
-      , Application.[Hired]
-      , Application.[PreviousApplication]
-      , Application.[PreviousEmployment]
-      , Application.[PreviouslyTerminated]
-      , Application.[CanWork]
-      , Application.[DriversLicenseState]
-      , Application.[AvailableDate]
-      , Application.[OnCall]
-      , Application.[Temporary]
-      , Application.[Weekends]
-      , Application.[Evenings]
-      , Application.[Nights]
-      , Application.[Referral]
-      , Application.[LeaveReason]
-      , Application.[LastSupervisor]
-      , Application.[AuthorizationDate]
-      , Application.[Signature]
+      , Document.[CreateDate]							AS DisabledDocumentCreateDate
+	  , [Application].[id]								AS ApplicationId
+      , [Application].[ApplicationDate]
+      , [Application].[Position]
+      , [Application].[Consideration]
+      , [Application].[Status]
+      , [Application].[Hired]
+      , [Application].[PreviousApplication]
+      , [Application].[PreviousEmployment]
+      , [Application].[PreviouslyTerminated]
+      , [Application].[CanWork]
+      , [Application].[DriversLicenseState]
+      , [Application].[AvailableDate]
+      , [Application].[OnCall]
+      , [Application].[Temporary]
+      , [Application].[Weekends]
+      , [Application].[Evenings]
+      , [Application].[Nights]
+      , [Application].[Referral]
+      , [Application].[LeaveReason]
+      , [Application].[LastSupervisor]
+      , [Application].[AuthorizationDate]
+      , [Application].[Signature]
 	  , Reference.[id]								AS ReferenceId
       , Reference.[ApplicationId]						AS ReferenceApplicationId
       , Reference.[Name]
@@ -76,9 +76,9 @@ AS
 	  , PreviousEmployer.[EmployerPhoneNote]
 	  
 FROM [dbo].[Applicant] Applicant
-	LEFT OUTER JOIN [dbo].[AlternateNames] AlternateNames ON Applicant.id = AlternateNames.ApplicantId
-	LEFT OUTER JOIN [dbo].[DisabledDocument] DisabledDocument ON Applicant.id = DisabledDocument.ApplicantId
-	LEFT OUTER JOIN [dbo].[Application] Application ON Applicant.id = Application.ApplicantId
+	LEFT OUTER JOIN [dbo].[AlternateName] AlternateName ON Applicant.id = AlternateName.ApplicantId
+	LEFT OUTER JOIN [dbo].[Document] Document ON Applicant.id = Document.ApplicantId
+	LEFT OUTER JOIN [dbo].[Application] [Application] ON Applicant.id = [Application].ApplicantId
 	LEFT OUTER JOIN [dbo].[Education] Education ON Applicant.id = Education.ApplicantId AND (Application.id = Education.ApplicationId OR Education.ApplicationId IS NULL)
 	LEFT OUTER JOIN [dbo].[ServiceRecord] ServiceRecord ON Applicant.id = ServiceRecord.ApplicantId AND (Application.id = ServiceRecord.ApplicationId OR ServiceRecord.ApplicationId IS NULL)
 	LEFT OUTER JOIN [dbo].[References] Reference ON Applicant.id = Reference.ApplicantId AND (Application.id = Reference.ApplicationId OR Reference.ApplicationId IS NULL)
