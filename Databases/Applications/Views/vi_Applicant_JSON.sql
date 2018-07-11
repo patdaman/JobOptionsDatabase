@@ -1,8 +1,8 @@
 ﻿
 
-CREATE VIEW [dbo].[vi_Applicant]
+CREATE VIEW [dbo].[vi_Applicant_JSON]
 AS
---SELECT * FROM (
+SELECT * FROM (
 	SELECT DISTINCT
 		Applicant.[id]										AS ApplicantId
       , Applicant.[FirstName]							
@@ -24,28 +24,28 @@ AS
       , Document.[DocumentText]
       --, DisabledDocument.[Document]
       , Document.[CreateDate]							AS DisabledDocumentCreateDate
-	  , [Application].[id]								AS ApplicationId
-      , [Application].[ApplicationDate]
-      , [Application].[Position]
-      , [Application].[Consideration]
-      , [Application].[Status]
-      , [Application].[Hired]
-      , [Application].[PreviousApplication]
-      , [Application].[PreviousEmployment]
-      , [Application].[PreviouslyTerminated]
-      , [Application].[CanWork]
-      , [Application].[DriversLicenseState]
-      , [Application].[AvailableDate]
-      , [Application].[OnCall]
-      , [Application].[Temporary]
-      , [Application].[Weekends]
-      , [Application].[Evenings]
-      , [Application].[Nights]
-      , [Application].[Referral]
-      , [Application].[LeaveReason]
-      , [Application].[LastSupervisor]
-      , [Application].[AuthorizationDate]
-      , [Application].[Signature]
+	  , Application.[id]								AS ApplicationId
+      , Application.[ApplicationDate]
+      , Application.[Position]
+      , Application.[Consideration]
+      , Application.[Status]
+      , Application.[Hired]
+      , Application.[PreviousApplication]
+      , Application.[PreviousEmployment]
+      , Application.[PreviouslyTerminated]
+      , Application.[CanWork]
+      , Application.[DriversLicenseState]
+      , Application.[AvailableDate]
+      , Application.[OnCall]
+      , Application.[Temporary]
+      , Application.[Weekends]
+      , Application.[Evenings]
+      , Application.[Nights]
+      , Application.[Referral]
+      , Application.[LeaveReason]
+      , Application.[LastSupervisor]
+      , Application.[AuthorizationDate]
+      , Application.[Signature]
 	  , Reference.[id]								AS ReferenceId
       , Reference.[ApplicationId]						AS ReferenceApplicationId
       , Reference.[Name]
@@ -79,16 +79,16 @@ FROM [dbo].[Applicant] Applicant
 	LEFT OUTER JOIN [dbo].[AlternateName] AlternateName ON Applicant.id = AlternateName.ApplicantId
 	LEFT OUTER JOIN [dbo].[Document] Document ON Applicant.id = Document.ApplicantId
 	LEFT OUTER JOIN [dbo].[Application] [Application] ON Applicant.id = [Application].ApplicantId
-	LEFT OUTER JOIN [dbo].[Education] Education ON Applicant.id = Education.ApplicantId AND (Application.id = Education.ApplicationId OR Education.ApplicationId IS NULL)
-	LEFT OUTER JOIN [dbo].[ServiceRecord] ServiceRecord ON Applicant.id = ServiceRecord.ApplicantId AND (Application.id = ServiceRecord.ApplicationId OR ServiceRecord.ApplicationId IS NULL)
-	LEFT OUTER JOIN [dbo].[References] Reference ON Applicant.id = Reference.ApplicantId AND (Application.id = Reference.ApplicationId OR Reference.ApplicationId IS NULL)
-	LEFT OUTER JOIN [dbo].[Address] Address ON Applicant.id = Address.ApplicantId AND (Application.id = Address.ApplicationId OR Address.ApplicationId IS NULL)
-	LEFT OUTER JOIN [dbo].[Phone] Phone ON Applicant.id = Phone.ApplicantId AND (Application.id = Phone.ApplicationId OR Phone.ApplicationId IS NULL)
-	LEFT OUTER JOIN (SELECT P.*, A.AddressType AS EmployerAddressType, A.Address1 AS EmployerAddress1, A.Address2 AS EmployerAddress2, A.Address3 AS EmployerAddress3, A.City AS EmployerCity, A.State AS EmployerState, A.PostalCode AS EmployerPostalCode
+	LEFT OUTER JOIN [dbo].[Education] Education ON Applicant.id = Education.ApplicantId AND ([Application].id = Education.ApplicationId OR Education.ApplicationId IS NULL)
+	LEFT OUTER JOIN [dbo].[ServiceRecord] ServiceRecord ON Applicant.id = ServiceRecord.ApplicantId AND ([Application].id = ServiceRecord.ApplicationId OR ServiceRecord.ApplicationId IS NULL)
+	LEFT OUTER JOIN [dbo].[References] Reference ON Applicant.id = Reference.ApplicantId AND ([Application].id = Reference.ApplicationId OR Reference.ApplicationId IS NULL)
+	LEFT OUTER JOIN [dbo].[Address] [Address] ON Applicant.id = [Address].ApplicantId AND ([Application].id = [Address].ApplicationId OR [Address].ApplicationId IS NULL)
+	LEFT OUTER JOIN [dbo].[Phone] Phone ON Applicant.id = Phone.ApplicantId AND ([Application].id = Phone.ApplicationId OR Phone.ApplicationId IS NULL)
+	LEFT OUTER JOIN (SELECT P.*, A.AddressType AS EmployerAddressType, A.Address1 AS EmployerAddress1, A.Address2 AS EmployerAddress2, A.Address3 AS EmployerAddress3, A.City AS EmployerCity, A.[State] AS EmployerState, A.PostalCode AS EmployerPostalCode
 						, Phone.PhoneNumber AS EmployerPhoneNumber, Phone.PhoneType AS EmployerPhoneType, Phone.Note AS EmployerPhoneNote
 					 FROM [dbo].[PreviousEmployer] P
 						LEFT OUTER JOIN [dbo].[Address] A ON P.AddressId = A.id
-						LEFT OUTER JOIN [dbo].[Phone] Phone ON P.SupervisorPhoneId = Phone.id) PreviousEmployer ON Applicant.id = PreviousEmployer.ApplicantId AND (Application.id = PreviousEmployer.ApplicationId OR PreviousEmployer.ApplicationId IS NULL)
+						LEFT OUTER JOIN [dbo].[Phone] Phone ON P.SupervisorPhoneId = Phone.id) PreviousEmployer ON Applicant.id = PreviousEmployer.ApplicantId AND ([Application].id = PreviousEmployer.ApplicationId OR PreviousEmployer.ApplicationId IS NULL)
 
- --FOR JSON AUTO
- --) AS X(applicantId)
+ FOR JSON AUTO
+ ) AS X(applicantId)

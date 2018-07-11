@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[DocumentType] (
+﻿CREATE TABLE [dbo].[DocumentTypes] (
     [Name]        VARCHAR (50)  NOT NULL,
     [Description] VARCHAR (256) NULL,
     [Active]      BIT           CONSTRAINT [DF_DocumentType_Active] DEFAULT ((1)) NOT NULL,

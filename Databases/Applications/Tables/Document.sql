@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[DisabledDocument] (
+﻿CREATE TABLE [dbo].[Document] (
     [id]           INT             IDENTITY (10000, 1) NOT NULL,
     [ApplicantId]  INT             NOT NULL,
     [DocumentType] VARCHAR (50)    NOT NULL,
@@ -10,6 +10,6 @@
     [ModifyUser]   VARCHAR (128)   CONSTRAINT [DF_DisabledDocument_ModifyUser] DEFAULT (suser_sname()) NOT NULL,
     CONSTRAINT [PK_DisabledDocument] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_DisabledDocument_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]),
-    CONSTRAINT [FK_DisabledDocument_DocumentType] FOREIGN KEY ([DocumentType]) REFERENCES [dbo].[DocumentType] ([Name])
+    CONSTRAINT [FK_Document_DocumentType] FOREIGN KEY ([DocumentType]) REFERENCES [dbo].[DocumentTypes] ([Name])
 );
 
