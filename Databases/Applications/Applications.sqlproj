@@ -63,6 +63,7 @@
     <Folder Include="Stored Procedures\" />
     <Folder Include="Views\" />
     <Folder Include="Functions\" />
+    <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\GenderTypes.sql" />
@@ -93,5 +94,7 @@
     <Build Include="Tables\AlternateName.sql" />
     <Build Include="Views\vi_Application_JSON.sql" />
     <Build Include="Views\vi_Applicant_JSON.sql" />
+    <Build Include="Scripts\ApplicantSeedData.sql" />
+    <Build Include="Scripts\InsertDefaultTypes.sql" />
   </ItemGroup>
 </Project>

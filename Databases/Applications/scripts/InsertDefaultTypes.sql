@@ -23,9 +23,9 @@ INSERT INTO [dbo].[ConsiderationTypes]
 		   , ('Reviewed', 'Reviewed')
 GO
 -- *****************************************************
-DELETE FROM [dbo].[DocumentType]
+DELETE FROM [dbo].[DocumentTypes]
 GO
-INSERT INTO [dbo].[DocumentType]
+INSERT INTO [dbo].[DocumentTypes]
            ([Name]
            ,[Description])
      VALUES

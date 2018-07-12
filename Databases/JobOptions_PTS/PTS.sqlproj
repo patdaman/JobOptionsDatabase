@@ -113,5 +113,18 @@
     <Build Include="Stored Procedures\usp_InsertErrorDetails.sql" />
     <Build Include="Stored Procedures\usp_MergeTables.sql" />
     <Build Include="Tables\Employee.sql" />
+    <Build Include="Views\vi_WorkersComp.sql" />
+    <Build Include="Views\vi_TermsUniformList.sql" />
+    <Build Include="Views\vi_TermsRosies.sql" />
+    <Build Include="Views\vi_OnCallList.sql" />
+    <Build Include="Views\vi_NewHiresUniformList.sql" />
+    <Build Include="Views\vi_NewHiresDisabilities.sql" />
+    <Build Include="Views\vi_NewHires.sql" />
+    <Build Include="Views\vi_EmployeeList.sql" />
+    <Build Include="Views\vi_EmpCurrentAddy.sql" />
+    <Build Include="Views\vi_ApplicantQuery_WaitingList.sql" />
+    <Build Include="Views\vi_ApplicantQuery_ContactDateWlNaCa.sql" />
+    <Build Include="Views\vi_ApplicantQuery_ContactDate.sql" />
+    <Build Include="Views\vi_ApplicantQuery.sql" />
   </ItemGroup>
 </Project>
