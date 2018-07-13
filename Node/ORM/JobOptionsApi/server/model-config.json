@@ -20,5 +20,71 @@
   "Application": {
     "dataSource": "Applications",
     "public": true
+  },
+
+  "AddressTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "ConsiderationTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "DocumentTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "EthnicityTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "GenderTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "OwnerTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "PhoneTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "StatusTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+
+  "Address": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "AlternateName": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "Document": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "Education": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "Phone": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "PreviousEmployer": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "References": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "ServiceRecord": {
+    "dataSource": "Applications",
+    "public": true
   }
 }

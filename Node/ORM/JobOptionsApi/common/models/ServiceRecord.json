@@ -1,10 +1,22 @@
 {
-  "name": "Applicant",
+  "name": "ServiceRecord",
   "options": {
     "idInjection": false,
     "mssql": {
       "schema": "dbo",
-      "table": "Applicant"
+      "table": "ServiceRecord"
+    },
+    "relations": {
+      "FK_ServiceRecord_Application": {
+        "model": "ServiceRecord",
+        "type": "belongsTo",
+        "foreignKey": "ApplicationId"
+      },
+      "FK_ServiceRecord_Applicant": {
+        "model": "ServiceRecord",
+        "type": "belongsTo",
+        "foreignKey": "ApplicantId"
+      }
     }
   },
   "properties": {
@@ -24,89 +36,61 @@
         "nullable": "NO"
       }
     },
-    "FirstName": {
+    "ApplicantId": {
+      "type": "Number",
+      "required": true,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "id": 1,
+      "mssql": {
+        "columnName": "ApplicantId",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "NO"
+      }
+    },
+    "ApplicationId": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "id": 1,
+      "mssql": {
+        "columnName": "ApplicationId",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "YES"
+      }
+    },
+    "Branch": {
       "type": "String",
       "required": true,
-      "length": 128,
+      "length": 50,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "FirstName",
+        "columnName": "Branch",
         "dataType": "varchar",
-        "dataLength": 128,
+        "dataLength": 50,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "NO"
       }
     },
-    "LastName": {
-      "type": "String",
-      "required": true,
-      "length": 128,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "LastName",
-        "dataType": "varchar",
-        "dataLength": 128,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "MiddleName": {
-      "type": "String",
-      "required": false,
-      "length": 128,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "MiddleName",
-        "dataType": "varchar",
-        "dataLength": 128,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "MiddleInitial": {
-      "type": "String",
-      "required": false,
-      "length": 1,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "MiddleInitial",
-        "dataType": "varchar",
-        "dataLength": 1,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "SocialSecurity": {
-      "type": "String",
-      "required": false,
-      "length": 12,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "SocialSecurity",
-        "dataType": "varchar",
-        "dataLength": 12,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "Birthdate": {
+    "DischargeDate": {
       "type": "Date",
       "required": false,
       "length": null,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "Birthdate",
+        "columnName": "DischargeDate",
         "dataType": "datetime2",
         "dataLength": null,
         "dataPrecision": null,
@@ -114,51 +98,19 @@
         "nullable": "YES"
       }
     },
-    "Gender": {
+    "DischargeRank": {
       "type": "String",
       "required": false,
-      "length": 50,
+      "length": 128,
       "precision": null,
       "scale": null,
-      "id": 1,
       "mssql": {
-        "columnName": "Gender",
+        "columnName": "DischargeRank",
         "dataType": "varchar",
-        "dataLength": 50,
+        "dataLength": 128,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
-      }
-    },
-    "Ethnicity": {
-      "type": "String",
-      "required": false,
-      "length": 50,
-      "precision": null,
-      "scale": null,
-      "id": 1,
-      "mssql": {
-        "columnName": "Ethnicity",
-        "dataType": "varchar",
-        "dataLength": 50,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "Disabled": {
-      "type": "Boolean",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "Disabled",
-        "dataType": "bit",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
       }
     },
     "CreateDate": {

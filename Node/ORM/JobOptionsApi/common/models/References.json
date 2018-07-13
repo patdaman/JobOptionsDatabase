@@ -1,21 +1,21 @@
 {
-  "name": "Applicant",
+  "name": "References",
   "options": {
     "idInjection": false,
     "mssql": {
       "schema": "dbo",
-      "table": "Applicant"
+      "table": "References"
     },
     "relations": {
-      "FK_Applicant_EthnicityTypes": {
-        "model": "Applicant",
+      "FK_References_Application": {
+        "model": "References",
         "type": "belongsTo",
-        "foreignKey": "Ethnicity"
+        "foreignKey": "ApplicationId"
       },
-      "FK_Applicant_GenderTypes": {
-        "model": "Applicant",
+      "FK_References_Applicant": {
+        "model": "References",
         "type": "belongsTo",
-        "foreignKey": "Gender"
+        "foreignKey": "ApplicantId"
       }
     }
   },
@@ -36,141 +36,96 @@
         "nullable": "NO"
       }
     },
-    "FirstName": {
-      "type": "String",
+    "ApplicantId": {
+      "type": "Number",
       "required": true,
-      "length": 128,
-      "precision": null,
-      "scale": null,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "id": 1,
       "mssql": {
-        "columnName": "FirstName",
-        "dataType": "varchar",
-        "dataLength": 128,
-        "dataPrecision": null,
-        "dataScale": null,
+        "columnName": "ApplicantId",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
         "nullable": "NO"
       }
     },
-    "LastName": {
-      "type": "String",
-      "required": true,
-      "length": 128,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "LastName",
-        "dataType": "varchar",
-        "dataLength": 128,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "MiddleName": {
-      "type": "String",
-      "required": false,
-      "length": 128,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "MiddleName",
-        "dataType": "varchar",
-        "dataLength": 128,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "MiddleInitial": {
-      "type": "String",
-      "required": false,
-      "length": 1,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "MiddleInitial",
-        "dataType": "varchar",
-        "dataLength": 1,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "SocialSecurity": {
-      "type": "String",
-      "required": false,
-      "length": 12,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "SocialSecurity",
-        "dataType": "varchar",
-        "dataLength": 12,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "Birthdate": {
-      "type": "Date",
+    "ApplicationId": {
+      "type": "Number",
       "required": false,
       "length": null,
+      "precision": 10,
+      "scale": 0,
+      "id": 1,
+      "mssql": {
+        "columnName": "ApplicationId",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "YES"
+      }
+    },
+    "Name": {
+      "type": "String",
+      "required": true,
+      "length": 256,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "Birthdate",
-        "dataType": "datetime2",
-        "dataLength": null,
+        "columnName": "Name",
+        "dataType": "varchar",
+        "dataLength": 256,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
+    "Address": {
+      "type": "String",
+      "required": false,
+      "length": 512,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "Address",
+        "dataType": "varchar",
+        "dataLength": 512,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
       }
     },
-    "Gender": {
+    "Business": {
+      "type": "String",
+      "required": false,
+      "length": 256,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "Business",
+        "dataType": "varchar",
+        "dataLength": 256,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "YearsAcquainted": {
       "type": "String",
       "required": false,
       "length": 50,
       "precision": null,
       "scale": null,
-      "id": 1,
       "mssql": {
-        "columnName": "Gender",
+        "columnName": "YearsAcquainted",
         "dataType": "varchar",
         "dataLength": 50,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
-      }
-    },
-    "Ethnicity": {
-      "type": "String",
-      "required": false,
-      "length": 50,
-      "precision": null,
-      "scale": null,
-      "id": 1,
-      "mssql": {
-        "columnName": "Ethnicity",
-        "dataType": "varchar",
-        "dataLength": 50,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "Disabled": {
-      "type": "Boolean",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "Disabled",
-        "dataType": "bit",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
       }
     },
     "CreateDate": {
