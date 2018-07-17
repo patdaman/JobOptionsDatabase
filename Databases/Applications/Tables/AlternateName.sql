@@ -6,7 +6,10 @@
     [LastName]    VARCHAR (128) NOT NULL,
     [CreateDate]  DATETIME2 (7) CONSTRAINT [DF_AlternateNames_CreateDate] DEFAULT (getdate()) NOT NULL,
     [CreateUser]  VARCHAR (128) CONSTRAINT [DF_AlternateNames_CreateUser] DEFAULT (suser_sname()) NOT NULL,
-    CONSTRAINT [PK_AlternateNames] PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [FK_AlternateNames_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id])
+    CONSTRAINT [PK_AlternateName] PRIMARY KEY CLUSTERED ([id] ASC),
+    CONSTRAINT [FK_AlternateName_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]),
+    CONSTRAINT [IX_AlternateName] UNIQUE NONCLUSTERED ([ApplicantId] ASC, [FirstName] ASC, [MiddleName] ASC, [LastName] ASC)
 );
+
+
 

@@ -1,7 +1,7 @@
 USE [Applications]
 GO
 -- *****************************************************
-DELETE FROM [dbo].[AddressTypes]
+TRUNCATE TABLE [dbo].[AddressTypes]
 GO
 INSERT INTO [dbo].[AddressTypes]
            ([Name], [Description])
@@ -11,7 +11,7 @@ INSERT INTO [dbo].[AddressTypes]
 		   , ('Mailing', 'Mailing Address')
 GO
 -- *****************************************************
-DELETE FROM [dbo].[ConsiderationTypes]
+TRUNCATE TABLE [dbo].[ConsiderationTypes]
 GO
 INSERT INTO [dbo].[ConsiderationTypes]
            ([Name]
@@ -23,7 +23,7 @@ INSERT INTO [dbo].[ConsiderationTypes]
 		   , ('Reviewed', 'Reviewed')
 GO
 -- *****************************************************
-DELETE FROM [dbo].[DocumentTypes]
+TRUNCATE TABLE [dbo].[DocumentTypes]
 GO
 INSERT INTO [dbo].[DocumentTypes]
            ([Name]
@@ -38,7 +38,7 @@ INSERT INTO [dbo].[DocumentTypes]
 		   , ('Other', 'Other')
 GO
 -- *****************************************************
-DELETE FROM [dbo].[EthnicityTypes]
+TRUNCATE TABLE [dbo].[EthnicityTypes]
 GO
 INSERT INTO [dbo].[EthnicityTypes]
            ([Name]
@@ -50,7 +50,7 @@ INSERT INTO [dbo].[EthnicityTypes]
 		   , ('Asian', 'Asian')
 GO
 -- *****************************************************
-DELETE FROM [dbo].[GenderTypes]
+TRUNCATE TABLE [dbo].[GenderTypes]
 GO
 INSERT INTO [dbo].[GenderTypes]
            ([Name]
@@ -60,7 +60,7 @@ INSERT INTO [dbo].[GenderTypes]
 		   , ('Female', 'Female')
 GO
 -- *****************************************************
-DELETE FROM [dbo].[PhoneTypes]
+TRUNCATE TABLE [dbo].[PhoneTypes]
 GO
 INSERT INTO [dbo].[PhoneTypes]
            ([Name]
@@ -71,7 +71,7 @@ INSERT INTO [dbo].[PhoneTypes]
 		   , ('Mobile', 'Mobile')
 GO
 -- *****************************************************
-DELETE FROM [dbo].[StatusTypes]
+TRUNCATE TABLE [dbo].[StatusTypes]
 GO
 INSERT INTO [dbo].[StatusTypes]
            ([Name]
@@ -85,7 +85,7 @@ INSERT INTO [dbo].[StatusTypes]
 		   , ('No Government Clearance', 'No Government Clearance')
 GO
 -- *****************************************************
-DELETE FROM [dbo].[OwnerTypes]
+TRUNCATE TABLE [dbo].[OwnerTypes]
 GO
 INSERT INTO [dbo].[OwnerTypes]
            ([Name]
@@ -96,3 +96,17 @@ INSERT INTO [dbo].[OwnerTypes]
 		   , ('Employee', 'Employee')
 GO
 
+-- *****************************************************
+TRUNCATE TABLE [dbo].[EmploymentTypes]
+GO
+INSERT INTO [dbo].[EmploymentTypes]
+           ([Name]
+           ,[Description])
+     VALUES
+           ('Administrative Support', 'Administrative Support')
+		   , ('Custodial', 'Custodial')
+		   , ('Food Services', 'Food Services')
+		   , ('Grounds Maintenance/Landscaping', 'Grounds Maintenance/Landscaping')
+		   , ('Laundry', 'Laundry')
+		   , ('Shelf Stocking', 'Shelf Stocking')
+GO
