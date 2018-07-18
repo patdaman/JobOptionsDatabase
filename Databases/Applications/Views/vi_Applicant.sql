@@ -1,5 +1,6 @@
 ﻿
 
+
 CREATE VIEW [dbo].[vi_Applicant]
 AS
 --SELECT * FROM (
@@ -26,7 +27,7 @@ AS
       , Document.[CreateDate]							AS DisabledDocumentCreateDate
 	  , [Application].[id]								AS ApplicationId
       , [Application].[ApplicationDate]
-      , [Application].[Position]
+      , [Application].[Positions]
       , [Application].[Consideration]
       , [Application].[Status]
       , [Application].[Hired]
@@ -34,7 +35,11 @@ AS
       , [Application].[PreviousEmployment]
       , [Application].[PreviouslyTerminated]
       , [Application].[CanWork]
+	  , [Application].[Rehabilitation]
+	  , [Application].[IsPublicAssistance]
+	  , [Application].[PublicAssistanceDescription]
       , [Application].[DriversLicenseState]
+	  , [Application].[DriversLicenseNumber]
       , [Application].[AvailableDate]
       , [Application].[OnCall]
       , [Application].[Temporary]

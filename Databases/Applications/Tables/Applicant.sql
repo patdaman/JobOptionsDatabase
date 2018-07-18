@@ -5,6 +5,7 @@
     [MiddleName]     VARCHAR (128) NULL,
     [MiddleInitial]  AS            (left([MiddleName],(1))),
     [SocialSecurity] VARCHAR (12)  NULL,
+    [Email]          VARCHAR (256) NULL,
     [Birthdate]      DATETIME2 (0) NULL,
     [Gender]         VARCHAR (50)  NULL,
     [Ethnicity]      VARCHAR (50)  NULL,
@@ -17,4 +18,6 @@
     CONSTRAINT [FK_Applicant_EthnicityTypes] FOREIGN KEY ([Ethnicity]) REFERENCES [dbo].[EthnicityTypes] ([Name]),
     CONSTRAINT [FK_Applicant_GenderTypes] FOREIGN KEY ([Gender]) REFERENCES [dbo].[GenderTypes] ([Name])
 );
+
+
 

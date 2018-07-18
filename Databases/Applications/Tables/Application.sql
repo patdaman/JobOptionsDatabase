@@ -14,6 +14,7 @@
     [IsPublicAssistance]          BIT             NULL,
     [PublicAssistanceDescription] VARCHAR (1024)  NULL,
     [DriversLicenseState]         NCHAR (2)       NULL,
+    [DriversLicenseNumber]        VARCHAR (10)    NULL,
     [AvailableDate]               DATETIME2 (0)   NULL,
     [OnCall]                      BIT             CONSTRAINT [DF_Application_OnCall] DEFAULT ((0)) NOT NULL,
     [Temporary]                   BIT             CONSTRAINT [DF_Application_Temporary] DEFAULT ((0)) NOT NULL,
@@ -34,6 +35,8 @@
     CONSTRAINT [FK_Application_ConsiderationTypes] FOREIGN KEY ([Consideration]) REFERENCES [dbo].[ConsiderationTypes] ([Name]),
     CONSTRAINT [FK_Application_StatusTypes] FOREIGN KEY ([Status]) REFERENCES [dbo].[StatusTypes] ([Name])
 );
+
+
 
 
 
