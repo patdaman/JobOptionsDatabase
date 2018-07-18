@@ -4,7 +4,7 @@
     [ApplicationDate]             DATETIME2 (7)   CONSTRAINT [DF_Application_ApplicationDate] DEFAULT (getdate()) NOT NULL,
     [Positions]                   VARCHAR (1024)  NULL,
     [Consideration]               VARCHAR (128)   NULL,
-    [Status]                      VARCHAR (50)    NULL,
+    [Status]                      VARCHAR (128)   NULL,
     [Hired]                       BIT             CONSTRAINT [DF_Application_Hired] DEFAULT ((0)) NOT NULL,
     [PreviousApplication]         BIT             CONSTRAINT [DF_Application_PreviousApplication] DEFAULT ((0)) NULL,
     [PreviousEmployment]          BIT             CONSTRAINT [DF_Application_PreviousEmployment] DEFAULT ((0)) NULL,
@@ -35,6 +35,8 @@
     CONSTRAINT [FK_Application_ConsiderationTypes] FOREIGN KEY ([Consideration]) REFERENCES [dbo].[ConsiderationTypes] ([Name]),
     CONSTRAINT [FK_Application_StatusTypes] FOREIGN KEY ([Status]) REFERENCES [dbo].[StatusTypes] ([Name])
 );
+
+
 
 
 

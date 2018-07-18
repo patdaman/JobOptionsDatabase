@@ -1,10 +1,10 @@
 {
-  "name": "AddressTypes",
+  "name": "PositionTypes",
   "options": {
     "idInjection": false,
     "mssql": {
       "schema": "dbo",
-      "table": "AddressTypes"
+      "table": "PositionTypes"
     },
     "relations": {}
   },
@@ -85,31 +85,16 @@
         "nullable": "NO"
       }
     },
-    "ModifyDate": {
+    "Modify_Date": {
       "type": "Date",
       "required": true,
       "length": null,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "ModifyDate",
+        "columnName": "Modify_Date",
         "dataType": "datetime2",
         "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "ModifyUser": {
-      "type": "String",
-      "required": true,
-      "length": 128,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "ModifyUser",
-        "dataType": "varchar",
-        "dataLength": 128,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "NO"

@@ -22,7 +22,7 @@
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": 10,
       "scale": 0,
@@ -34,7 +34,9 @@
         "dataPrecision": 10,
         "dataScale": 0,
         "nullable": "NO"
-      }
+      },
+      "generated": true,
+      "idInjection": false
     },
     "FirstName": {
       "type": "String",
@@ -81,21 +83,6 @@
         "nullable": "YES"
       }
     },
-    "MiddleInitial": {
-      "type": "String",
-      "required": false,
-      "length": 1,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "MiddleInitial",
-        "dataType": "varchar",
-        "dataLength": 1,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
     "SocialSecurity": {
       "type": "String",
       "required": false,
@@ -106,6 +93,21 @@
         "columnName": "SocialSecurity",
         "dataType": "varchar",
         "dataLength": 12,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "Email": {
+      "type": "String",
+      "required": false,
+      "length": 256,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "Email",
+        "dataType": "varchar",
+        "dataLength": 256,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
@@ -129,14 +131,13 @@
     "Gender": {
       "type": "String",
       "required": false,
-      "length": 50,
+      "length": 128,
       "precision": null,
       "scale": null,
-      "id": 1,
       "mssql": {
         "columnName": "Gender",
         "dataType": "varchar",
-        "dataLength": 50,
+        "dataLength": 128,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
@@ -145,14 +146,13 @@
     "Ethnicity": {
       "type": "String",
       "required": false,
-      "length": 50,
+      "length": 128,
       "precision": null,
       "scale": null,
-      "id": 1,
       "mssql": {
         "columnName": "Ethnicity",
         "dataType": "varchar",
-        "dataLength": 50,
+        "dataLength": 128,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"

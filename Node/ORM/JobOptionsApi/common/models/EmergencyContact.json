@@ -1,28 +1,28 @@
 {
-  "name": "References",
+  "name": "EmergencyContact",
   "options": {
     "idInjection": false,
     "mssql": {
       "schema": "dbo",
-      "table": "References"
+      "table": "EmergencyContact"
     },
     "relations": {
-      "FK_References_Application": {
-        "model": "References",
-        "type": "belongsTo",
-        "foreignKey": "ApplicationId"
-      },
-      "FK_References_Applicant": {
-        "model": "References",
+      "FK_EmergencyContact_Applicant": {
+        "model": "EmergencyContact",
         "type": "belongsTo",
         "foreignKey": "ApplicantId"
+      },
+      "FK_EmergencyContact_Application": {
+        "model": "EmergencyContact",
+        "type": "belongsTo",
+        "foreignKey": "ApplicationId"
       }
     }
   },
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": 10,
       "scale": 0,
@@ -34,7 +34,9 @@
         "dataPrecision": 10,
         "dataScale": 0,
         "nullable": "NO"
-      }
+      },
+      "generated": true,
+      "idInjection": false
     },
     "ApplicantId": {
       "type": "Number",
@@ -42,7 +44,6 @@
       "length": null,
       "precision": 10,
       "scale": 0,
-      "id": 1,
       "mssql": {
         "columnName": "ApplicantId",
         "dataType": "int",
@@ -58,7 +59,6 @@
       "length": null,
       "precision": 10,
       "scale": 0,
-      "id": 1,
       "mssql": {
         "columnName": "ApplicationId",
         "dataType": "int",
@@ -68,63 +68,78 @@
         "nullable": "YES"
       }
     },
-    "Name": {
-      "type": "String",
+    "Active": {
+      "type": "Boolean",
       "required": true,
-      "length": 256,
+      "length": null,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "Name",
-        "dataType": "varchar",
-        "dataLength": 256,
+        "columnName": "Active",
+        "dataType": "bit",
+        "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "NO"
       }
     },
-    "Address": {
+    "FirstName": {
       "type": "String",
       "required": false,
-      "length": 512,
+      "length": 128,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "Address",
+        "columnName": "FirstName",
         "dataType": "varchar",
-        "dataLength": 512,
+        "dataLength": 128,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
       }
     },
-    "Business": {
+    "LastName": {
       "type": "String",
       "required": false,
-      "length": 256,
+      "length": 128,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "Business",
+        "columnName": "LastName",
         "dataType": "varchar",
-        "dataLength": 256,
+        "dataLength": 128,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
       }
     },
-    "YearsAcquainted": {
-      "type": "String",
+    "AddressId": {
+      "type": "Number",
       "required": false,
-      "length": 50,
-      "precision": null,
-      "scale": null,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
       "mssql": {
-        "columnName": "YearsAcquainted",
-        "dataType": "varchar",
-        "dataLength": 50,
-        "dataPrecision": null,
-        "dataScale": null,
+        "columnName": "AddressId",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
+        "nullable": "YES"
+      }
+    },
+    "PhoneId": {
+      "type": "Number",
+      "required": false,
+      "length": null,
+      "precision": 10,
+      "scale": 0,
+      "mssql": {
+        "columnName": "PhoneId",
+        "dataType": "int",
+        "dataLength": null,
+        "dataPrecision": 10,
+        "dataScale": 0,
         "nullable": "YES"
       }
     },

@@ -24,8 +24,7 @@ function callback(err, schema) {
   */
   //var model_name = schema.name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
   var model_name = mapName(null, schema.name);
-
-  console.log('Writing model JSON file..');
+  console.log('Writing model JSON file: ' + model_name);
   // write model definition JSON file
   var now_ms = Date.now();
   var model_JSON_file = path.join(output_directory, model_name + '.json');

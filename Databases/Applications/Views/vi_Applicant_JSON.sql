@@ -11,7 +11,6 @@ SELECT * FROM (
 --      , Applicant.[FirstName]							
 --      , Applicant.[LastName]
 --      , Applicant.[MiddleName]
---      , Applicant.[MiddleInitial]
 --      , Applicant.[SocialSecurity]
 --      , Applicant.[Birthdate]
 --      , Applicant.[Gender]

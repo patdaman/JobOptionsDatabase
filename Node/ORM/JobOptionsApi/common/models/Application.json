@@ -27,7 +27,7 @@
   "properties": {
     "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": 10,
       "scale": 0,
@@ -39,7 +39,9 @@
         "dataPrecision": 10,
         "dataScale": 0,
         "nullable": "NO"
-      }
+      },
+      "generated": true,
+      "idInjection": false
     },
     "ApplicantId": {
       "type": "Number",
@@ -47,7 +49,6 @@
       "length": null,
       "precision": 10,
       "scale": 0,
-      "id": 1,
       "mssql": {
         "columnName": "ApplicantId",
         "dataType": "int",
@@ -72,16 +73,16 @@
         "nullable": "NO"
       }
     },
-    "Position": {
+    "Positions": {
       "type": "String",
       "required": false,
-      "length": 50,
+      "length": 1024,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "Position",
+        "columnName": "Positions",
         "dataType": "varchar",
-        "dataLength": 50,
+        "dataLength": 1024,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
@@ -93,7 +94,6 @@
       "length": 128,
       "precision": null,
       "scale": null,
-      "id": 1,
       "mssql": {
         "columnName": "Consideration",
         "dataType": "varchar",
@@ -106,14 +106,13 @@
     "Status": {
       "type": "String",
       "required": false,
-      "length": 50,
+      "length": 128,
       "precision": null,
       "scale": null,
-      "id": 1,
       "mssql": {
         "columnName": "Status",
         "dataType": "varchar",
-        "dataLength": 50,
+        "dataLength": 128,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
@@ -194,6 +193,51 @@
         "nullable": "YES"
       }
     },
+    "Rehabilitation": {
+      "type": "Boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "Rehabilitation",
+        "dataType": "bit",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "IsPublicAssistance": {
+      "type": "Boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "IsPublicAssistance",
+        "dataType": "bit",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "PublicAssistanceDescription": {
+      "type": "String",
+      "required": false,
+      "length": 1024,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "PublicAssistanceDescription",
+        "dataType": "varchar",
+        "dataLength": 1024,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
     "DriversLicenseState": {
       "type": "String",
       "required": false,
@@ -204,6 +248,21 @@
         "columnName": "DriversLicenseState",
         "dataType": "nchar",
         "dataLength": 2,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "DriversLicenseNumber": {
+      "type": "String",
+      "required": false,
+      "length": 10,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "DriversLicenseNumber",
+        "dataType": "varchar",
+        "dataLength": 10,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"

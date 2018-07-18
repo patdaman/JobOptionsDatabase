@@ -1,31 +1,21 @@
 {
-  "name": "PreviousEmployer",
+  "name": "Reference",
   "options": {
     "idInjection": false,
     "mssql": {
       "schema": "dbo",
-      "table": "PreviousEmployer"
+      "table": "Reference"
     },
     "relations": {
-      "FK_PreviousEmployer_Applicant": {
-        "model": "PreviousEmployer",
+      "FK_Reference_Applicant": {
+        "model": "Reference",
         "type": "belongsTo",
         "foreignKey": "ApplicantId"
       },
-      "FK_PreviousEmployer_Application": {
-        "model": "PreviousEmployer",
+      "FK_Reference_Application": {
+        "model": "Reference",
         "type": "belongsTo",
         "foreignKey": "ApplicationId"
-      },
-      "FK_PreviousEmployer_Phone": {
-        "model": "PreviousEmployer",
-        "type": "belongsTo",
-        "foreignKey": "SupervisorPhoneId"
-      },
-      "FK_PreviousEmployer_Address": {
-        "model": "PreviousEmployer",
-        "type": "belongsTo",
-        "foreignKey": "AddressId"
       }
     }
   },
@@ -78,74 +68,44 @@
         "nullable": "YES"
       }
     },
-    "CompanyName": {
+    "Name": {
       "type": "String",
       "required": true,
-      "length": 128,
+      "length": 256,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "CompanyName",
+        "columnName": "Name",
         "dataType": "varchar",
-        "dataLength": 128,
+        "dataLength": 256,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "NO"
       }
     },
-    "From": {
-      "type": "Date",
-      "required": true,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "From",
-        "dataType": "datetime2",
-        "dataLength": null,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "NO"
-      }
-    },
-    "To": {
-      "type": "Date",
+    "Address": {
+      "type": "String",
       "required": false,
-      "length": null,
+      "length": 512,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "To",
-        "dataType": "datetime2",
-        "dataLength": null,
+        "columnName": "Address",
+        "dataType": "varchar",
+        "dataLength": 512,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
       }
     },
-    "AddressId": {
-      "type": "Number",
-      "required": false,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "mssql": {
-        "columnName": "AddressId",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "nullable": "YES"
-      }
-    },
-    "Duties": {
+    "Business": {
       "type": "String",
       "required": false,
       "length": 256,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "Duties",
+        "columnName": "Business",
         "dataType": "varchar",
         "dataLength": 256,
         "dataPrecision": null,
@@ -153,76 +113,16 @@
         "nullable": "YES"
       }
     },
-    "SupervisorName": {
+    "YearsAcquainted": {
       "type": "String",
       "required": false,
-      "length": 256,
+      "length": 50,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "SupervisorName",
+        "columnName": "YearsAcquainted",
         "dataType": "varchar",
-        "dataLength": 256,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "SupervisorTitle": {
-      "type": "String",
-      "required": false,
-      "length": 128,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "SupervisorTitle",
-        "dataType": "varchar",
-        "dataLength": 128,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "SupervisorDepartment": {
-      "type": "String",
-      "required": false,
-      "length": 128,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "SupervisorDepartment",
-        "dataType": "varchar",
-        "dataLength": 128,
-        "dataPrecision": null,
-        "dataScale": null,
-        "nullable": "YES"
-      }
-    },
-    "SupervisorPhoneId": {
-      "type": "Number",
-      "required": false,
-      "length": null,
-      "precision": 10,
-      "scale": 0,
-      "mssql": {
-        "columnName": "SupervisorPhoneId",
-        "dataType": "int",
-        "dataLength": null,
-        "dataPrecision": 10,
-        "dataScale": 0,
-        "nullable": "YES"
-      }
-    },
-    "SupervisorContact": {
-      "type": "Boolean",
-      "required": false,
-      "length": null,
-      "precision": null,
-      "scale": null,
-      "mssql": {
-        "columnName": "SupervisorContact",
-        "dataType": "bit",
-        "dataLength": null,
+        "dataLength": 50,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"

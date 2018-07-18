@@ -9,7 +9,6 @@ AS
       , Applicant.[FirstName]							
       , Applicant.[LastName]
       , Applicant.[MiddleName]
-      , Applicant.[MiddleInitial]
       , Applicant.[SocialSecurity]
       , Applicant.[Birthdate]
       , Applicant.[Gender]
@@ -86,7 +85,7 @@ FROM [dbo].[Applicant] Applicant
 	LEFT OUTER JOIN [dbo].[Application] [Application] ON Applicant.id = [Application].ApplicantId
 	LEFT OUTER JOIN [dbo].[Education] Education ON Applicant.id = Education.ApplicantId AND (Application.id = Education.ApplicationId OR Education.ApplicationId IS NULL)
 	LEFT OUTER JOIN [dbo].[ServiceRecord] ServiceRecord ON Applicant.id = ServiceRecord.ApplicantId AND (Application.id = ServiceRecord.ApplicationId OR ServiceRecord.ApplicationId IS NULL)
-	LEFT OUTER JOIN [dbo].[References] Reference ON Applicant.id = Reference.ApplicantId AND (Application.id = Reference.ApplicationId OR Reference.ApplicationId IS NULL)
+	LEFT OUTER JOIN [dbo].[Reference] Reference ON Applicant.id = Reference.ApplicantId AND (Application.id = Reference.ApplicationId OR Reference.ApplicationId IS NULL)
 	LEFT OUTER JOIN [dbo].[Address] Address ON Applicant.id = Address.ApplicantId AND (Application.id = Address.ApplicationId OR Address.ApplicationId IS NULL)
 	LEFT OUTER JOIN [dbo].[Phone] Phone ON Applicant.id = Phone.ApplicantId AND (Application.id = Phone.ApplicationId OR Phone.ApplicationId IS NULL)
 	LEFT OUTER JOIN (SELECT P.*, A.AddressType AS EmployerAddressType, A.Address1 AS EmployerAddress1, A.Address2 AS EmployerAddress2, A.Address3 AS EmployerAddress3, A.City AS EmployerCity, A.State AS EmployerState, A.PostalCode AS EmployerPostalCode
