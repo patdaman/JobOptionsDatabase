@@ -96,5 +96,7 @@
     <Build Include="Views\vi_Applicant_JSON.sql" />
     <Build Include="Scripts\ApplicantSeedData.sql" />
     <Build Include="Scripts\InsertDefaultTypes.sql" />
+    <Build Include="Tables\PositionTypes_1.sql" />
+    <Build Include="Tables\EmergencyContact_1.sql" />
   </ItemGroup>
 </Project>
