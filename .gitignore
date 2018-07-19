@@ -3,3 +3,5 @@
 *.cache
 *.user
 node_modules
+*.dbmdl
+*.jfm

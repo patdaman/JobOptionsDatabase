@@ -40,6 +40,19 @@ function callback(err, schema) {
     model_JSON_file,
     JSON.stringify(schema, null, 2)
   );
+  var object_JSON = JSON.parse(fs.readFileSync(model_JSON_file));
+  if (object_JSON.hasOwnProperty('properties')) {
+    var properties_object = object_JSON['properties'];
+    if (properties_object.hasOwnProperty('id')) {
+      properties_object['id'].generated = true;
+      properties_object['id'].idInjection = false;
+      properties_object['id'].required = false;
+    }
+  }
+  fs.writeFileSync(
+    model_JSON_file,
+    JSON.stringify(object_JSON, null, 2)
+  );
   console.log("JSON saved to " + model_JSON_file);
 
   console.log('Writing model JS file..');
@@ -58,7 +71,7 @@ function callback(err, schema) {
     `'use strict';
     module.exports=function(${model_name}) {};`
   );
-  console.log("JSON saved to " + model_JSON_file);
+  console.log("JS saved to " + model_JS_file);
 
   // Append model to model-config.json
   var model_config_file = path.resolve(__dirname, '../model-config.json');
@@ -102,6 +115,7 @@ function main() {
         options.nameMapper = mapName;
         options.associations = true;
         options.relations = true;
+        options.views = true;
         var ds = app.createDataSource(datasource, datasource_json[datasource]);
         ds.discoverSchema(schema_name, options, callback);
       } else {
