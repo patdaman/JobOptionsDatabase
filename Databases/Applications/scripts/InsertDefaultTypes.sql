@@ -110,3 +110,15 @@ INSERT INTO [dbo].[EmploymentTypes]
 		   , ('Laundry', 'Laundry')
 		   , ('Shelf Stocking', 'Shelf Stocking')
 GO
+
+INSERT INTO [dbo].[PositionTypes]
+           ([Name]
+           ,[Description])
+     VALUES
+           ('Administrative Support', 'Administrative Support')
+		   , ('Food Services', 'Food Services')
+		   , ('Grounds Maintenance / Landscaping', 'Grounds Maintenance / Landscaping')
+		   , ('Professional Services', 'Professional Services')
+		   , ('Shelf Stocking', 'Shelf Stocking')
+GO
+

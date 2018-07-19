@@ -77,7 +77,6 @@
     <Build Include="Tables\Applicant.sql" />
     <Build Include="Tables\ObjectMap.sql" />
     <Build Include="Tables\PhoneTypes.sql" />
-    <Build Include="Tables\References.sql" />
     <Build Include="Tables\Phone.sql" />
     <Build Include="Tables\ServiceRecord.sql" />
     <Build Include="Tables\EthnicityTypes.sql" />
@@ -94,9 +93,10 @@
     <Build Include="Tables\AlternateName.sql" />
     <Build Include="Views\vi_Application_JSON.sql" />
     <Build Include="Views\vi_Applicant_JSON.sql" />
-    <Build Include="Scripts\ApplicantSeedData.sql" />
-    <Build Include="Scripts\InsertDefaultTypes.sql" />
+    <None Include="Scripts\ApplicantSeedData.sql" />
+    <None Include="Scripts\InsertDefaultTypes.sql" />
     <Build Include="Tables\PositionTypes_1.sql" />
     <Build Include="Tables\EmergencyContact_1.sql" />
+    <Build Include="Tables\Reference.sql" />
   </ItemGroup>
 </Project>

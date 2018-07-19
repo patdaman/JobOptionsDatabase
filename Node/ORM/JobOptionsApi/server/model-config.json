@@ -21,7 +21,6 @@
     "dataSource": "Applications",
     "public": true
   },
-
   "AddressTypes": {
     "dataSource": "Applications",
     "public": true
@@ -54,7 +53,6 @@
     "dataSource": "Applications",
     "public": true
   },
-
   "Address": {
     "dataSource": "Applications",
     "public": true
@@ -79,11 +77,23 @@
     "dataSource": "Applications",
     "public": true
   },
-  "References": {
+  "Reference": {
     "dataSource": "Applications",
     "public": true
   },
   "ServiceRecord": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "PositionTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "EmergencyContact": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "vi_Applicant": {
     "dataSource": "Applications",
     "public": true
   }
