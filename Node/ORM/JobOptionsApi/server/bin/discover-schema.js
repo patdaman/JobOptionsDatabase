@@ -65,7 +65,7 @@ function callback(err, schema) {
   var model_config_obj = JSON.parse(fs.readFileSync(model_config_file, 'utf8'));
   if (typeof model_config_obj[model_name] === 'undefined') {
     let datasource = process.argv[3];
-    model_config_obj[model_name] = { 'dataSource': datasource, 'public': false };
+    model_config_obj[model_name] = { 'dataSource': datasource, 'public': true };
     let json_content = JSON.stringify(model_config_obj, null, 2);
     fs.writeFileSync(model_config_file, JSON.stringify(model_config_obj, null, 2));
   }

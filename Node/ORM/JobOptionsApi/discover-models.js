@@ -20,8 +20,9 @@ discover().then(
     // It's important to pass the same "options" object to all calls
     // of dataSource.discoverSchemas(), it allows the method to cache
     // discovered related models
-    const options = {relations: true};
+    const options = {relations: true, views: true, associations: true};
   
+    
     // Discover models and relations
     const inventorySchemas = await db.discoverSchemas('INVENTORY', options);
     const productSchemas = await db.discoverSchemas('PRODUCT', options);
