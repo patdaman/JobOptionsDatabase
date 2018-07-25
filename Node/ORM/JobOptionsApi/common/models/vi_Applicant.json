@@ -9,20 +9,22 @@
     "relations": {}
   },
   "properties": {
-    "ApplicantId": {
+    "id": {
       "type": "Number",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": 10,
       "scale": 0,
       "mssql": {
-        "columnName": "ApplicantId",
+        "columnName": "id",
         "dataType": "int",
         "dataLength": null,
         "dataPrecision": 10,
         "dataScale": 0,
         "nullable": "NO"
-      }
+      },
+      "generated": true,
+      "idInjection": false
     },
     "FirstName": {
       "type": "String",
@@ -146,7 +148,7 @@
     },
     "CreateDate": {
       "type": "Date",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -161,7 +163,7 @@
     },
     "CreateUser": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": 128,
       "precision": null,
       "scale": null,

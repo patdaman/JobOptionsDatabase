@@ -11,16 +11,6 @@
         "model": "Application",
         "type": "belongsTo",
         "foreignKey": "ApplicantId"
-      },
-      "FK_Application_StatusTypes": {
-        "model": "Application",
-        "type": "belongsTo",
-        "foreignKey": "Status"
-      },
-      "FK_Application_ConsiderationTypes": {
-        "model": "Application",
-        "type": "belongsTo",
-        "foreignKey": "Consideration"
       }
     }
   },
@@ -285,7 +275,7 @@
     },
     "OnCall": {
       "type": "Boolean",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -295,12 +285,12 @@
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "NO"
+        "nullable": "YES"
       }
     },
     "Temporary": {
       "type": "Boolean",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -310,12 +300,12 @@
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "NO"
+        "nullable": "YES"
       }
     },
     "Weekends": {
       "type": "Boolean",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -325,12 +315,12 @@
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "NO"
+        "nullable": "YES"
       }
     },
     "Evenings": {
       "type": "Boolean",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -340,12 +330,12 @@
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "NO"
+        "nullable": "YES"
       }
     },
     "Nights": {
       "type": "Boolean",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -355,7 +345,7 @@
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "NO"
+        "nullable": "YES"
       }
     },
     "Referral": {
@@ -435,7 +425,7 @@
     },
     "CreateDate": {
       "type": "Date",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -450,7 +440,7 @@
     },
     "CreateUser": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": 128,
       "precision": null,
       "scale": null,
@@ -480,7 +470,7 @@
     },
     "ModifyUser": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": 128,
       "precision": null,
       "scale": null,

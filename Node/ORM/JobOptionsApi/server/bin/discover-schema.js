@@ -48,6 +48,18 @@ function callback(err, schema) {
       properties_object['id'].idInjection = false;
       properties_object['id'].required = false;
     }
+    if (properties_object.hasOwnProperty('CreateDate')) {
+      properties_object['CreateDate'].required = false;
+    }
+    if (properties_object.hasOwnProperty('CreateUser')) {
+      properties_object['CreateUser'].required = false;
+    }
+    if (properties_object.hasOwnProperty('ModifyDate')) {
+      properties_object['ModifyDate'].required = false;
+    }
+    if (properties_object.hasOwnProperty('ModifyUser')) {
+      properties_object['ModifyUser'].required = false;
+    }
   }
   fs.writeFileSync(
     model_JSON_file,
@@ -114,7 +126,7 @@ function main() {
         var options = {};
         options.nameMapper = mapName;
         options.associations = true;
-        options.relations = true;
+        options.relations = false;
         options.views = true;
         var ds = app.createDataSource(datasource, datasource_json[datasource]);
         ds.discoverSchema(schema_name, options, callback);
