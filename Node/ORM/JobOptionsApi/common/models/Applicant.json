@@ -6,7 +6,18 @@
       "schema": "dbo",
       "table": "Applicant"
     },
-    "relations": {}
+    "relations": {
+      "FK_Applicant_EthnicityTypes": {
+        "model": "Applicant",
+        "type": "belongsTo",
+        "foreignKey": "Ethnicity"
+      },
+      "FK_Applicant_GenderTypes": {
+        "model": "Applicant",
+        "type": "belongsTo",
+        "foreignKey": "Gender"
+      }
+    }
   },
   "properties": {
     "id": {

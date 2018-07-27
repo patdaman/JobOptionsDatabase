@@ -9,6 +9,21 @@
     "relations": {}
   },
   "properties": {
+    "Object": {
+      "type": "String",
+      "required": true,
+      "length": 12,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "Object",
+        "dataType": "varchar",
+        "dataLength": 12,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "NO"
+      }
+    },
     "id": {
       "type": "Number",
       "required": false,
@@ -96,6 +111,21 @@
         "columnName": "Birthdate",
         "dataType": "datetime2",
         "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "Email": {
+      "type": "String",
+      "required": false,
+      "length": 256,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "Email",
+        "dataType": "varchar",
+        "dataLength": 256,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
@@ -216,6 +246,21 @@
         "columnName": "AlternateLastName",
         "dataType": "varchar",
         "dataLength": 128,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "PhoneNumber": {
+      "type": "String",
+      "required": false,
+      "length": 50,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "PhoneNumber",
+        "dataType": "varchar",
+        "dataLength": 50,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"

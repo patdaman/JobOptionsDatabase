@@ -3,7 +3,7 @@
     [ApplicantId]   INT           NOT NULL,
     [ApplicationId] INT           NULL,
     [Level]         VARCHAR (128) NOT NULL,
-    [Location]      VARCHAR (256) NULL,
+    [Name]          VARCHAR (256) NULL,
     [YearsAttended] FLOAT (53)    NULL,
     [Graduate]      BIT           CONSTRAINT [DF_Education_Graduate] DEFAULT ((0)) NULL,
     [Subjects]      VARCHAR (256) NULL,
@@ -12,6 +12,7 @@
     [GPA]           FLOAT (53)    NULL,
     [City]          VARCHAR (128) NULL,
     [State]         VARCHAR (50)  NULL,
+    [Zip]           VARCHAR (50)  NULL,
     [Address]       VARCHAR (256) NULL,
     [Other]         VARCHAR (MAX) NULL,
     [CreateDate]    DATETIME2 (0) CONSTRAINT [DF_Education_CreateDate] DEFAULT (getdate()) NOT NULL,
@@ -22,4 +23,6 @@
     CONSTRAINT [FK_Education_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]),
     CONSTRAINT [FK_Education_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id])
 );
+
+
 

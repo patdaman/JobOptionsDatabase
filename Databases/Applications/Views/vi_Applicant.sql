@@ -1,16 +1,20 @@
 ﻿
 
 
+
 CREATE VIEW [dbo].[vi_Applicant]
 AS
 --SELECT * FROM (
+SELECT TOP 20 * FROM (
 	SELECT DISTINCT
-		Applicant.[id]										AS ApplicantId
+	  'vi_applicant'										AS Object 
+	  ,	Applicant.[id]										-- AS ApplicantId
       , Applicant.[FirstName]							
       , Applicant.[LastName]
       , Applicant.[MiddleName]
       , Applicant.[SocialSecurity]
       , Applicant.[Birthdate]
+	  , Applicant.[Email]
       , Applicant.[Gender]
       , Applicant.[Ethnicity]
       , Applicant.[Disabled]
@@ -19,6 +23,7 @@ AS
 	  , AlternateName.[FirstName]							AS AlternateFirstName
 	  , AlternateName.[MiddleName]							AS AlternateMiddleName
 	  , AlternateName.[LastName]							AS AlternateLastName
+	  , Phone.PhoneNumber
 	  , Document.[id]									AS DisabledDocumentId
       , Document.[DocumentType]
       , Document.[DocumentText]
@@ -86,8 +91,8 @@ FROM [dbo].[Applicant] Applicant
 	LEFT OUTER JOIN [dbo].[Education] Education ON Applicant.id = Education.ApplicantId AND (Application.id = Education.ApplicationId OR Education.ApplicationId IS NULL)
 	LEFT OUTER JOIN [dbo].[ServiceRecord] ServiceRecord ON Applicant.id = ServiceRecord.ApplicantId AND (Application.id = ServiceRecord.ApplicationId OR ServiceRecord.ApplicationId IS NULL)
 	LEFT OUTER JOIN [dbo].[Reference] Reference ON Applicant.id = Reference.ApplicantId AND (Application.id = Reference.ApplicationId OR Reference.ApplicationId IS NULL)
-	LEFT OUTER JOIN [dbo].[Address] Address ON Applicant.id = Address.ApplicantId AND (Application.id = Address.ApplicationId OR Address.ApplicationId IS NULL)
-	LEFT OUTER JOIN [dbo].[Phone] Phone ON Applicant.id = Phone.ApplicantId AND (Application.id = Phone.ApplicationId OR Phone.ApplicationId IS NULL)
+	LEFT OUTER JOIN [dbo].[Address] [Address] ON Applicant.id = Address.ApplicantId AND (Application.id = Address.ApplicationId OR Address.ApplicationId IS NULL)
+	LEFT OUTER JOIN [dbo].[Phone] Phone ON Applicant.id = Phone.ApplicantId AND Phone.OwnerType = 'Applicant' AND Phone.PhoneType = 'Home'
 	LEFT OUTER JOIN (SELECT P.*, A.AddressType AS EmployerAddressType, A.Address1 AS EmployerAddress1, A.Address2 AS EmployerAddress2, A.Address3 AS EmployerAddress3, A.City AS EmployerCity, A.State AS EmployerState, A.PostalCode AS EmployerPostalCode
 						, Phone.PhoneNumber AS EmployerPhoneNumber, Phone.PhoneType AS EmployerPhoneType, Phone.Note AS EmployerPhoneNote
 					 FROM [dbo].[PreviousEmployer] P
@@ -96,3 +101,4 @@ FROM [dbo].[Applicant] Applicant
 
  --FOR JSON AUTO
  --) AS X(applicantId)
+ ) AS X

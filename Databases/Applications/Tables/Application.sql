@@ -5,11 +5,12 @@
     [Positions]                   VARCHAR (1024)  NULL,
     [Consideration]               VARCHAR (128)   NULL,
     [Status]                      VARCHAR (128)   NULL,
-    [Hired]                       BIT             CONSTRAINT [DF_Application_Hired] DEFAULT ((0)) NOT NULL,
+    [Hired]                       BIT             CONSTRAINT [DF_Application_Hired] DEFAULT ((0)) NULL,
     [PreviousApplication]         BIT             CONSTRAINT [DF_Application_PreviousApplication] DEFAULT ((0)) NULL,
     [PreviousEmployment]          BIT             CONSTRAINT [DF_Application_PreviousEmployment] DEFAULT ((0)) NULL,
     [PreviouslyTerminated]        BIT             CONSTRAINT [DF_Application_PreviouslyTerminated] DEFAULT ((0)) NULL,
     [CanWork]                     BIT             CONSTRAINT [DF_Application_CanWork] DEFAULT ((1)) NULL,
+    [is18]                        BIT             NULL,
     [Rehabilitation]              BIT             NULL,
     [IsPublicAssistance]          BIT             NULL,
     [PublicAssistanceDescription] VARCHAR (1024)  NULL,
@@ -33,6 +34,8 @@
     CONSTRAINT [PK_Application] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_Application_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id])
 );
+
+
 
 
 
