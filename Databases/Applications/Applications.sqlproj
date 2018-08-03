@@ -98,5 +98,7 @@
     <Build Include="Tables\PositionTypes_1.sql" />
     <Build Include="Tables\EmergencyContact_1.sql" />
     <Build Include="Tables\Reference.sql" />
+    <Build Include="Tables\NoteTypes.sql" />
+    <Build Include="Tables\Note.sql" />
   </ItemGroup>
 </Project>
