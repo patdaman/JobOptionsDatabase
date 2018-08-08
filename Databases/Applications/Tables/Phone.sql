@@ -5,6 +5,7 @@
     [PhoneType]     VARCHAR (128) CONSTRAINT [DF_Phone_PhoneType] DEFAULT ('Home') NULL,
     [OwnerType]     VARCHAR (128) CONSTRAINT [DF_Phone_OwnerType] DEFAULT ('Applicant') NULL,
     [PhoneNumber]   VARCHAR (50)  NOT NULL,
+    [Extension]     VARCHAR (16)  NULL,
     [isDefault]     BIT           CONSTRAINT [DF_Phone_isDefault] DEFAULT ((0)) NULL,
     [Note]          VARCHAR (256) NULL,
     [CreateDate]    DATETIME2 (0) CONSTRAINT [DF_Phone_CreateDate] DEFAULT (getdate()) NOT NULL,
@@ -17,6 +18,8 @@
     CONSTRAINT [FK_Phone_OwnerTypes] FOREIGN KEY ([OwnerType]) REFERENCES [dbo].[OwnerTypes] ([Name]) ON DELETE SET DEFAULT ON UPDATE CASCADE,
     CONSTRAINT [FK_Phone_PhoneTypes] FOREIGN KEY ([PhoneType]) REFERENCES [dbo].[PhoneTypes] ([Name]) ON DELETE SET DEFAULT ON UPDATE CASCADE
 );
+
+
 
 
 

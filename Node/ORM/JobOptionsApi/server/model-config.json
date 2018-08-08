@@ -96,5 +96,9 @@
   "vi_Applicant": {
     "dataSource": "Applications",
     "public": true
+  },
+  "vi_ApplicantSearch": {
+    "dataSource": "Applications",
+    "public": true
   }
 }

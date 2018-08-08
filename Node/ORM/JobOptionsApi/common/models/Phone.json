@@ -7,25 +7,25 @@
       "table": "Phone"
     },
     "relations": {
-      "FK_Phone_Applicant": {
-        "model": "Phone",
-        "type": "belongsTo",
-        "foreignKey": "ApplicantId"
-      },
       "FK_Phone_Application": {
         "model": "Phone",
         "type": "belongsTo",
         "foreignKey": "ApplicationId"
       },
-      "FK_Phone_OwnerTypes": {
-        "model": "Phone",
-        "type": "belongsTo",
-        "foreignKey": "OwnerType"
-      },
       "FK_Phone_PhoneTypes": {
         "model": "Phone",
         "type": "belongsTo",
         "foreignKey": "PhoneType"
+      },
+      "FK_Phone_Applicant": {
+        "model": "Phone",
+        "type": "belongsTo",
+        "foreignKey": "ApplicantId"
+      },
+      "FK_Phone_OwnerTypes": {
+        "model": "Phone",
+        "type": "belongsTo",
+        "foreignKey": "OwnerType"
       }
     }
   },
@@ -80,7 +80,7 @@
     },
     "PhoneType": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": 128,
       "precision": null,
       "scale": null,
@@ -90,7 +90,7 @@
         "dataLength": 128,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "NO"
+        "nullable": "YES"
       }
     },
     "OwnerType": {
@@ -123,6 +123,36 @@
         "nullable": "NO"
       }
     },
+    "Extension": {
+      "type": "String",
+      "required": false,
+      "length": 16,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "Extension",
+        "dataType": "varchar",
+        "dataLength": 16,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "isDefault": {
+      "type": "Boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "isDefault",
+        "dataType": "bit",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
     "Note": {
       "type": "String",
       "required": false,
@@ -140,7 +170,7 @@
     },
     "CreateDate": {
       "type": "Date",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -155,7 +185,7 @@
     },
     "CreateUser": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": 128,
       "precision": null,
       "scale": null,
@@ -170,7 +200,7 @@
     },
     "ModifyDate": {
       "type": "Date",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -185,7 +215,7 @@
     },
     "ModifyUser": {
       "type": "String",
-      "required": true,
+      "required": false,
       "length": 128,
       "precision": null,
       "scale": null,

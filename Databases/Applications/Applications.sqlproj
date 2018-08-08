@@ -98,5 +98,6 @@
     <Build Include="Tables\PositionTypes_1.sql" />
     <Build Include="Tables\EmergencyContact_1.sql" />
     <Build Include="Tables\Reference.sql" />
+    <Build Include="Views\vi_ApplicantSearch.sql" />
   </ItemGroup>
 </Project>

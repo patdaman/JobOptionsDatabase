@@ -110,7 +110,7 @@
     },
     "Hired": {
       "type": "Boolean",
-      "required": true,
+      "required": false,
       "length": null,
       "precision": null,
       "scale": null,
@@ -120,7 +120,7 @@
         "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
-        "nullable": "NO"
+        "nullable": "YES"
       }
     },
     "PreviousApplication": {
@@ -133,6 +133,21 @@
         "columnName": "PreviousApplication",
         "dataType": "bit",
         "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "ApplicationDetail": {
+      "type": "String",
+      "required": false,
+      "length": 512,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "ApplicationDetail",
+        "dataType": "varchar",
+        "dataLength": 512,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
@@ -153,6 +168,21 @@
         "nullable": "YES"
       }
     },
+    "EmploymentDetail": {
+      "type": "String",
+      "required": false,
+      "length": 512,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "EmploymentDetail",
+        "dataType": "varchar",
+        "dataLength": 512,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
     "PreviouslyTerminated": {
       "type": "Boolean",
       "required": false,
@@ -168,6 +198,21 @@
         "nullable": "YES"
       }
     },
+    "TerminatedDetail": {
+      "type": "String",
+      "required": false,
+      "length": 512,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "TerminatedDetail",
+        "dataType": "varchar",
+        "dataLength": 512,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
     "CanWork": {
       "type": "Boolean",
       "required": false,
@@ -176,6 +221,21 @@
       "scale": null,
       "mssql": {
         "columnName": "CanWork",
+        "dataType": "bit",
+        "dataLength": null,
+        "dataPrecision": null,
+        "dataScale": null,
+        "nullable": "YES"
+      }
+    },
+    "is18": {
+      "type": "Boolean",
+      "required": false,
+      "length": null,
+      "precision": null,
+      "scale": null,
+      "mssql": {
+        "columnName": "is18",
         "dataType": "bit",
         "dataLength": null,
         "dataPrecision": null,
@@ -198,14 +258,14 @@
         "nullable": "YES"
       }
     },
-    "IsPublicAssistance": {
+    "isPublicAssistance": {
       "type": "Boolean",
       "required": false,
       "length": null,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "IsPublicAssistance",
+        "columnName": "isPublicAssistance",
         "dataType": "bit",
         "dataLength": null,
         "dataPrecision": null,
@@ -243,16 +303,16 @@
         "nullable": "YES"
       }
     },
-    "DriversLicenseNumber": {
-      "type": "String",
+    "ValidDriversLicense": {
+      "type": "Boolean",
       "required": false,
-      "length": 10,
+      "length": null,
       "precision": null,
       "scale": null,
       "mssql": {
-        "columnName": "DriversLicenseNumber",
-        "dataType": "varchar",
-        "dataLength": 10,
+        "columnName": "ValidDriversLicense",
+        "dataType": "bit",
+        "dataLength": null,
         "dataPrecision": null,
         "dataScale": null,
         "nullable": "YES"
