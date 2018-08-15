@@ -3,7 +3,7 @@
     [ApplicantId]          INT           NOT NULL,
     [ApplicationId]        INT           NULL,
     [CompanyName]          VARCHAR (128) NOT NULL,
-    [From]                 DATETIME2 (7) NOT NULL,
+    [From]                 DATETIME2 (7) NULL,
     [To]                   DATETIME2 (7) NULL,
     [AddressId]            INT           NULL,
     [Duties]               VARCHAR (256) NULL,

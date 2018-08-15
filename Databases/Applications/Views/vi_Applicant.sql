@@ -43,7 +43,6 @@ SELECT TOP 20 * FROM (
 	  , [Application].[IsPublicAssistance]
 	  , [Application].[PublicAssistanceDescription]
       , [Application].[DriversLicenseState]
-	  , [Application].[DriversLicenseNumber]
       , [Application].[AvailableDate]
       , [Application].[OnCall]
       , [Application].[Temporary]

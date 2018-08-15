@@ -3,22 +3,20 @@
     [ApplicantId]                 INT             NOT NULL,
     [ApplicationDate]             DATETIME2 (7)   CONSTRAINT [DF_Application_ApplicationDate] DEFAULT (getdate()) NOT NULL,
     [Positions]                   VARCHAR (1024)  NULL,
+    [Locations]                   VARCHAR (1024)  NULL,
     [Consideration]               VARCHAR (128)   NULL,
     [Status]                      VARCHAR (128)   NULL,
     [Hired]                       BIT             CONSTRAINT [DF_Application_Hired] DEFAULT ((0)) NULL,
     [PreviousApplication]         BIT             CONSTRAINT [DF_Application_PreviousApplication] DEFAULT ((0)) NULL,
-    [ApplicationDetail]           VARCHAR (512)   NULL,
     [PreviousEmployment]          BIT             CONSTRAINT [DF_Application_PreviousEmployment] DEFAULT ((0)) NULL,
-    [EmploymentDetail]            VARCHAR (512)   NULL,
     [PreviouslyTerminated]        BIT             CONSTRAINT [DF_Application_PreviouslyTerminated] DEFAULT ((0)) NULL,
-    [TerminatedDetail]            VARCHAR (512)   NULL,
     [CanWork]                     BIT             CONSTRAINT [DF_Application_CanWork] DEFAULT ((1)) NULL,
     [is18]                        BIT             NULL,
     [Rehabilitation]              BIT             NULL,
-    [isPublicAssistance]          BIT             NULL,
+    [IsPublicAssistance]          BIT             NULL,
     [PublicAssistanceDescription] VARCHAR (1024)  NULL,
     [DriversLicenseState]         NCHAR (2)       NULL,
-    [ValidDriversLicense]         BIT             CONSTRAINT [DF_Application_ValidDriversLicense] DEFAULT ((0)) NULL,
+    [DriversLicenseNumber]        VARCHAR (10)    NULL,
     [AvailableDate]               DATETIME2 (0)   NULL,
     [OnCall]                      BIT             CONSTRAINT [DF_Application_OnCall] DEFAULT ((0)) NULL,
     [Temporary]                   BIT             CONSTRAINT [DF_Application_Temporary] DEFAULT ((0)) NULL,
@@ -37,6 +35,8 @@
     CONSTRAINT [PK_Application] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_Application_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id])
 );
+
+
 
 
 
