@@ -5,3 +5,4 @@
 node_modules
 *.dbmdl
 *.jfm
+Node/ORM/JobOptionsApi/common/models/
