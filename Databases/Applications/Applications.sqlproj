@@ -102,9 +102,9 @@
     <Build Include="Tables\NoteTypes.sql" />
     <Build Include="Tables\EmergencyContact.sql" />
     <Build Include="Tables\PositionTypes.sql" />
-    <Build Include="Tables\Status.sql" />
     <Build Include="Tables\ApplicantLocation.sql" />
     <Build Include="Tables\ApplicantPosition.sql" />
+    <Build Include="Tables\ApplicantStatus.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\project_databaseserver.scmp" />

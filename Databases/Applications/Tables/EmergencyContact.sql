@@ -3,6 +3,7 @@
     [ApplicantId]   INT           NOT NULL,
     [ApplicationId] INT           NULL,
     [Active]        BIT           CONSTRAINT [DF_EmergencyContact_Active] DEFAULT ((1)) NOT NULL,
+    [isConservator] BIT           CONSTRAINT [DF_EmergencyContact_isConservator] DEFAULT ((0)) NULL,
     [FirstName]     VARCHAR (128) NULL,
     [LastName]      VARCHAR (128) NULL,
     [Address]       VARCHAR (512) NULL,
@@ -17,6 +18,8 @@
     CONSTRAINT [FK_EmergencyContact_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT [FK_EmergencyContact_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id]) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+
 
 
 
