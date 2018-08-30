@@ -1,6 +1,9 @@
-﻿CREATE VIEW [dbo].[vi_ApplicantSearch]
+﻿
+
+
+CREATE VIEW [dbo].[vi_ApplicantSearch]
 AS
-SELECT DISTINCT TOP 20 
+SELECT DISTINCT -- TOP 20 
 	  'vi_ApplicantSearch'									AS [Object]
 	  ,	Applicant.[id] 
 	  ,	Applicant.[id]										AS ApplicantId
@@ -44,9 +47,15 @@ FROM [dbo].[Applicant] [Applicant]
 					 WHERE [Applicant].id = [App].ApplicantId
 					 ORDER BY App.CreateDate DESC
 				) [Application]
-	LEFT OUTER JOIN [dbo].[Phone] Phone ON Applicant.id = Phone.ApplicantId AND Phone.OwnerType = 'Applicant' AND Phone.isDefault = 1
+	OUTER APPLY (SELECT TOP 1 *
+					 FROM [dbo].[Phone] Ph
+					 WHERE [Applicant].id = [Ph].ApplicantId
+					 ORDER BY Ph.CreateDate DESC
+				) [Phone]
+	--LEFT OUTER JOIN [dbo].[Phone] Phone ON Applicant.id = Phone.ApplicantId AND Phone.OwnerType = 'Applicant' AND Phone.isDefault = 1
 	OUTER APPLY (SELECT TOP 1 *
 					 FROM [dbo].[Address] A
-					 WHERE [Applicant].id = [A].ApplicantId AND ([Application].id = [A].ApplicationId OR [A].ApplicationId IS NULL)
+					 -- WHERE [Applicant].id = [A].ApplicantId AND ([Application].id = [A].ApplicationId OR [A].ApplicationId IS NULL)
+					 WHERE [Applicant].id = [A].ApplicantId
 					 ORDER BY A.ModifyDate DESC
 				) [Address]

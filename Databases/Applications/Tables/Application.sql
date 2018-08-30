@@ -16,7 +16,7 @@
     [IsPublicAssistance]          BIT             NULL,
     [PublicAssistanceDescription] VARCHAR (1024)  NULL,
     [DriversLicenseState]         NCHAR (2)       NULL,
-    [DriversLicenseNumber]        VARCHAR (10)    NULL,
+    [HasDriversLicense]           BIT             NULL,
     [AvailableDate]               DATETIME2 (0)   NULL,
     [OnCall]                      BIT             CONSTRAINT [DF_Application_OnCall] DEFAULT ((0)) NULL,
     [Temporary]                   BIT             CONSTRAINT [DF_Application_Temporary] DEFAULT ((0)) NULL,
@@ -35,6 +35,8 @@
     CONSTRAINT [PK_Application] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_Application_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id])
 );
+
+
 
 
 
