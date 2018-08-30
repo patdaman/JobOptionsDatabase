@@ -1,37 +1,46 @@
 ﻿
 
 
+
 CREATE VIEW [dbo].[vi_ApplicantSearch]
 AS
 SELECT DISTINCT -- TOP 20 
 	  'vi_ApplicantSearch'									AS [Object]
-	  ,	Applicant.[id] 
-	  ,	Applicant.[id]										AS ApplicantId
-      , Applicant.[FirstName]							
-      , Applicant.[LastName]
-      , Applicant.[MiddleName]
-      , Applicant.[SocialSecurity]
-      , Applicant.[Birthdate]
-	  , Applicant.[Email]
-      , Applicant.[Gender]
-      , Applicant.[Ethnicity]
-      , Applicant.[Disabled]
-      , Applicant.[CreateDate]
-      , Applicant.[CreateUser]
-	  , Phone.PhoneNumber
-	  , Phone.PhoneType
-	  , [Application].[id]	    							AS ApplicationId
+	  ,	[Applicant].[id]									AS ApplicantId
+	  , [Application].[id]									AS ApplicationId
+      , [Applicant].*
+   --   , Applicant.[FirstName]							
+   --   , Applicant.[LastName]
+   --   , Applicant.[MiddleName]
+   --   , Applicant.[SocialSecurity]
+   --   , Applicant.[Birthdate]
+   --   , Applicant.[Email]
+   --   , Applicant.[Disabled]
+   --   , Applicant.[HearingImpaired]
+   --   , [Application].*
+   --   , Applicant.[Gender]
+   --   , Applicant.[Ethnicity]
+   --   , Applicant.[Disabled]
+   --   , Applicant.[CreateDate]
+   --   , Applicant.[CreateUser]
+	  , [Phone].[PhoneNumbers]
+      , [Location].[Locations]
+	  , [Position].[Positions]
+	  , [Document].[Documents]
+   --   , [Application].*
       , [Application].[ApplicationDate]
-      , [Application].[Positions]
       , [Application].[Consideration]
-      , [Application].[Status]
+      , [Application].[CurrentStatus]
       , [Application].[Hired]
       , [Application].[PreviousApplication]
       , [Application].[PreviousEmployment]
       , [Application].[PreviouslyTerminated]
       , [Application].[CanWork]
+	  , [Application].[is18]
 	  , [Application].[Rehabilitation]
 	  , [Application].[IsPublicAssistance]
+	  , [Application].[HasDriversLicense]
+	  , [Application].[DriversLicenseState]
 	  , [Application].[AvailableDate]
       , [Application].[OnCall]
       , [Application].[Temporary]
@@ -39,23 +48,46 @@ SELECT DISTINCT -- TOP 20
       , [Application].[Evenings]
       , [Application].[Nights]
       , [Application].[Referral]
+	  , [Application].[AuthorizationDate]
 FROM [dbo].[Applicant] [Applicant]
-	--LEFT OUTER JOIN (SELECT *, RANK() OVER (PARTITION BY App.CreateDate ORDER BY App.CreateDate DESC) AS Date
-	--				 FROM [dbo].[Application] App) [Application] ON Applicant.id = [Application].ApplicantId
-	OUTER APPLY (SELECT TOP 1 *
+	OUTER APPLY (SELECT *
 					 FROM [dbo].[Application] App
 					 WHERE [Applicant].id = [App].ApplicantId
-					 ORDER BY App.CreateDate DESC
 				) [Application]
-	OUTER APPLY (SELECT TOP 1 *
+	OUTER APPLY (SELECT PhoneNumbers =
+						--STUFF((SELECT ', ' + COALESCE([PhoneType] + ': ', '') + [PhoneNumber]
+						STUFF((SELECT ', ' + [PhoneNumber]
+						FROM [dbo].[Phone] P
+						WHERE P.ApplicantId = Ph.ApplicantId AND COALESCE(P.ApplicationId, '') = COALESCE(Ph.ApplicationId,'')
+						FOR XML PATH('')), 1, 2, '')
 					 FROM [dbo].[Phone] Ph
-					 WHERE [Applicant].id = [Ph].ApplicantId
-					 ORDER BY Ph.CreateDate DESC
-				) [Phone]
-	--LEFT OUTER JOIN [dbo].[Phone] Phone ON Applicant.id = Phone.ApplicantId AND Phone.OwnerType = 'Applicant' AND Phone.isDefault = 1
-	OUTER APPLY (SELECT TOP 1 *
-					 FROM [dbo].[Address] A
-					 -- WHERE [Applicant].id = [A].ApplicantId AND ([Application].id = [A].ApplicationId OR [A].ApplicationId IS NULL)
-					 WHERE [Applicant].id = [A].ApplicantId
-					 ORDER BY A.ModifyDate DESC
-				) [Address]
+					 WHERE [Applicant].id = [Ph].ApplicantId AND ([Application].id = [Ph].ApplicationId OR [Ph].ApplicationId IS NULL)
+					 GROUP BY Ph.ApplicantId, Ph.ApplicationId, [PhoneType]
+				) [Phone] 
+	OUTER APPLY (SELECT Locations =
+						STUFF((SELECT ', ' + [Location]
+						FROM [dbo].[ApplicantLocation] L
+						WHERE L.ApplicantId = Al.ApplicantId AND COALESCE(L.ApplicationId,'') = COALESCE(AL.ApplicationId,'')
+						FOR XML PATH('')), 1, 2, '')
+					 FROM [dbo].[ApplicantLocation] AL
+					 WHERE [Applicant].id = AL.ApplicantId AND ([Application].id = AL.ApplicationId OR AL.ApplicationId IS NULL)
+					 GROUP BY ApplicantId, ApplicationId
+					 ) [Location]
+	OUTER APPLY (SELECT Positions =
+						STUFF((SELECT ', ' + [Position]
+						FROM [dbo].[ApplicantPosition] P
+						WHERE P.id = AP.ApplicantId AND COALESCE(P.ApplicationId,'') = COALESCE(AP.ApplicationId,'')
+						FOR XML PATH('')), 1, 2, '')
+					 FROM [dbo].[ApplicantPosition] AP
+					 WHERE [Applicant].id = AP.ApplicantId AND ([Application].id = AP.ApplicationId OR AP.ApplicantId IS NULL)
+					 GROUP BY ApplicantId, ApplicationId
+					 ) [Position]
+	OUTER APPLY (SELECT Documents =
+						STUFF((SELECT ', ' + [DocumentType]
+						FROM [dbo].[Document] D
+						WHERE D.id = Doc.ApplicantId AND COALESCE(D.ApplicationId,'') = COALESCE(Doc.ApplicationId,'')
+						FOR XML PATH('')), 1, 2, '')
+					 FROM [dbo].[Document] Doc
+					 WHERE [Applicant].id = Doc.ApplicantId AND ([Application].id = Doc.ApplicationId OR Doc.ApplicantId IS NULL)
+					 GROUP BY ApplicantId, ApplicationId
+					 ) [Document]
