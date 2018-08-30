@@ -5,7 +5,7 @@
     [CompanyName]          VARCHAR (128) NOT NULL,
     [StartDate]            DATETIME2 (0) NULL,
     [EndDate]              DATETIME2 (0) NULL,
-    [AddressId]            INT           NULL,
+    [Address]              VARCHAR (512) NULL,
     [Duties]               VARCHAR (256) NULL,
     [SupervisorName]       VARCHAR (256) NULL,
     [SupervisorTitle]      VARCHAR (128) NULL,
@@ -17,10 +17,11 @@
     [ModifyDate]           DATETIME2 (0) CONSTRAINT [DF_PreviousEmployer_ModifyDate] DEFAULT (getdate()) NOT NULL,
     [ModifyUser]           VARCHAR (128) CONSTRAINT [DF_PreviousEmployer_ModifyUser] DEFAULT (suser_sname()) NOT NULL,
     CONSTRAINT [PK_PreviousEmployer] PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [FK_PreviousEmployer_Address] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[Address] ([id]),
-    CONSTRAINT [FK_PreviousEmployer_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]),
-    CONSTRAINT [FK_PreviousEmployer_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id])
+    CONSTRAINT [FK_PreviousEmployer_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT [FK_PreviousEmployer_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id]) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+
 
 
 

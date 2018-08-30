@@ -13,11 +13,11 @@
     [ModifyDate]    DATETIME2 (0) CONSTRAINT [DF_Phone_ModifyDate] DEFAULT (getdate()) NOT NULL,
     [ModifyUser]    VARCHAR (128) CONSTRAINT [DF_Phone_ModifyUser] DEFAULT (suser_sname()) NOT NULL,
     CONSTRAINT [PK_Phone] PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [FK_Phone_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]),
-    CONSTRAINT [FK_Phone_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id]),
-    CONSTRAINT [FK_Phone_OwnerTypes] FOREIGN KEY ([OwnerType]) REFERENCES [dbo].[OwnerTypes] ([Name]) ON DELETE SET DEFAULT ON UPDATE CASCADE,
-    CONSTRAINT [FK_Phone_PhoneTypes] FOREIGN KEY ([PhoneType]) REFERENCES [dbo].[PhoneTypes] ([Name]) ON DELETE SET DEFAULT ON UPDATE CASCADE
+    CONSTRAINT [FK_Phone_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT [FK_Phone_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id]) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+
 
 
 

@@ -11,7 +11,9 @@
     [ModifyDate]      DATETIME2 (0) NOT NULL,
     [ModifyUser]      VARCHAR (128) CONSTRAINT [DF_Reference_ModifyUser] DEFAULT (suser_sname()) NOT NULL,
     CONSTRAINT [PK_Reference] PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [FK_Reference_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]),
-    CONSTRAINT [FK_Reference_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id])
+    CONSTRAINT [FK_Reference_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT [FK_Reference_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id]) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+
 

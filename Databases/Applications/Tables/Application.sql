@@ -2,10 +2,8 @@
     [id]                          INT             IDENTITY (10000, 1) NOT NULL,
     [ApplicantId]                 INT             NOT NULL,
     [ApplicationDate]             DATETIME2 (7)   CONSTRAINT [DF_Application_ApplicationDate] DEFAULT (getdate()) NOT NULL,
-    [Positions]                   VARCHAR (1024)  NULL,
-    [Locations]                   VARCHAR (1024)  NULL,
     [Consideration]               VARCHAR (128)   NULL,
-    [Status]                      VARCHAR (128)   NULL,
+    [CurrentStatus]               VARCHAR (128)   NULL,
     [Hired]                       BIT             CONSTRAINT [DF_Application_Hired] DEFAULT ((0)) NULL,
     [PreviousApplication]         BIT             CONSTRAINT [DF_Application_PreviousApplication] DEFAULT ((0)) NULL,
     [PreviousEmployment]          BIT             CONSTRAINT [DF_Application_PreviousEmployment] DEFAULT ((0)) NULL,
@@ -35,6 +33,10 @@
     CONSTRAINT [PK_Application] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_Application_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id])
 );
+
+
+
+
 
 
 

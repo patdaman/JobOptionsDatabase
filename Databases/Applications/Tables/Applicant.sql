@@ -14,10 +14,10 @@
     [CreateUser]      VARCHAR (128) CONSTRAINT [DF_Applicant_CreateUser] DEFAULT (suser_sname()) NOT NULL,
     [ModifyDate]      DATETIME2 (0) CONSTRAINT [DF_Applicant_ModifyDate] DEFAULT (getdate()) NOT NULL,
     [ModifyUser]      VARCHAR (128) CONSTRAINT [DF_Applicant_ModifyUser] DEFAULT (suser_sname()) NOT NULL,
-    CONSTRAINT [PK_Applicant] PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [FK_Applicant_EthnicityTypes] FOREIGN KEY ([Ethnicity]) REFERENCES [dbo].[EthnicityTypes] ([Name]),
-    CONSTRAINT [FK_Applicant_GenderTypes] FOREIGN KEY ([Gender]) REFERENCES [dbo].[GenderTypes] ([Name])
+    CONSTRAINT [PK_Applicant] PRIMARY KEY CLUSTERED ([id] ASC)
 );
+
+
 
 
 

@@ -14,9 +14,11 @@
     [ModifyDate]    DATETIME2 (0) CONSTRAINT [DF_EmergencyContact_ModifyDate] DEFAULT (getdate()) NOT NULL,
     [ModifyUser]    VARCHAR (128) CONSTRAINT [DF_EmergencyContact_ModifyUser] DEFAULT (suser_sname()) NOT NULL,
     CONSTRAINT [PK_EmergencyContact] PRIMARY KEY CLUSTERED ([id] ASC),
-    CONSTRAINT [FK_EmergencyContact_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]),
-    CONSTRAINT [FK_EmergencyContact_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id])
+    CONSTRAINT [FK_EmergencyContact_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT [FK_EmergencyContact_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id]) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+
 
 
 
