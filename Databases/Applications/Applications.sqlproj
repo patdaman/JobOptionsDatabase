@@ -99,9 +99,8 @@
     <Build Include="Tables\EmergencyContact_1.sql" />
     <Build Include="Tables\Reference.sql" />
     <Build Include="Views\vi_ApplicantSearch.sql" />
-    <Build Include="Tables\NoteTypes_1.sql" />
-    <Build Include="Tables\Note_1.sql" />
-    <Build Include="Tables\LocationTypes.sql" />
+    <Build Include="Tables\Note.sql" />
+    <Build Include="Tables\NoteTypes.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\project_databaseserver.scmp" />
