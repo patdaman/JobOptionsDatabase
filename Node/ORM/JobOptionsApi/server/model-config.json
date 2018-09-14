@@ -1,10 +1,7 @@
 {
   "_meta": {
     "sources": [
-      "loopback/common/models",
-      "loopback/server/models",
-      "../common/models",
-      "./models"
+      "../common/models"
     ],
     "mixins": [
       "loopback/common/mixins",
@@ -12,6 +9,10 @@
       "../common/mixins",
       "./mixins"
     ]
+  },
+  "Doc": {
+    "dataSource": "storage",
+    "public": true
   },
   "Applicant": {
     "dataSource": "Applications",
@@ -98,6 +99,30 @@
     "public": true
   },
   "vi_ApplicantSearch": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "LocationTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "ApplicantPosition": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "ApplicantStatus": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "ApplicantLocation": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "NoteTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "Note": {
     "dataSource": "Applications",
     "public": true
   }

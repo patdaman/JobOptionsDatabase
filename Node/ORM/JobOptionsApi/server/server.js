@@ -2,9 +2,14 @@
 
 var loopback = require('loopback');
 var boot = require('loopback-boot');
+const frameguard = require('frameguard');
 
 var app = module.exports = loopback();
-
+// Allow from a specific host:
+app.use(frameguard({
+  action: 'allow-from',
+  domain: 'http://192.168.1.141',
+}));
 app.start = function() {
   // start the web server
   return app.listen(function() {

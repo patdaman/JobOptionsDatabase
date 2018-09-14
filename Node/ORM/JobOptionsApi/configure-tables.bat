@@ -26,3 +26,4 @@ start node C:\Users\pdelosreyes\source\repos\JobOptions\Node\ORM\JobOptionsApi\s
 start node C:\Users\pdelosreyes\source\repos\JobOptions\Node\ORM\JobOptionsApi\server\bin\discover-schema.js -ds Applications -sn ServiceRecord
 start node C:\Users\pdelosreyes\source\repos\JobOptions\Node\ORM\JobOptionsApi\server\bin\discover-schema.js -ds Applications -sn StatusTypes
 start node C:\Users\pdelosreyes\source\repos\JobOptions\Node\ORM\JobOptionsApi\server\bin\discover-schema.js -ds Applications -sn vi_ApplicantSearch
+start node C:\Users\pdelosreyes\source\repos\JobOptions\Node\ORM\JobOptionsApi\server\bin\discover-schema.js -ds Applications -sn vi_Applicant
