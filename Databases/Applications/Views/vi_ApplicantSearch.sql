@@ -2,6 +2,8 @@
 
 
 
+
+
 CREATE VIEW [dbo].[vi_ApplicantSearch]
 AS
 SELECT DISTINCT -- TOP 20 
@@ -23,6 +25,7 @@ SELECT DISTINCT -- TOP 20
    --   , Applicant.[Disabled]
    --   , Applicant.[CreateDate]
    --   , Applicant.[CreateUser]
+	  , [Status].[CurrentStatus]
 	  , [Phone].[PhoneNumbers]
       , [Location].[Locations]
 	  , [Position].[Positions]
@@ -30,7 +33,7 @@ SELECT DISTINCT -- TOP 20
    --   , [Application].*
       , [Application].[ApplicationDate]
       , [Application].[Consideration]
-      , [Application].[CurrentStatus]
+      --, [Application].[CurrentStatus]
       , [Application].[Hired]
       , [Application].[PreviousApplication]
       , [Application].[PreviousEmployment]
@@ -58,11 +61,11 @@ FROM [dbo].[Applicant] [Applicant]
 						--STUFF((SELECT ', ' + COALESCE([PhoneType] + ': ', '') + [PhoneNumber]
 						STUFF((SELECT ', ' + [PhoneNumber]
 						FROM [dbo].[Phone] P
-						WHERE P.ApplicantId = Ph.ApplicantId AND COALESCE(P.ApplicationId, '') = COALESCE(Ph.ApplicationId,'')
+						WHERE P.ApplicantId = Ph.ApplicantId AND OwnerType = 'Applicant' --AND COALESCE(P.ApplicationId, '') = COALESCE(Ph.ApplicationId,'')
 						FOR XML PATH('')), 1, 2, '')
 					 FROM [dbo].[Phone] Ph
-					 WHERE [Applicant].id = [Ph].ApplicantId AND ([Application].id = [Ph].ApplicationId OR [Ph].ApplicationId IS NULL)
-					 GROUP BY Ph.ApplicantId, Ph.ApplicationId, [PhoneType]
+					 WHERE [Applicant].id = [Ph].ApplicantId AND OwnerType = 'Applicant' --AND ([Application].id = [Ph].ApplicationId OR [Ph].ApplicationId IS NULL)
+					 GROUP BY Ph.ApplicantId, [PhoneType] --, Ph.ApplicationId, 
 				) [Phone] 
 	OUTER APPLY (SELECT Locations =
 						STUFF((SELECT ', ' + [Location]
@@ -91,3 +94,8 @@ FROM [dbo].[Applicant] [Applicant]
 					 WHERE [Applicant].id = Doc.ApplicantId AND ([Application].id = Doc.ApplicationId OR Doc.ApplicantId IS NULL)
 					 GROUP BY ApplicantId, ApplicationId
 					 ) [Document]
+	OUTER APPLY (SELECT TOP 1 CurrentStatus = [Status]
+					 FROM [dbo].[ApplicantStatus] St
+					 WHERE [Applicant].id = St.ApplicantId AND ([Application].id = St.ApplicationId OR St.ApplicantId IS NULL)
+					 ORDER BY St.CreateDate DESC
+					 ) [Status]
