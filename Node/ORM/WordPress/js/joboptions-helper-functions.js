@@ -194,7 +194,9 @@ function getDefaultAjaxBody(args) {
   if (!args['type'])
     args['type'] = 'POST';
   if (!args['params'])
-  	args['params'] = '';
+    args['params'] = '';
+  if (!args['async'])
+    args['async'] = true;
   return args;
 }
 

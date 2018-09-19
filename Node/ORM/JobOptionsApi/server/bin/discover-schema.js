@@ -7,7 +7,7 @@
 var path = require('path');
 var fs = require('fs');
 var app = require('loopback');
-var output_directory = path.resolve(__dirname, '..', '..', 'common', 'models');
+var outputDirectory = path.resolve(__dirname, '..', '..', 'common', 'models');
 
 function callback(err, schema) {
   if (err) {
@@ -17,89 +17,89 @@ function callback(err, schema) {
   if (typeof schema != 'object') {
     throw 'schema object not defined';
   }
-  console.log("Auto discovery for schema " + schema.name);
+  console.log('Auto discovery for schema ' + schema.name);
   /*
-  * Convert schema name from CamelCase to dashed lowercase (loopback format 
+  * Convert schema name from CamelCase to dashed lowercase (loopback format
   * for json files describing models), for example: CamelCase -> camel-case.
   */
-  //var model_name = schema.name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-  var model_name = mapName(null, schema.name);
-  console.log('Writing model JSON file: ' + model_name);
+  // var modelName = schema.name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+  var modelName = mapName(null, schema.name);
+  console.log('Writing model JSON file: ' + modelName);
   // write model definition JSON file
-  var now_ms = Date.now();
-  var model_JSON_file = path.join(output_directory, model_name + '.json');
+  var nowMs = Date.now();
+  var modelJsonFile = path.join(outputDirectory, modelName + '.json');
   // if JSON file exists
-  if (fs.existsSync(model_JSON_file)) {
+  if (fs.existsSync(modelJsonFile)) {
     // save a backup copy of the JSON file
-    let bkp_file = path.join(output_directory, model_name + ".json" + '.bkp_' + now_ms);
-    fs.renameSync(model_JSON_file, bkp_file);
-    console.log("Backing up old JSON file..");
+    let backupFile = path.join(outputDirectory, modelName + '.json' + '.bkp_' + nowMs);
+    fs.renameSync(modelJsonFile, backupFile);
+    console.log('Backing up old JSON file..');
   }
   // write the new JSON file
   fs.writeFileSync(
-    model_JSON_file,
+    modelJsonFile,
     JSON.stringify(schema, null, 2)
   );
-  var object_JSON = JSON.parse(fs.readFileSync(model_JSON_file));
-  if (object_JSON.hasOwnProperty('properties')) {
-    var properties_object = object_JSON['properties'];
-    if (properties_object.hasOwnProperty('id')) {
-      properties_object['id'].generated = true;
-      properties_object['id'].idInjection = false;
-      properties_object['id'].required = false;
+  var objectJSON = JSON.parse(fs.readFileSync(modelJsonFile));
+  if (objectJSON.hasOwnProperty('properties')) {
+    var propertiesObject = objectJSON['properties'];
+    if (propertiesObject.hasOwnProperty('id')) {
+      propertiesObject['id'].generated = true;
+      propertiesObject['id'].idInjection = false;
+      propertiesObject['id'].required = false;
     }
-    if (properties_object.hasOwnProperty('CreateDate')) {
-      properties_object['CreateDate'].required = false;
+    if (propertiesObject.hasOwnProperty('CreateDate')) {
+      propertiesObject['CreateDate'].required = false;
     }
-    if (properties_object.hasOwnProperty('CreateUser')) {
-      properties_object['CreateUser'].required = false;
+    if (propertiesObject.hasOwnProperty('CreateUser')) {
+      propertiesObject['CreateUser'].required = false;
     }
-    if (properties_object.hasOwnProperty('ModifyDate')) {
-      properties_object['ModifyDate'].required = false;
+    if (propertiesObject.hasOwnProperty('ModifyDate')) {
+      propertiesObject['ModifyDate'].required = false;
     }
-    if (properties_object.hasOwnProperty('ModifyUser')) {
-      properties_object['ModifyUser'].required = false;
+    if (propertiesObject.hasOwnProperty('ModifyUser')) {
+      propertiesObject['ModifyUser'].required = false;
     }
   }
   fs.writeFileSync(
-    model_JSON_file,
-    JSON.stringify(object_JSON, null, 2)
+    modelJsonFile,
+    JSON.stringify(objectJSON, null, 2)
   );
-  console.log("JSON saved to " + model_JSON_file);
+  console.log('JSON saved to ' + modelJsonFile);
 
   console.log('Writing model JS file..');
   // write model JS file, useful to extend a model with custom methods
-  var model_JS_file = path.join(output_directory, model_name + '.js');
+  var modelJSFile = path.join(outputDirectory, modelName + '.js');
   // if JS file exists
-  if (fs.existsSync(model_JS_file)) {
+  if (fs.existsSync(modelJSFile)) {
     // save a backup copy of the JS file
-    let bkp_file = path.join(output_directory, `${model_name}.js.bkp_${now_ms}`);
-    fs.renameSync(model_JS_file, bkp_file);
-    console.log("Backing up old JS file..");
+    let backupFile = path.join(outputDirectory, `${modelName}.js.bkp_${nowMs}`);
+    fs.renameSync(modelJSFile, backupFile);
+    console.log('Backing up old JS file..');
   }
   // write the new JS file
   fs.writeFileSync(
-    model_JS_file,
+    modelJSFile,
     `'use strict';
-    module.exports=function(${model_name}) {};`
+    module.exports=function(${modelName}) {};`
   );
-  console.log("JS saved to " + model_JS_file);
+  console.log('JS saved to ' + modelJSFile);
 
   // Append model to model-config.json
-  var model_config_file = path.resolve(__dirname, '../model-config.json');
-  var model_config_obj = JSON.parse(fs.readFileSync(model_config_file, 'utf8'));
-  if (typeof model_config_obj[model_name] === 'undefined') {
+  var modelConfigFile = path.resolve(__dirname, '../model-config.json');
+  var modelConfigObj = JSON.parse(fs.readFileSync(modelConfigFile, 'utf8'));
+  if (typeof modelConfigObj[modelName] === 'undefined') {
     let datasource = process.argv[3];
-    model_config_obj[model_name] = { 'dataSource': datasource, 'public': true };
-    let json_content = JSON.stringify(model_config_obj, null, 2);
-    fs.writeFileSync(model_config_file, JSON.stringify(model_config_obj, null, 2));
+    modelConfigObj[modelName] = {'dataSource': datasource, 'public': true};
+    let jsonContent = JSON.stringify(modelConfigObj, null, 2);
+    fs.writeFileSync(modelConfigFile, JSON.stringify(modelConfigObj, null, 2));
   }
 }
 
 function printUsage() {
-  console.log("\nUsage: node discover-schema.js [-ds datasource -sn db_schema_name]\n" +
-    "\t-ds datasource: name of the datasource as specified in datasources.json\n" +
-    "\t-sn db_schema_name: name of the table in the db\n");
+  console.log('\nUsage: node discover-schema.js [-ds datasource -sn db_schemaName]\n' +
+    '\t-ds datasource: name of the datasource as specified in datasources.json\n' +
+    '\t-sn db_schemaName: name of the table in the db\n');
 }
 
 // custom name mapper
@@ -118,18 +118,16 @@ function main() {
       var datasource = process.argv[3];
       // should be db schema name
       var param21 = process.argv[4];
-      var schema_name = process.argv[5];
-
-      var datasource_json = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', 'datasources.json'), 'utf8'));
-
-      if (param11 === '-ds' && param21 === '-sn' && datasource_json.hasOwnProperty(datasource)) {
+      var schemaName = process.argv[5];
+      var datasourceJSON = JSON.parse(fs.readFileSync(path.resolve(__dirname, '..', 'datasources.json'), 'utf8'));
+      if (param11 === '-ds' && param21 === '-sn' && datasourceJSON.hasOwnProperty(datasource)) {
         var options = {};
         options.nameMapper = mapName;
         options.associations = true;
         options.relations = false;
         options.views = true;
-        var ds = app.createDataSource(datasource, datasource_json[datasource]);
-        ds.discoverSchema(schema_name, options, callback);
+        var ds = app.createDataSource(datasource, datasourceJSON[datasource]);
+        ds.discoverSchema(schemaName, options, callback);
       } else {
         printUsage();
       }

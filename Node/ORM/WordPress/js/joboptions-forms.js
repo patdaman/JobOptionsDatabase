@@ -74,7 +74,6 @@ function formatPostalCodes($) {
     }
   });
 };
-
 // ************************************************************************
 // Set all <span> elements containing dynamic hidden fields to display:none
 // ************************************************************************
@@ -83,6 +82,26 @@ jQuery(document).ready(function($) {
 });
 function hideDynamicObjects($) {
   jQuery(".wpcf7-dynamichidden").parent().css('display','none');
+};
+// ************************************************************************
+// Change file input to drop zones
+// ************************************************************************
+jQuery(document).ready(function($) {
+  addDocumentDropZones();
+});
+function addDocumentDropZones() {
+  addFileDropZone('disability');
+  addFileDropZone('resume');
+};
+function addFileDropZone(fileType) {
+  var dropHtml = `<form class="upload-document-form">*.pdf .doc .docx .txt .png .jpg .gif
+      <input type="file" id="FILETYPE-doc-element" class="file-input" multiple accept=".pdf,.doc,.docx,.png,.jpg,.gif,.txt" onchange="handleFiles(this.files)">
+      <label class="upload-button" for="FILETYPE-doc-element">Select file(s)</label>
+    </form>
+    <progress id="FILETYPE-progress-bar" max=100 value=0></progress>
+    <div id="FILETYPE-gallery" class="gallery" /></div>`.replace(/FILETYPE/g,fileType).valueOf();
+  jQuery(`#${fileType}-drop-area`).empty().append(dropHtml).find(`.file-input`).css('display','none');
+  initFileDrop(fileType);
 };
 // ************************************************************************
 // 
@@ -115,11 +134,42 @@ function changeBooleanToCheckbox() {
       return item.indexOf("dynamic") === -1;
     }).join(' ');
     obj.setAttribute('type','checkbox');
-	obj.className = elementClassList;
+	  obj.className = elementClassList;
     obj.getAttribute('value') === "1" ? obj.setAttribute('value',true) : obj.setAttribute('value',false);
     obj.getAttribute('value') === "true" ? obj.checked = true : obj.checked = false;
     obj.onclick = function() {this.value === "true" ? this.value = "false" : this.value = "true";};
     obj.setAttribute('disabled','');
+  });
+};
+// ************************************************************************
+// Change text values to textarea with class="textarea"
+// ************************************************************************
+jQuery(document).ready(function($) {
+  changeTextToTextArea($);
+});
+function changeTextToTextArea($) {
+  jQuery(".textarea").each(function(i, obj) {
+    obj.removeAttribute('max-size');
+    obj.removeAttribute('size');
+    obj.removeAttribute('type');
+    var textValue = obj.getAttribute('value');
+    obj.setAttribute('form', jQuery(obj).closest('[role=form]').attr('id'));
+    var new_element = document.createElement('textarea'),
+      old_attributes = obj.attributes,
+      new_attributes = new_element.attributes;
+    for(var i = 0, len = old_attributes.length; i < len; i++) {
+        new_attributes.setNamedItem(old_attributes.item(i).cloneNode());
+    }
+    if (obj.firstChild)
+    do {
+        new_element.appendChild(obj.firstChild);
+    } 
+    while(obj.firstChild);
+    new_element.value = textValue;
+    new_element.setAttribute('cols', '50');
+    new_element.setAttribute('rows', '10');    
+    new_element.removeAttribute('value');
+    obj.parentNode.replaceChild(new_element, obj);
   });
 };
 // ************************************************************************
@@ -139,37 +189,36 @@ function loadDynamicSelect($) {
 // ************************************************************************
 function toggleEdit(element) {
   var formElement = findAncestor(element, 'wpcf7-form');
-  console.log("toggling!" + formElement.childNodes.length);
-  // for (var i = 0; i < formElement.childNodes.length; i++) {
-  for (var i = formElement.childNodes.length - 1; i >= 0; i--) {
-    if (formElement.childNodes[i].classList) {
-      if (formElement.childNodes[i].classList.contains('edit'))
-        formElement.childNodes[i].hasAttribute('style') ? formElement.childNodes[i].removeAttribute('style') : formElement.childNodes[i].setAttribute('style','display:none');
-      if (formElement[i].classList) {
-        if (formElement[i].classList.contains("editable")) {
-          formElement[i].classList.toggle("applicant");
-          formElement[i].hasAttribute('readonly') ? formElement[i].removeAttribute('readonly') : formElement[i].setAttribute('readonly','');
-          if (formElement[i].classList.contains("date")) {
-            if (formElement[i].getAttribute('type') === 'text') {
-              formElement[i].setAttribute('type','date');
-              formElement[i].setAttribute('value',new Date(formElement[i].getAttribute('value')))
-            } else {
-              formElement[i].setAttribute('type','text');
-              formElement[i].setAttribute('value', getFormattedDate(formElement[i].getAttribute('value')));
-            }
+  jQuery(formElement).find('.edit-button-group').each(function() {
+    this.hasAttribute('style') ? this.removeAttribute('style') : this.setAttribute('style','display:none');
+  });
+  jQuery(formElement).find('textarea').each(function() {
+    this.hasAttribute('readonly') ? this.removeAttribute('readonly') : this.setAttribute('readonly','');
+  });
+  jQuery( jQuery( formElement ).prop('elements')).each(function(){
+    var field = this;
+    if (field.classList) {
+      if (field.classList.contains("editable")) {
+        field.classList.toggle("applicant");
+        if (field.classList.contains("date")) {
+          if (field.getAttribute('type') === 'text') {
+			      field.removeAttribute('readonly');
+            field.setAttribute('value',new Date(field.getAttribute('value')));
+            field.setAttribute('type','date');
+          } else {
+            field.setAttribute('value', getFormattedDate(field.getAttribute('value')));
+            field.setAttribute('type','text');
+            field.setAttribute('readonly','');
           }
-          if (formElement[i].classList.contains("boolean") || formElement[i].classList.contains("wpcf7-select")) {
-            formElement[i].hasAttribute('disabled') ? formElement[i].removeAttribute('disabled') : formElement[i].setAttribute('disabled', '');
-            var j = i + 1;
-            //while (formElement[j] && formElement[j].classList.contains('boolean')) {
-            if (formElement[i].classList.contains("boolean")) { formElement[j].hasAttribute('disabled') ? formElement[j].removeAttribute('disabled') : formElement[j].setAttribute('disabled', ''); }
-            //  j = j + 1;
-            //};
-          }
+        } else if (field.getAttribute('type') === 'text' || field.tagName === 'TEXTAREA') {
+          field.hasAttribute('readonly') ? field.removeAttribute('readonly') : field.setAttribute('readonly','');
+      	}
+        if (field.classList.contains("boolean") || field.classList.contains("wpcf7-select")) {
+          field.hasAttribute('disabled') ? field.removeAttribute('disabled') : field.setAttribute('disabled', '');
         }
       }
     }
-  }
+  });
 };
 
 // ***********************************************************************
@@ -184,11 +233,9 @@ function toggleEdit(element) {
 document.addEventListener('wpcf7mailsent', function(event) {
   const formId = event.detail.contactFormId;
   const formElement = event.target;
-  console.log('Element Type: ' + typeof(formElement));
   const formElementId = formElement.id;
   const submitButton = formElement.getElementsByClassName('wpcf7-submit')[0];
   const formClasses = submitButton.classList;
-  var theNextAccordion;
   if (formClasses) {
     var nextElement;
     if (formClasses.contains('next-accordion'))
@@ -202,12 +249,24 @@ document.addEventListener('wpcf7mailsent', function(event) {
     if (formClasses.contains('load-select-table'))
       populateDataTable ('applicant-search','vi_ApplicantSearch','');
     if (formClasses.contains('load-next-form'))
-      if (formClasses.contains('load-children'))
-		nextForm(formElementId, nextElement, true);
-      else
-      	nextForm(formElementId, nextElement);
-    if (formClasses.contains('save'))
+      if (formClasses.contains('load-children')) {
+        nextForm(formElementId, nextElement, true);
+
+      } else {
+        nextForm(formElementId, nextElement);
+      };
+    if (formClasses.contains('save')) 
       toggleEdit(submitButton);
+    if (formClasses.contains('refresh-table')) {
+      var object = jQuery(formElement).find("input[name='object']").val();
+      if (object) {
+        var classArray = Array.from(formClasses);
+        var dataTable = classArray.filter(function (v) {return /table-/.test(v)});
+        console.log(`Data Table Name: ${dataTable}`);
+        if (dataTable && dataTable.length > 0)
+          populateDataTable(dataTable[0].replace('table-',''), object); 
+      };
+    };
   }
 });
 
@@ -245,7 +304,7 @@ function loadForm(elementId, shortcode, popupId) {
   var args = getDefaultAjaxBody();
   args['element'] = targetElement;
   args['body'] = body;
-  args['async'] = false;
+  // args['async'] = false;
   ajaxRequest(args);
 }
 
@@ -259,9 +318,7 @@ function ajaxRequest(args) {
     useAsync = false;
   if (typeof(args['element']) !== 'undefined') {
     var element = args['element'];
-    console.log('Element: ' + element);
   }
-  console.log('Body: ' + JSON.stringify(body));
   jQuery.ajax({
     url: ajaxurl,
     type: args['type'],
@@ -279,16 +336,7 @@ function ajaxRequest(args) {
       }
     },
     error: function(err) {
-      console.log('Error returned from AJAX.');
-      //if (typeof handleAjaxFormResponse === 'function' && ( body['action'] === 'load_next' || body['action'] === 'return_shortcode')) {
-      //	handleAjaxFormResponse(element, err.responseText);
-      //} else if (body['action'] === 'set_applicant_data') {
-        //var nextAccordionElement = nextAccordion(element);
-        //nextForm(body['element-id'], nextAccordionElement, true);
-        //handleAjaxApplicantSelectResponse(element);
-      //} else {
-        console.log('this is an error: \n'+JSON.stringify(body));
-      //}
+      console.log('Error returned from AJAX.: \n'+JSON.stringify(body));
     },
   });
 }
@@ -344,7 +392,96 @@ function handleAjaxFormResponse(placeholder, data) {
   }
   initForms();
 }
-
+// ******************************************************** //
+// ************************ Drag and drop ***************** //
+// ******************************************************** //
+function initFileDrop(fileType) {
+  if (document.getElementById(`${fileType}-drop-area`)) {
+    let dropArea = document.getElementById(`${fileType}-drop-area`);
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, preventDefaults, false)   
+      document.body.addEventListener(eventName, preventDefaults, false)
+    });
+    // Highlight drop area when item is dragged over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, highlight, false)
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, unhighlight, false)
+    });
+    // Handle dropped files
+    dropArea.addEventListener('drop', handleDrop, false);
+    function preventDefaults (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    };
+    function highlight(e) {
+      dropArea.classList.add('highlight')
+    };
+    function unhighlight(e) {
+      dropArea.classList.remove('active')
+    };
+    function handleDrop(e) {
+      var dt = e.dataTransfer
+      var files = dt.files
+      handleFiles(files)
+    };
+    let uploadProgress = [];
+    let progressBar = document.getElementById(`${fileType}-progress-bar`);
+    function initializeProgress(numFiles) {
+      progressBar.value = 0
+      uploadProgress = []
+      for(let i = numFiles; i > 0; i--) {
+        uploadProgress.push(0)
+      }
+    };
+    function updateProgress(fileNumber, percent) {
+      uploadProgress[fileNumber] = percent
+      let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length
+      console.debug('update', fileNumber, percent, total)
+      progressBar.value = total
+    };
+    function handleFiles(files) {
+      files = [...files];
+      initializeProgress(files.length);
+      files.forEach(uploadFile);
+      files.forEach(previewFile);
+    };
+    function previewFile(file) {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = function() {
+        let img = document.createElement('img');
+        img.src = reader.result;
+        document.getElementById(`${fileType}-gallery`).appendChild(img);
+      };
+    };
+    function uploadFile(file, i) {
+      var url = apiUrl.slice(-1) === '/' ? apiUrl : apiUrl + '/';
+      url = `${url}docs/${fileType}/upload`;
+      var xhr = new XMLHttpRequest();
+      var formData = new FormData();
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+      // Update progress (can be used to show progress indicator)
+      xhr.upload.addEventListener("progress", function(e) {
+        updateProgress(i, (e.loaded * 100.0 / e.total) || 100);
+      })
+      xhr.addEventListener('readystatechange', function(e) {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          updateProgress(i, 100); // <- Add this
+        } else if (xhr.readyState == 4 && xhr.status != 200) {
+          console.log(`Error uploading file \nCode: ${xhr.status}\n`);
+        };
+      });
+      formData.append('upload_preset', 'YOU');
+      formData.append('file', file);
+      console.log(`Form Data: ${JSON.stringify(formData)}`);
+      xhr.send(formData);
+    };
+  };
+};
 // ***********************************************************************
 // Function required to initialize forms not supplied on additional page
 // ***********************************************************************
@@ -365,6 +502,8 @@ function initForms() {
   formatPostalCodes();
   loadDynamicSelect();
   postDocumentWatcher();
+  changeTextToTextArea();
   reloadScript('/wp-content/plugins/cf7-conditional-fields/js/scripts.js');
   reloadScript('/wp-content/plugins/cf7-repeatable-fields/assets/js/');
+  addDocumentDropZones();
 }
