@@ -1,182 +1,3 @@
-
-var outputColumns = ['applicantid', 'createdate', 'interviewer', 'type', 'status', 'detailednote', 'detail' ];
-
-jQuery(document).ready(function($) {
-  addDetailButtonToTables($);
-});
-function addDetailButtonToTables($) {
-  jQuery(".dataTable").addClass("collapsed");
-};
-// ***********************************************************************
-// DataTable Grid for Admin Page - Applicant Search Accordion
-// ***********************************************************************
-jQuery(document).ready(function($) {
-  $('#applicant-search').css('display','none');
-  $('#applicant-status').css('display','none');
-  $('#applicant-document').css('display','none');
-  $('#applicant-interview').css('display','none');
-  $('#applicant-note').css('display','none');
-});
-
-function initApplicantSearch(data) {
-  if (jQuery.fn.DataTable.isDataTable('#applicant-search')) {
-    jQuery('#applicant-search').DataTable().destroy();
-  };
-  var table = jQuery('#applicant-search').DataTable({
-    data: data,
-    dom: '<lBf <t>ip>',
-    buttons: [ 
-      {
-      	extend: 'excel',
-        text: 'Export Excel',
-        exportOptions: {
-          modifier: {
-            page: 'current',
-            title: 'Applicants',
-            createEmptyCells: 'true'
-          } 
-        },
-        filename: function() {
-          return "Applicants_" + getFormattedDate(new Date(Date.now()), true);
-        },
-      },
-      {
-        extend: 'pdf',
-        text: 'Export PDF',
-        exportOptions: {
-          modifier: {
-            page: 'current',
-            orientation: 'landscape',
-            pageSize: 'LETTER',
-            title: 'Applicants'
-          }
-        },
-        filename: function() {
-          return "Applicants_" + getFormattedDate(new Date(Date.now()), true);
-        },
-      },
-      'copy',
-      {
-        extend: 'print',
-        text: 'Print',
-        exportOptions: {
-          modifier: {
-            page: 'current',
-            orientation: 'landscape',
-            pageSize: 'LETTER',
-            title: 'Applicants',
-          }
-        }
-      },          
-      //{
-      //  extend: 'columnToggle',
-      //  columns: '.contact-only',
-      //},
-    ],
-    rowReorder: true,
-    paging: true,
-    pageLength: 10,
-    lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-    rowId: 'id',
-    scrollX: true,
-    orderMulti: true,
-    scrollY: true,
-  	ordering: true,
-    select: {
-    		  items: 'row',
-    		  style: 'single'
-  			},
-  	autoWidth: true,
-    scrollCollapse: true,
-  	sortable: true,
-  	filter: true,
-    info: true,
-    columns: [
-	  { title: "#", name: "id", data: "id" },
-      { 
-        title: "Name",
-        name: "Name",
-        render: function (data, type, row, meta) { 
-          return getFullName(row["FirstName"], row["MiddleName"], row["LastName"]); 
-        },
-        className: "nameField",
-      },
-      { 
-        title: "Phone Number", 
-        type: "phoneNumber", 
-        data: "PhoneNumbers", 
-        orderable: false,
-        className: "phoneField",
-      },
-      { title: "Email", data: "Email", orderable: false },
-      { title: "Disabled", data: "Disabled", searchable: false, orderable: false },
-      { 
-        title: "Application Date",
-        data: "ApplicationDate",
-      	type: "date",
-      	render: function(data, type, row, meta) {
-      		return getFormattedDate(data);
-      	},
-      },
-      { title: "Consideration", data: "Consideration", orderable: false },
-      { title: "Status", data: "CurrentStatus", orderable: false },
-      { title: "Position", data: "Positions", orderable: false },
-      { title: "Location", data: "Locations", orderable: false },
-      { title: "Hired", data: "Hired", searchable: false, orderable: false },
-      { 
-        title: "Date Available",
-        data: "AvailableDate",
-        type: "date",
-        render: function(data, type, row, meta) {
-			return getFormattedDate(data);
-        },
-      },
-      { title: "ApplicantId", data: "ApplicantId", visible: false, searchable: false },
-      { title: "ApplicationId", data: "ApplicationId", visible: false, searchable: false },
-      { title: "Object", data: "Object", visible: false, searchable: false },
-    ],
-    // order: (['ApplicationDate', 'asc'], ['AvailableDate','asc'], ['ApplicantId', 'asc']),
-    initComplete: function () {
-      this.api().columns([4, 6, 7, 8, 9, 10]).every( function () {
-        var column = this;
-        var select = jQuery('<select><option value="">All</option></select>')
-        .appendTo(jQuery(column.header()))
-        .on( 'change', function () {
-          var val = jQuery.fn.dataTable.util.escapeRegex(
-            jQuery(this).val()
-          );
-          column
-            .search( val ? '^'+val+'jQuery' : '', true, false )
-            .draw();
-        });
-        column.data().unique().sort().each( function ( d, j ) {
-          select.append( '<option value="'+d+'">'+d+'</option>' )
-        });
-      });
-    },
-  });
-  addSelectTableListener(table);
-  return table;
-};
-function addSelectTableListener(selectTable) {
-  selectTable.on( 'select', function ( e, dt, type, indexes ) {
-    if ( type === 'row' ) {
-      var applicantId = selectTable.rows( indexes ).data().pluck( 'ApplicantId' )[0];
-      var applicationId = selectTable.rows( indexes ).data().pluck( 'ApplicationId' )[0];
-      var body = {};
-      body['action'] = 'set_applicant_data';
-      body['applicant-id'] = applicantId;
-      body['application-id'] = applicationId;
-      body['element-id'] = 'applicant-search';
-      // console.log(body['element']);
-      var args = getDefaultAjaxBody();
-      args['element'] = jQuery("#applicant-search_wrapper")[0];
-      args['body'] = body;
-      ajaxRequest(args);
-	}      
-  });
-};
-
 function populateDataTable (tableName, objectName, params) {
   if (typeof(params) === 'undefined')
     params = '';
@@ -209,62 +30,140 @@ function populateDataTable (tableName, objectName, params) {
     }
   });
 };
+function addRowDetailModal (dataTable, headerTitle) {
+  new jQuery.fn.dataTable.Responsive( dataTable, {
+    details: {
+      display: jQuery.fn.dataTable.Responsive.display.modal({
+        header: function (row) {
+          var data = row.data();
+          var applicantId = '';
+          if (data.ApplicantId)
+            applicantId = `Applicant #${data.ApplicantId} - `;
+          if (!headerTitle)
+            if (data.object)
+              headerTitle = data.object;
+          	else
+              headerTitle = '';
+          return `${applicantId}${headerTitle}`;
+        }
+      }),
+      renderer: function (api, rowIdx, columns) {
+        var data = jQuery.map(columns, function (col, i) {
+          var columnNodes = api.columns(i).nodes()[0];
+          var className = columnNodes[0].classList;
+          return className.contains('output') ?
+            '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
+            '<td>'+col.title+':'+'</td> '+
+            '<td>'+col.data+'</td>'+
+            '</tr>' :
+          	'';
+        }).join('');
+        return data ?
+          jQuery('<table/>').append(data):false;
+      }
+    }
+  });
+  addDetailButtonToTables();
+};
 
-// ***********************************************************************
-// Function to request AJAX data
-// ***********************************************************************
-function ajaxRequest(args) {
-  var body = JSON.parse(JSON.stringify(args['body']));
-  if (typeof(args['element']) !== 'undefined')
-  	var element = args['element'];
-  console.log('Body: ' + JSON.stringify(body));
-  jQuery.ajax({
-    url: ajaxurl,
-    type: args['type'],
-    // dataType: args['dataType'],
-    // data: args['body'],
-    data: body,
-    success: function(data) {
-	  if (true)
-        data = JSON.parse(JSON.stringify(data));
-      if (typeof handleAjaxFormResponse === 'function' && body['action'] === 'load_next')
-	    handleAjaxFormResponse(element, data);
-      else if (body['action'] === 'set_applicant_data') {
-        handleAjaxApplicantSelectResponse(element);
-        var nextAccordionElement = nextAccordion(element);
-        nextForm(body['element-id'], nextAccordionElement, true);
-        populateDataTable ('applicant-status','ApplicantStatus','');
-        populateDataTable ('applicant-document','Document','');
-        populateDataTable ('applicant-interview','Note','');
-        populateDataTable ('applicant-note','Note','');
-        populateDataTable ('applicant-phone','Phone','');
-        addDetailButtonToTables();
-      }        
-	  else
-		console.log('Ajax data returned \n' + data);
-    },
-    error: function(err) {
-      if (typeof handleAjaxFormResponse === 'function' && body['action'] === 'load_next')
-      	handleAjaxFormResponse(element, err.responseText);
-      else if (body['action'] === 'set_applicant_data') {
-        // handleAjaxApplicantSelectResponse(element);
-        var nextAccordionElement = nextAccordion(element);
-        nextForm(body['element-id'], nextAccordionElement, true);
-        populateDataTable ('applicant-status','ApplicantStatus','');
-        populateDataTable ('applicant-document','Document','');
-        populateDataTable ('applicant-interview','Note','');
-        populateDataTable ('applicant-note','Note','');
-        populateDataTable ('applicant-phone','Phone','');
-        addDetailButtonToTables();
-      }  
-      else
-        // console.log('this is an error: \n' + err.responseText);
-        console.log('this is an error: \n'+JSON.stringify(body));
-        // console.log('this is an error: \n');
+function addDetailButtonToTables() {
+  jQuery(".dataTable").addClass("collapsed");
+};
+
+function addButtons(dataTable, formShortcode) {
+  dataTable.button().add( 0, {
+    text: 'Add',
+    action: function ( e, dt, button, config ) {
+	  loadForm('add-object-popup', formShortcode);
+      jQuery('#pum-2105').popmake('open');
+  	},
+  });
+  dataTable.button().add( 1, {
+    extend: 'copy',
+    text: 'Copy',
+    // title: '???????',
+    // fieldSeparator: '\t',
+    exportOptions: {
+      columns: '.output',
     },
   });
-}
-
+};
+/* ************************************************************************ */
+/* ********  Hide all DataTable Grids before selecting applicant  ********* */
+/* *****************  and initializing the tables  ************************ */
+/* ************************************************************************ */
+jQuery(document).ready(function($) {
+  $('#applicant-search').css('display','none');
+  $('#applicant-status').css('display','none');
+  $('#applicant-document').css('display','none');
+  $('#applicant-interview').css('display','none');
+  $('#applicant-note').css('display','none');
+});
+function addSelectTableListener(selectTable) {
+  selectTable.on( 'select', function ( e, dt, type, indexes ) {
+    var applicantId = selectTable.rows( indexes ).data().pluck( 'ApplicantId' )[0];
+    var applicationId = selectTable.rows( indexes ).data().pluck( 'ApplicationId' )[0];
+    var body = {};
+    body['action'] = 'set_applicant_data';
+    body['applicant-id'] = applicantId;
+    body['application-id'] = applicationId;
+    body['element-id'] = 'applicant-search';
+    var args = getDefaultAjaxBody();
+    args['element'] = jQuery("#applicant-search_wrapper")[0];
+    args['body'] = body;
+    ajaxRequest(args);
+  });
+};
+/* ************************************************************************** */
+/* ******************  Applicant Alternate Name Table  ********************** */
+/* ************************************************************************** */
+function initApplicantAlternateName(data) {
+  if (jQuery.fn.DataTable.isDataTable('#applicant-alternate-name')) {
+    jQuery('#applicant-alternate-name').DataTable().destroy();
+  };
+  if (typeof(data) === 'undefined' || data.length === 0 || data === "[]")
+  	data = { "id":"", "ApplicantId":"", "ApplicationId":"" };
+  var alternateNameTable = jQuery('#applicant-alternate-name').DataTable({
+    data: data,
+    dom: '<Bf<t>>',
+    buttons: [],
+    scrollCollapse: true,
+    select: { style: 'single', selector: 'tr>td:nth-child(1)' },
+    filter: true,
+    columns: [
+      { title: "ApplicantId", data: "ApplicantId", class: 'output', visible: false },
+      { "targets": -1, "data": null, "defaultContent": "<button>Edit</button>", orderable: false, searchable: false, width: "1em" },
+      { title: "First Name", data: "FirstName", class: 'output', orderable: false },
+      { title: "Middle Name", data: "MiddleName", class: 'output', orderable: false },
+      { title: "Last Name", data: "LastName", class: 'output', orderable: false },
+      { title: "Date Created", data: "CreateDate", type: "date", order: 'asc', orderable: true, class: 'output',
+        render: function (data, type, row, meta) { 
+          return getFormattedDate(data); 
+        },
+      },
+      { title: "Date Modified", data: "ModifyDate", type: "date", order: 'asc', orderable: true, class: 'output',
+        render: function (data, type, row, meta) { 
+          return getFormattedDate(data); 
+        },
+      },
+      { title: "User Modified", data: "ModifyUser", class: 'output' },
+      { title: "Object", defaultContent: "AlternateName", visible: false },
+      { title: "#", name: "id", data: "id", order: 'asc', visible: false },
+    ],
+  });
+  addButtons(alternateNameTable, '[contact-form-7 id="1165" title="Application 11 - Names"]');
+  editApplicantAlternateNameListener(alternateNameTable);
+};
+function editApplicantAlternateNameListener(alternateNameTable) {
+  jQuery('#alternate-name tbody').on( 'click', 'button', function () {
+    var data = phoneTable.row( jQuery(this).parents('tr') ).data();
+    loadForm('edit-object','[contact-form-7 id="1165" title="Application 11 - Names"]');
+    jQuery('#pum-2079').popmake('open');
+  });
+};
+/* ************************************************************************** */
+/* ******************  Applicant Contact Phone Table  *********************** */
+/* ************************************************************************** */
 function initApplicantPhone(data) {
   if (jQuery.fn.DataTable.isDataTable('#applicant-phone')) {
     jQuery('#applicant-phone').DataTable().destroy();
@@ -274,80 +173,45 @@ function initApplicantPhone(data) {
   var phoneTable = jQuery('#applicant-phone').DataTable({
     data: data,
     dom: '<Bf<t>>',
-    buttons: [ 
-      {
-        text: 'Add Phone',
-        action: function ( e, dt, node, config ) {
-          jQuery('#pum-2082').popmake('open');
-          // jQuery('#add-status').popmake('open');
-        },
-      },
-      {
-        extend: 'copy',
-        text: 'Copy',
-        title: 'Applicant Contact Phone Details',
-        // fieldSeparator: '\t',
-        exportOptions: {
-          columns: '.output',
-        },
-      },
-    ],
-    responsive: {
-      details: {
-        display: jQuery.fn.dataTable.Responsive.display.modal( {
-          header: function ( row ) {
-            var data = row.data();
-            return `Contact ${data.PhoneType} Phone Detail`;
-          }
-        } ),
-        renderer: function (api, rowIdx, columns) {
-          var data = jQuery.map(columns, function (col, i) {
-            return outputColumns.includes(col.title.toLowerCase()) ?
-              '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
-              '<td>'+col.title+':'+'</td> '+
-              '<td>'+col.data+'</td>'+
-              '</tr><tr />' :
-            '';
-          }).join('');
-          return data ?
-            jQuery('<table/>').append(data):false;
-        }
-      }
-    },
-    select: { items: 'row', style: 'single' },
+    buttons: [],
     scrollCollapse: true,
+    select: { style: 'single', selector: 'tr>td:nth-child(2)' },
     filter: true,
     columns: [
-      { title: "ApplicantId", data: "ApplicantId", class: 'output', visible: false },
+	  { title: "Type", data: "PhoneType", class: 'output', orderable: false, width: "1em" },
+      { "targets": -1, "data": null, "defaultContent": "<button>Edit</button>", orderable: false, searchable: false, width: "1em" },
+      { title: "ApplicantId", data: "ApplicantId", class: 'output not-selectable', visible: false },
       { title: "Phone Number", data: "PhoneNumber", class: 'output', orderable: false },
       { title: "Extension", data: "Extension", class: 'output', orderable: false },
-      { title: "Note", data: "Note", orderable: false, render: jQuery.fn.dataTable.render.ellipsis(50) },
-      { title: "Detail", data: "Note", class: 'output', orderable: false, searchable: true, visible: false },
-      { title: "Date Created", data: "CreateDate", type: "date", order: 'asc', orderable: true, class: 'output',
+      { title: "Note", data: "Note", searchable: false, render: jQuery.fn.dataTable.render.ellipsis(20) },
+      { title: "Notes", data: "Note", orderable: false, searchable: true, class: "output", visible: false },
+      { title: "Date Created", data: "CreateDate", type: "date", order: 'asc', class: 'output', visible: false,
         render: function (data, type, row, meta) { 
           return getFormattedDate(data); 
         },
       },
-      { title: "ApplicationId", data: "ApplicationId", visible: false },
+      { title: "Object", defaultContent: "Phone", visible: false },
+      // { title: "ApplicationId", data: "ApplicationId", visible: false },
       { title: "#", name: "id", data: "id", order: 'asc', visible: false },
-      // { title: "Object", render: "ApplicantStatus", searchable: false, visible: false },
     ],
   });
-  addEditPhoneTableListener(phoneTable);
+  addButtons(phoneTable, '[contact-form-7 id="2103" title="Application 99 - Add Phone"]');
+  editPhoneListener(phoneTable);
+  addRowDetailModal(phoneTable, 'Contact Phone');
 };
-function addEditPhoneTableListener(phoneTable) {
-  phoneTable.on( 'select', function ( e, dt, type, indexes ) {
-    if ( type === 'row' ) {
-      var applicantId = statusTable.rows( indexes ).data().pluck( 'ApplicantId' )[0];
-      var status = statusTable.rows( indexes ).data().pluck( 'Status' )[0];
-      var note = statusTable.rows( indexes ).data().pluck( 'Note' )[0];
-      console.log("I'm here!!");
-	  addForm('edit-object','[contact-form-7 id="266" title="Applicant View / Edit 03 - Contact Phone"]');
-      jQuery('#pum-2079').popmake('open');
-    };
+function editPhoneListener(phoneTable) {
+  jQuery('#applicant-phone tbody').on( 'click', 'button', function () {
+    var data = phoneTable.row( jQuery(this).parents('tr') ).data();
+    console.log(data);
+    var phoneType = data.PhoneType ? data.PhoneType : '';
+    jQuery('#pum-2079 .pum-title').empty().append(`Edit ${phoneType} Phone`);
+    loadForm('edit-object-popup','[contact-form-7 id="266" title="Applicant View / Edit 03 - Contact Phone"]');
+    jQuery('#pum-2079').popmake('open');
   });
 };
-
+/* ************************************************************************** */
+/* ******************  Applicant Status Admin Table  ************************ */
+/* ************************************************************************** */
 function initApplicantStatus(data) {
   if (jQuery.fn.DataTable.isDataTable('#applicant-status')) {
     jQuery('#applicant-status').DataTable().destroy();
@@ -357,51 +221,11 @@ function initApplicantStatus(data) {
   var statusTable = jQuery('#applicant-status').DataTable({
     data: data,
     dom: '<Bf<t>>',
-    buttons: [ 
-      {
-        text: 'Update Status',
-        action: function ( e, dt, node, config ) {
-          jQuery('#pum-1893').popmake('open');
-          // jQuery('#add-status').popmake('open');
-        },
-      },
-      {
-        extend: 'copy',
-        text: 'Copy',
-        title: 'Applicant Status History',
-        // fieldSeparator: '\t',
-        exportOptions: {
-          columns: '.output',
-        },
-      },
-    ],
-    responsive: {
-      details: {
-        display: jQuery.fn.dataTable.Responsive.display.modal( {
-          header: function ( row ) {
-            var data = row.data();
-            return 'Status Detail';
-          }
-        } ),
-        renderer: function (api, rowIdx, columns) {
-          var data = jQuery.map(columns, function (col, i) {
-            return outputColumns.includes(col.title.toLowerCase()) ?
-              '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
-              '<td>'+col.title+':'+'</td> '+
-              '<td>'+col.data+'</td>'+
-              '</tr><tr />' :
-            '';
-          }).join('');
-          return data ?
-            jQuery('<table/>').append(data):false;
-        }
-      }
-    },
-    select: { items: 'row', style: 'single' },
+    buttons: [],
     scrollCollapse: true,
     filter: true,
     columns: [
-      { title: "ApplicantId", data: "ApplicantId", class: 'output', visible: false },
+      { title: "ApplicantId", data: "ApplicantId", visible: false },
       { 
         title: "Date",
         data: "CreateDate",
@@ -416,21 +240,21 @@ function initApplicantStatus(data) {
       //{ title: "Consideration", data: "Consideration" },
       { title: "Status", data: "Status", class: 'output', orderable: false },
       { title: "Note", data: "Note", orderable: false, render: jQuery.fn.dataTable.render.ellipsis(50) },
-      { title: "Detail", data: "Note", class: 'output', orderable: false, searchable: true, visible: false },
+      { title: "Notes", data: "Note", class: 'output', orderable: false, searchable: true, visible: false },
       //{ title: "Position", data: "Positions" },
       //{ title: "Location", data: "Locations" },
       //{ title: "Hired", data: "Hired", searchable: false, orderable: false },
-      { title: "Detail", data: "Note", searchable: true, class: 'output', orderable: false, visible: false },
-      { title: "ApplicationId", data: "ApplicationId", visible: false },
+      { title: "ApplicationId", data: "ApplicationId", class: 'output', visible: false },
+      { title: "Object", defaultContent: "ApplicantStatus", searchable: false, visible: false },
       { title: "#", name: "id", data: "id", order: 'asc', visible: false },
-      // { title: "Object", render: "ApplicantStatus", searchable: false, visible: false },
     ],
   });
+  addButtons(statusTable, '[contact-form-7 id="1655" title="Applicant Manage 01 - Status"]');
+  addRowDetailModal(statusTable, 'Applicant Status');
 };
-function addDetailbuttonToTables() {
-  jQuery(".dataTable").addClass("collapsed");
-};
-      
+/* ************************************************************************** */
+/* ******************  Applicant Document Admin Table  ********************** */
+/* ************************************************************************** */
 function initApplicantDocument(data) {
   if (jQuery.fn.DataTable.isDataTable('#applicant-document')) {
     jQuery('#applicant-document').DataTable().destroy();
@@ -440,32 +264,14 @@ function initApplicantDocument(data) {
   var documentTable = jQuery('#applicant-document').DataTable({
     data: data,
     dom: '<Bf<t>>',
-    buttons: [ 
-      {
-        text: 'View / Add Document',
-        action: function ( e, dt, node, config ) {
-          jQuery('#pum-2029').popmake('open');
-          // jQuery('#add-document').popmake('open');
-        },
-      },
-      {
-        extend: 'copy',
-        text: 'Copy',
-        title: 'Applicant Documents',
-        // fieldSeparator: '\t',
-        exportOptions: {
-          columns: '.output',
-        },
-      },
-    ],
-    select: {
-      items: 'row',
-      style: 'single'
-    },
+    buttons: [],
+    select: { style: 'single', selector: 'tr>td:nth-child(3)' },
     autoWidth: true,
     filter: true,
     columns: [
       { title: "ApplicantId", data: "ApplicantId", class: 'output', searchable: false, visible: false },
+	  { title: "Type", data: "DocumentType", width: "1em" },
+      { "targets": -1, "data": null, "defaultContent": "<button>View</button>", searchabe: false, orderable: false },
       { 
         title: "Date",
         data: "CreateDate",
@@ -477,28 +283,28 @@ function initApplicantDocument(data) {
           return getFormattedDate(data); 
         },
       },
-      { title: "Type", data: "DocumentType" },
       { title: "Title", data: "FileName" },
-      // { title: "Text", data: "DocumentText" },
       { title: "ApplicationId", data: "ApplicationId", visible: false, searchable: false },
-      { title: "#", name: "id", data: "id", order: 'asc', visible: false },
-      // { title: "Object", data: "Object", visible: false, searchable: false },
+      { title: "#", name: "id", data: "id", order: 'asc', visible: false, searchable: false },
+      { title: "Object", defaultContent: "Document", visible: false, searchable: false },
     ],
   });
-  addDocumentTableListener(documentTable);
+  addButtons(documentTable, '[contact-form-7 id="20" title="Application 02 - Documents"]');
+  viewDocumentListener(documentTable);
 };
-function addDocumentTableListener(statusTable) {
-  statusTable.on( 'select', function ( e, dt, type, indexes ) {
-    if ( type === 'row' ) {
-      var fileName = statusTable.rows( indexes ).data().pluck( 'FileName' )[0];
-      var documentId = statusTable.rows( indexes ).data().pluck( 'id' )[0];
-      var popUpWindow = window.open("","", "height=500,width=720,menubar=no");
-      var test1 = apiUrl + "Docs/disability/download/" + fileName; 
-      popUpWindow.document.write('<iframe allowTransparency="true" frameborder="0" scrolling="yes" style="width:100%;height:100%" src="'+test1+'" type= "text/javascript"></iframe>');
-    };
+function viewDocumentListener(documentTable) {
+  jQuery('#applicant-document tbody').on( 'click', 'button', function () {
+    var data = documentTable.row( jQuery(this).parents('tr') ).data();
+    var fileName = data.FileName;
+    var documentId = data.id;
+    var popUpWindow = window.open("","", "height=500,width=720,menubar=no");
+    var test1 = apiUrl + "Docs/disability/download/" + fileName; 
+    popUpWindow.document.write('<iframe allowTransparency="true" frameborder="0" scrolling="yes" style="width:100%;height:100%" src="'+test1+'" type= "text/javascript"></iframe>');
   });
 };
-    
+/* ************************************************************************** */
+/* ******************  Applicant Interview Admin Table  ********************* */
+/* ************************************************************************** */
 function initApplicantInterview(data) {
   if (jQuery.fn.DataTable.isDataTable('#applicant-interview')) {
     jQuery('#applicant-interview').DataTable().destroy();
@@ -508,50 +314,7 @@ function initApplicantInterview(data) {
   var interviewTable = jQuery('#applicant-interview').DataTable({
     data: data,
     dom: '<Bf<t>>',
-    buttons: [ 
-      {
-        text: 'Add Interview',
-        action: function ( e, dt, node, config ) {
-          jQuery('#pum-1900').popmake('open');
-          // jQuery('#popmake-add-interview').popmake('open');
-        },
-      },
-      {
-        extend: 'copy',
-        text: 'Copy',
-        title: 'Applicant Status History',
-        // fieldSeparator: '\t',
-        exportOptions: {
-          columns: '.output',
-        },
-      },
-    ],
-    responsive: {
-      details: {
-        display: jQuery.fn.dataTable.Responsive.display.modal( {
-          header: function ( row ) {
-            var data = row.data();
-            return 'Status Detail';
-          }
-        } ),
-        renderer: function (api, rowIdx, columns) {
-          var data = jQuery.map(columns, function (col, i) {
-            return outputColumns.includes(col.title.toLowerCase()) ?
-              '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
-              '<td>'+col.title+':'+'</td> '+
-              '<td>'+col.data+'</td>'+
-              '</tr><tr />' :
-            '';
-          }).join('');
-          return data ?
-            jQuery('<table/>').append(data):false;
-        }
-      }
-    },
-    select: {
-      items: 'row',
-      style: 'single'
-    },
+    buttons: [],
     autoWidth: true,
     filter: true,
     columns: [
@@ -575,9 +338,12 @@ function initApplicantInterview(data) {
       { title: "#", name: "id", data: "id", order: 'asc', visible: false },
     ],
   });
-  //addTableDetailListener(interviewTable);
+  addButtons(interviewTable, '[contact-form-7 id="1656" title="Applicant Manage 03 - Interview"]');
+  addRowDetailModal(interviewTable, 'Interview Notes');
 };
-
+/* ************************************************************************ */
+/* ******************  Applicant Notes Admin Table  *********************** */
+/* ************************************************************************ */
 function initApplicantNote(data) {
   if (jQuery.fn.DataTable.isDataTable('#applicant-note')) {
     jQuery('#applicant-note').DataTable().destroy();
@@ -587,51 +353,8 @@ function initApplicantNote(data) {
   var noteTable = jQuery('#applicant-note').DataTable({
     data: data,
     dom: '<Bf<t>>',
-    buttons: [ 
-      {
-        text: 'Add Note',
-        action: function ( e, dt, node, config ) {
-          jQuery('#pum-1903').popmake('open');
-          // jQuery('#popmake-add-note').popmake('open');
-        },
-      },
-      {
-        extend: 'copy',
-        text: 'Copy',
-        title: 'Applicant Status History',
-        // fieldSeparator: '\t',
-        exportOptions: {
-          columns: '.output',
-        },
-      },
-    ],
-    responsive: {
-      details: {
-        display: jQuery.fn.dataTable.Responsive.display.modal( {
-          header: function ( row ) {
-            var data = row.data();
-            return 'Status Detail';
-          }
-        } ),
-        renderer: function (api, rowIdx, columns) {
-          var data = jQuery.map(columns, function (col, i) {
-            return outputColumns.includes(col.title.toLowerCase()) ?
-              '<tr data-dt-row="'+col.rowIndex+'" data-dt-column="'+col.columnIndex+'">'+
-              '<td>'+col.title+':'+'</td> '+
-              '<td>'+col.data+'</td>'+
-              '</tr><tr />' :
-            '';
-          }).join('');
-          return data ?
-            jQuery('<table/>').append(data):false;
-        }
-      }
-    },
-    select: {
-      items: 'row',
-      style: 'single'
-    },
-    autoWidth: true,
+    buttons: [],
+    select: { items: 'row', style: 'multiple' },
     filter: true,
     columns: [
       { title: "ApplicantId", data: "ApplicantId", class: "output", visible: false, searchable: false },
@@ -654,5 +377,6 @@ function initApplicantNote(data) {
       { title: "#", name: "id", data: "id", order: 'asc', visible: false },
     ],
   });
-  //addTableDetailListener(noteTable);
+  addButtons(noteTable, '[contact-form-7 id="1681" title="Applicant Manage 04 - Notes"]');
+  addRowDetailModal(noteTable, 'Applicant Notes');
 };
