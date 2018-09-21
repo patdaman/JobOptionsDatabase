@@ -4,9 +4,12 @@
 
 
 
+
 CREATE VIEW [dbo].[vi_ApplicantSearch]
 AS
-SELECT DISTINCT -- TOP 20 
+SELECT ROW_NUMBER() OVER (ORDER BY [id], [ApplicationId]) AS seq, *
+FROM (
+	SELECT DISTINCT -- TOP 20 
 	  'vi_ApplicantSearch'									AS [Object]
 	  ,	[Applicant].[id]									AS ApplicantId
 	  , [Application].[id]									AS ApplicationId
@@ -99,3 +102,4 @@ FROM [dbo].[Applicant] [Applicant]
 					 WHERE [Applicant].id = St.ApplicantId AND ([Application].id = St.ApplicationId OR St.ApplicantId IS NULL)
 					 ORDER BY St.CreateDate DESC
 					 ) [Status]
+) AS DistinctQuery

@@ -94,12 +94,13 @@ function addDocumentDropZones() {
   addFileDropZone('resume');
 };
 function addFileDropZone(fileType) {
-  var dropHtml = `<form class="upload-document-form">*.pdf .doc .docx .txt .png .jpg .gif
-      <input type="file" id="FILETYPE-doc-element" class="file-input" multiple accept=".pdf,.doc,.docx,.png,.jpg,.gif,.txt" onchange="handleFiles(this.files)">
-      <label class="upload-button" for="FILETYPE-doc-element">Select file(s)</label>
-    </form>
-    <progress id="FILETYPE-progress-bar" max=100 value=0></progress>
-    <div id="FILETYPE-gallery" class="gallery" /></div>`.replace(/FILETYPE/g,fileType).valueOf();
+  var dropHtml = '<form class="upload-document-form">.pdf .doc .docx .txt .png .jpg .gif';
+  dropHtml += '<input type="file" id="FILETYPE-doc-element" class="file-input" multiple accept=".pdf,.doc,.docx,.png,.jpg,.gif,.txt" onchange="handleFiles(this.files)">';
+  dropHtml += '<label class="upload-button" for="FILETYPE-doc-element">FILETYPE File(s)</label>';
+  dropHtml += '</form>';
+  dropHtml += '<div class="progress-bar center-block"><progress id="FILETYPE-progress-bar" max=100 value=0></progress></div>';
+  dropHtml += '<div id="FILETYPE-gallery" class="gallery" /></div>'
+  dropHtml = dropHtml.replace(/FILETYPE/g,fileType).valueOf();
   jQuery(`#${fileType}-drop-area`).empty().append(dropHtml).find(`.file-input`).css('display','none');
   initFileDrop(fileType);
 };
@@ -121,7 +122,7 @@ function changeModifyInputSize($) {
     jQuery("input[type='text']").removeAttr('size');
   };
   jQuery(".resize").removeAttr('size');
-  jQuery(".resize").width(function() { return (this.value.length - 4) + "ch"});
+  jQuery(".resize").width(function() { return (this.value.length - 3) + "ch"});
 };
 // ************************************************************************
 // Change boolean text values to checkbox on edit

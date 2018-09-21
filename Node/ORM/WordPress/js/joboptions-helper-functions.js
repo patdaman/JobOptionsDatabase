@@ -20,8 +20,8 @@ function getFormattedDate(dateString, time) {
   return dateString;
 };
 
-function getFullName( firstName, middleName, lastName ) {
-  if (typeof(middleName) !== 'undefined' && middleName.length > 0)
+function getFullName(firstName, middleName, lastName) {
+  if (typeof (middleName) !== 'undefined' && middleName.length > 0)
     middleName = ` ${middleName} `;
   else
     middleName = ` `;
@@ -32,32 +32,32 @@ function getFullName( firstName, middleName, lastName ) {
 // TODO: Cookies
 // Keep current active accordion item open
 // ***************************************
-jQuery(document).ready(function($) {
-//  var active = $(".et_pb_accordion_item .et_pb_toggle_open");
-//  var accordion = findAncestor(active, 'et_pb_accordion');
-//  var accordionClasses = Object.values(active.classList);
-//  var accordionClass = findSubStringInArray(accordionClasses, 'et_pb_accordion_item_');
+jQuery(document).ready(function ($) {
+  //  var active = $(".et_pb_accordion_item .et_pb_toggle_open");
+  //  var accordion = findAncestor(active, 'et_pb_accordion');
+  //  var accordionClasses = Object.values(active.classList);
+  //  var accordionClass = findSubStringInArray(accordionClasses, 'et_pb_accordion_item_');
 
-//  accordionClass = accordionClasses[3];
+  //  accordionClass = accordionClasses[3];
 
-  	var $activeId = $('.et_pb_accordion_item .et_pb_toggle_open').attr('id');
-//    console.log('ActiveId: ' + $activeId + ' Active: ' + $active);
-//    Cookies.set('activeAccordionGroup', $active, { path: '' });
+  var $activeId = $('.et_pb_accordion_item .et_pb_toggle_open').attr('id');
+  //    console.log('ActiveId: ' + $activeId + ' Active: ' + $active);
+  //    Cookies.set('activeAccordionGroup', $active, { path: '' });
 
-  $('.et_pb_toggle_title').click(function() {
+  $('.et_pb_toggle_title').click(function () {
     $this = $(this);
-  //    console.log($this);
+    //    console.log($this);
     //Cookies.remove('activeAccordionGroup');
     //Cookies.set('activeAccordionGroup', $this, {path: ''});
   });
 
-	// var last = $.cookie('activeAccordionGroup');
-  	var $last = Cookies.get('activeAccordionGroup');
-	// console.log($last);
-//	if ($last != null && $active != $last) {
-//		$active.removeClass('.et_pb_toggle_open').addClass(".et_pb_toggle_closed");
-		// $last.addClass(".et_pb_toggle_open");
-//	}
+  // var last = $.cookie('activeAccordionGroup');
+  var $last = Cookies.get('activeAccordionGroup');
+  // console.log($last);
+  //	if ($last != null && $active != $last) {
+  //		$active.removeClass('.et_pb_toggle_open').addClass(".et_pb_toggle_closed");
+  // $last.addClass(".et_pb_toggle_open");
+  //	}
 });
 // ***********************************************************************
 // Function to search for next DIVI accordion module and clicks to open it
@@ -74,7 +74,7 @@ function nextAccordion(activeAccordion) {
     // Why is this returning the first value in the array??
     var accordionClass = findSubStringInArray(accordionClasses, 'et_pb_accordion_item_');
     // console.log(accordionClass);
-	//  hard coded:
+    //  hard coded:
     accordionClass = accordionClasses[3];
     // *************************
     var accordionNumber = Number(accordionClass.slice(-1));
@@ -126,7 +126,7 @@ function nextTab(button) {
 // Find and return the key of an array value that contains 'str'
 // ***********************************************************************
 function findSubStringInArray(myArray, str) {
-  return myArray.find(function(elem) {
+  return myArray.find(function (elem) {
     return str.indexOf(elem);
   });
 }
@@ -154,20 +154,20 @@ function findChildByClassName(el, className) {
 //  -- Not the script *contains* @src, be as detailed as possible
 // ***********************************************************************
 function reloadScript(src) {
-    src = jQuery('script[src*="' + src + '"]').attr("src");
-    jQuery('script[src*="' + src + '"]').remove();
-    jQuery('<script/>').attr('src', src).appendTo('body');
+  src = jQuery('script[src*="' + src + '"]').attr("src");
+  jQuery('script[src*="' + src + '"]').remove();
+  jQuery('<script/>').attr('src', src).appendTo('body');
 }
 // ***********************************************************************
 // dash-string to camelCaseString
 // ***********************************************************************
-function dashToCamelCase (myString) {
+function dashToCamelCase(myString) {
   return myString.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
 };
 // ***********************************************************************
 // camelCaseString to dash-string
 // ***********************************************************************
-function camelCaseToDash (myString) {
+function camelCaseToDash(myString) {
   return myString.replace(/([a-z][A-Z])/g, function (g) { return g[0] + '-' + g[1].toLowerCase() });
 };
 // ***********************************************************************
@@ -199,42 +199,3 @@ function getDefaultAjaxBody(args) {
     args['async'] = true;
   return args;
 }
-
-//Stolen from: https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications
-function sendFile(file, documentUrl) {
-  return new Promise(function(resolve, reject) {
-    var xhr = new XMLHttpRequest();
-    var fd = new FormData();
-    // document url provided from PHP
-    xhr.open("POST", documentUrl, true);
-    xhr.onreadystatechange = function() {
-      if(xhr.readyState == 4 && xhr.status == 200) {
-        resolve(JSON.parse(xhr.responseText));
-      }
-    };
-    fd.append('file', file);
-    xhr.send(fd);
-  });
-};
-function postDocument(fileInputId) {
-  var promises = [];
-  var element = document.getElementById(fileInputId);
-  // docType represents a subfolder in the file storage directory
-  //  ie - "disabled" or "resume"
-  var docType = element.getAttribute('name');
-  if (element && element.files[0]) {
-    promises.push(sendFile(element.files[0], `${apiUrl}docs/${docType}/upload`));
-    Promise.all(promises).then(function(results) {
-      console.log('back from all promises', results);
-      if(promises.length >= 1) {
-        results.forEach(function(resultOb) {
-          if(resultOb.result.files && resultOb.result.files.file[0].container) {
-            // cat[resultOb.result.files.file[0].container] = resultOb.result.files.file[0].name;
-            console.log('File Name: ' + resultOb.result.files.file[0].name);
-          }
-        });
-      }
-      
-    });
-  };
-};
