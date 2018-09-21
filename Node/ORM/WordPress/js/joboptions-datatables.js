@@ -502,7 +502,7 @@ function editPreviousEmployerListener(previousEmployerTable) {
   jQuery('#applicant-previous-employer tbody').on( 'click', 'button', function () {
     var data = previousEmployerTable.row( jQuery(this).parents('tr') ).data();
     console.log(data);
-    var previous-employerType = data.PreviousEmployerType ? data.PreviousEmployerType : '';
+    var previousEmployerType = data.PreviousEmployerType ? data.PreviousEmployerType : '';
     jQuery('#pum-2079 .pum-title').empty().append(`Edit ${previous-employerType}`);
     loadForm('edit-object-popup','[contact-form-7 id="1650"]');
     jQuery('#pum-2079').popmake('open');
