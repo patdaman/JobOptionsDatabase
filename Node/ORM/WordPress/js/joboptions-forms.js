@@ -172,6 +172,7 @@ function changeTextToTextArea($) {
     // new_element.setAttribute('cols', '50');
     new_element.setAttribute('rows', '10');    
     new_element.removeAttribute('value');
+    new_element.innerHTML = textValue;
     obj.parentNode.replaceChild(new_element, obj);
   }).autoResize();
 };
@@ -183,7 +184,7 @@ jQuery(document).ready(function($) {
 });
 function loadDynamicSelect($) {
   jQuery(".wpcf7-select").each(function(i, obj) {
-    if (obj.classList.contains('editable'))
+    if (obj.classList.contains('editable') || obj.classList.contains('not-editable'))
       obj.setAttribute('disabled','');
   });
 }
@@ -309,7 +310,6 @@ function loadForm(elementId, shortcode) {
   var args = getDefaultAjaxBody();
   args['element'] = targetElement;
   args['body'] = body;
-  // args['async'] = false;
   ajaxRequest(args);
 }
 function reloadForm(element, shortcode) {
@@ -319,7 +319,6 @@ function reloadForm(element, shortcode) {
   var args = getDefaultAjaxBody();
   args['element'] = element;
   args['body'] = body;
-  // args['async'] = false;
   ajaxRequest(args);
 }
 
@@ -328,24 +327,21 @@ function reloadForm(element, shortcode) {
 // ***********************************************************************
 function ajaxRequest(args) {
   var body = JSON.parse(JSON.stringify(args['body']));
-  var useAsync = true;
-  if (typeof(args['async']) !== 'undefined' && args['async'] === false)
-    useAsync = false;
   if (typeof(args['element']) !== 'undefined') {
     var element = args['element'];
   }
+  // jQuery(element).empty();
   jQuery.ajax({
     url: ajaxurl,
     type: args['type'],
     data: body,
-    async: useAsync,
     success: function(data) {
       if (typeof handleAjaxFormResponse === 'function' && ( body['action'] === 'load_next' || body['action'] === 'return_shortcode')) {
 	      handleAjaxFormResponse(element, data);
       } else if (body['action'] === 'set_applicant_data') {
         var nextAccordionElement = nextAccordion(element);
         nextForm(body['element-id'], nextAccordionElement, true);
-        handleAjaxApplicantSelectResponse(element);
+        handleAdminEditApplicantResponse(element);
       } else {
         console.log('Ajax data returned \n' + data);
       }
@@ -354,18 +350,6 @@ function ajaxRequest(args) {
       console.log('Error returned from AJAX.: \n'+JSON.stringify(body));
     },
   });
-}
-function handleAjaxApplicantSelectResponse(element) {
-  populateDataTable ('applicant-status','ApplicantStatus','');
-  populateDataTable ('applicant-document','Document','');
-  populateDataTable ('applicant-interview','Note','');
-  populateDataTable ('applicant-note','Note','');
-  populateDataTable ('applicant-alternate-name','AlternateName','');
-  populateDataTable ('applicant-phone','Phone','');
-  //populateDataTable ('applicant-education','Education','');
-  //populateDataTable ('applicant-previous-employer','PreviousEmployer','');
-  //populateDataTable ('applicant-reference','Reference','');
-  //populateDataTable ('applicant-emergency-contact','EmergencyContact','');
 }
 // ***********************************************************************
 // Take form HTML data that was returned via AJAX
@@ -392,7 +376,6 @@ function handleAjaxFormResponse(placeholder, data) {
     el.innerHTML = data;
     var forms = el.querySelectorAll('[role="form"]');
     var nextFormElements = document.querySelectorAll('[class="contact-form"]');
-    // console.log('First Next Form Elements: ' + nextFormElements);
     forms.forEach(function (item, index) {
       if (index === 0) {
         jQuery(placeholder).empty();
@@ -402,8 +385,13 @@ function handleAjaxFormResponse(placeholder, data) {
           jQuery(nextFormElements[index]).empty();
           jQuery(nextFormElements[index]).append(item);
         }
-      }
+      };
     });
+    var modalContent = jQuery(placeholder).closest('.pum-content')[0];
+    if (typeof(modalContent) !== 'undefined') {
+      var modalId = jQuery(modalContent).closest('.pum').attr('id');
+      jQuery(`#${modalId}`).popmake('open');
+    };
   }
   initForms();
 }

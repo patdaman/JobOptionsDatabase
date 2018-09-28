@@ -6,6 +6,7 @@
     [Address]         VARCHAR (512) NULL,
     [Business]        VARCHAR (256) NULL,
     [YearsAcquainted] VARCHAR (50)  NULL,
+    [Note]            VARCHAR (MAX) NULL,
     [CreateDate]      DATETIME2 (0) NOT NULL,
     [CreateUser]      VARCHAR (128) CONSTRAINT [DF_Reference_CreateUser] DEFAULT (suser_sname()) NOT NULL,
     [ModifyDate]      DATETIME2 (0) NOT NULL,
@@ -14,6 +15,8 @@
     CONSTRAINT [FK_Reference_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT [FK_Reference_Application] FOREIGN KEY ([ApplicationId]) REFERENCES [dbo].[Application] ([id]) ON DELETE SET NULL ON UPDATE CASCADE
 );
+
+
 
 
 

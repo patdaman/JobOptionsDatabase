@@ -107,6 +107,13 @@
     <Build Include="Tables\ApplicantLocation.sql" />
     <Build Include="Tables\ApplicantPosition.sql" />
     <Build Include="Tables\ApplicantStatus.sql" />
+    <Build Include="Tables\TitleCodeTypes.sql" />
+    <Build Include="Tables\SpecialtyCodeTypes.sql" />
+    <Build Include="Tables\Site.sql" />
+    <Build Include="Tables\SectionTaskCodeTypes.sql" />
+    <Build Include="Tables\QuestionTypes.sql" />
+    <Build Include="Tables\Interview.sql" />
+    <Build Include="Tables\CaseCodeTypes.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\project_databaseserver.scmp" />
