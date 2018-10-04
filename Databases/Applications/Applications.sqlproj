@@ -107,13 +107,18 @@
     <Build Include="Tables\ApplicantLocation.sql" />
     <Build Include="Tables\ApplicantPosition.sql" />
     <Build Include="Tables\ApplicantStatus.sql" />
-    <Build Include="Tables\TitleCodeTypes.sql" />
-    <Build Include="Tables\SpecialtyCodeTypes.sql" />
     <Build Include="Tables\Site.sql" />
     <Build Include="Tables\SectionTaskCodeTypes.sql" />
     <Build Include="Tables\QuestionTypes.sql" />
     <Build Include="Tables\Interview.sql" />
     <Build Include="Tables\CaseCodeTypes.sql" />
+    <Build Include="Tables\TitleCodes.sql" />
+    <Build Include="Tables\StateTypes.sql" />
+    <Build Include="Tables\SpecialtyCodes.sql" />
+    <Build Include="Tables\DisabilityTypes.sql" />
+    <Build Include="Tables\CodeTypes.sql" />
+    <Build Include="Tables\ApplicantDisabilityCode.sql" />
+    <Build Include="Tables\ApplicantDisability.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\project_databaseserver.scmp" />

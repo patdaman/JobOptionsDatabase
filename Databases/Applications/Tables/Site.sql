@@ -68,8 +68,10 @@
     CONSTRAINT [SSMA_CC$Sites$SitePoint of Contact$disallow_zero_length] CHECK (len([SitePoint of Contact])>(0)),
     CONSTRAINT [SSMA_CC$Sites$ST$disallow_zero_length] CHECK (len([ST])>(0)),
     CONSTRAINT [SSMA_CC$Sites$Zip$disallow_zero_length] CHECK (len([Zip])>(0)),
-    CONSTRAINT [Site${956BAD58-6F8B-4878-8965-14A6146A6145}] FOREIGN KEY ([DivisionCode]) REFERENCES [dbo].[SpecialtyCodeTypes] ([Code])
+    CONSTRAINT [Site${956BAD58-6F8B-4878-8965-14A6146A6145}] FOREIGN KEY ([DivisionCode]) REFERENCES [dbo].[SpecialtyCodes] ([Code])
 );
+
+
 
 
 GO

@@ -4,11 +4,11 @@
     [Level]         VARCHAR (128) NOT NULL,
     [Name]          VARCHAR (256) NULL,
     [YearsAttended] FLOAT (53)    NULL,
-    [Graduate]      BIT           CONSTRAINT [DF_Education_Graduate] DEFAULT ((0)) NULL,
+    [Graduated]     BIT           CONSTRAINT [DF_Education_Graduate] DEFAULT ((0)) NULL,
     [Subjects]      VARCHAR (256) NULL,
     [DegreeType]    VARCHAR (50)  NULL,
     [Major]         VARCHAR (128) NULL,
-    [GPA]           FLOAT (53)    NULL,
+    [GPA]           VARCHAR (8)   NULL,
     [City]          VARCHAR (128) NULL,
     [State]         VARCHAR (50)  NULL,
     [Zip]           VARCHAR (50)  NULL,
@@ -21,6 +21,8 @@
     CONSTRAINT [PK_Education] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_Education_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+
 
 
 

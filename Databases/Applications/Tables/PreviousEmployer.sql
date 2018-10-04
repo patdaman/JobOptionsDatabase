@@ -10,7 +10,7 @@
     [SupervisorTitle]      VARCHAR (128) NULL,
     [SupervisorDepartment] VARCHAR (128) NULL,
     [SupervisorPhone]      VARCHAR (128) NULL,
-    [SupervisorContact]    BIT           CONSTRAINT [DF_PreviousEmployer_SupervisorContact] DEFAULT ((1)) NULL,
+    [CanContact]           BIT           CONSTRAINT [DF_PreviousEmployer_SupervisorContact] DEFAULT ((1)) NULL,
     [CreateDate]           DATETIME2 (0) CONSTRAINT [DF_PreviousEmployer_CreateDate] DEFAULT (getdate()) NOT NULL,
     [CreateUser]           VARCHAR (128) CONSTRAINT [DF_PreviousEmployer_CreateUser] DEFAULT (suser_sname()) NOT NULL,
     [ModifyDate]           DATETIME2 (0) CONSTRAINT [DF_PreviousEmployer_ModifyDate] DEFAULT (getdate()) NOT NULL,
@@ -18,6 +18,8 @@
     CONSTRAINT [PK_PreviousEmployer] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_PreviousEmployer_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+
 
 
 
