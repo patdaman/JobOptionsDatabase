@@ -2,7 +2,7 @@
 /* *****  DataTable Grid for Admin Page - Applicant Search Accordion  ***** */
 /* ************************************************************************ */
 function initApplicantSearch(data) {
-  var table = jQuery('#applicant-search').DataTable({
+  jQuery('#applicant-search').DataTable({
     data: data,
     dom: '<lf <t>ipS>',
     paging: true,
@@ -37,7 +37,7 @@ function initApplicantSearch(data) {
         },
       },
       { title: "Application #", data: "ApplicationId", visible: false, searchable: false, className: "export" },
-      { title: "Phone Number", type: "phoneNumber", data: "PhoneNumbers", orderable: false, className: "phoneField export" },
+      { title: "Phone Number", type: "phoneNumber", data: "PhoneNumbers", orderable: false, searchable: true, className: "phoneField export" },
       { title: "Email", data: "Email", orderable: false, className: "export" },
       { title: "Disabled", data: "Disabled", searchable: false, orderable: false, className: "export" },
       {
@@ -81,19 +81,18 @@ function initApplicantSearch(data) {
     // order: (['ApplicationDate', 'asc'], ['AvailableDate', 'asc'], ['ApplicantId', 'asc']),
     initComplete: function () {
       addFiltersToColumns(this.api());
-      addSelectTableListener(this.DataTable());
+      tableSelectListener(this.DataTable(), 'editApplicant');
       addSelectTableButtons(this.DataTable());
     },
   });
-  return table;
 };
 function addFiltersToColumns(tableApi) {
   tableApi.columns([8, 11, 12, 13, 14, 15]).every(function () {
-    var column = this;
-    var select = jQuery('<select><option value="">All</option></select>')
+    let column = this;
+    let select = jQuery('<select><option value="">All</option></select>')
       .appendTo(jQuery(column.header()))
       .on('change', function () {
-        var val = jQuery.fn.dataTable.util.escapeRegex(
+        let val = jQuery.fn.dataTable.util.escapeRegex(
           jQuery(this).val()
         );
         column
@@ -105,32 +104,19 @@ function addFiltersToColumns(tableApi) {
     });
   });
 };
-function addSelectTableListener(table) {
-  table.on('select', function (e, dt, type, indexes) {
-    var row = table.row(indexes[0].row)
-    var columnNumber = indexes[0].column;
-    if (debug)
-      console.log(`Column Number Selected: ${columnNumber}`);
-    if (columnNumber === 1) {
-      console.log('detail modal id: ' + detailModalId);
-      displayRowDetailModal(dt, indexes);
-    } else {
-      editApplicant(row);
-    };
-  });
-};
 function handleAdminEditApplicantResponse() {
-  populateDataTable ('applicant-alternate-name','AlternateName','');
-  populateDataTable ('applicant-phone','Phone','');
-  populateDataTable ('applicant-address','Address','');
-  populateDataTable ('applicant-education','Education','');
-  populateDataTable ('applicant-previous-employer','PreviousEmployer','');
-  populateDataTable ('applicant-reference','Reference','');
-  populateDataTable ('applicant-emergency-contact','EmergencyContact','');
-  populateDataTable ('applicant-status','ApplicantStatus','');
-  populateDataTable ('applicant-document','Document','');
-  populateDataTable ('applicant-interview','Interview','');
-  populateDataTable ('applicant-note','Note','');
+  populateDataTable ('applicant-alternate-name-table','AlternateName','');
+  populateDataTable ('applicant-phone-table','Phone','');
+  populateDataTable ('applicant-address-table','Address','');
+  populateDataTable ('applicant-education-table','Education','');
+  populateDataTable ('applicant-previous-employer-table','PreviousEmployer','');
+  populateDataTable ('applicant-reference-table','Reference','');
+  populateDataTable ('applicant-emergency-contact-table','EmergencyContact','');
+  populateDataTable ('applicant-status-table','ApplicantStatus','');
+  populateDataTable ('applicant-document-table','Document','');
+  populateDataTable ('applicant-interview-table','Interview','');
+  populateDataTable ('applicant-note-table','Note','');
+  populateDataTable ('applicant-disability-table','ApplicantDisability','');
 }
 function addSelectTableButtons(selectTable) {
   new jQuery.fn.dataTable.Buttons(selectTable, {
@@ -166,7 +152,7 @@ function addSelectTableButtons(selectTable) {
               modifier: {
                 title: 'Applicants',
                 createEmptyCells: 'true',
-                fieldSeparator: exportFieldSeparator
+                fieldSeparator: exportVars['fieldSeparator']
               }
             },
             filename: function () {
@@ -192,7 +178,7 @@ function addSelectTableButtons(selectTable) {
             extend: 'copy',
             text: 'Copy',
             title: null,
-            fieldSeparator: exportFieldSeparator,
+            fieldSeparator: exportVars['fieldSeparator'],
             exportOptions: {
               columns: '.export',
             },
@@ -218,12 +204,14 @@ function addSelectTableButtons(selectTable) {
     .appendTo(jQuery('.dataTables_length'), selectTable.table().container());
 };
 function editApplicant(row) {
-  var body = {};
+  adminVars['applicantId'] = row.data()['ApplicantId'];
+  adminVars['applicationId'] = row.data()['ApplicationId'];
+  let body = {};
   body['action'] = 'set_applicant_data';
   body['applicant-id'] = row.data()['ApplicantId'];
   body['application-id'] = row.data()['ApplicationId'];
   body['element-id'] = 'applicant-search';
-  var args = getDefaultAjaxBody();
+  let args = getDefaultAjaxBody();
   args['element'] = jQuery("#applicant-search_wrapper")[0];
   args['body'] = body;
   ajaxRequest(args);

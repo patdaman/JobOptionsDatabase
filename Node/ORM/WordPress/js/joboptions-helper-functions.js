@@ -2,22 +2,24 @@
 
 
 function getFormattedDate(dateString, time) {
-  var date = new Date(dateString);
-  var year = date.getFullYear();
-  var month = (1 + date.getMonth()).toString();
+  if (!dateString)
+    return '';
+  let date = new Date(dateString);
+  let year = date.getFullYear();
+  let month = (1 + date.getMonth()).toString();
   month = month.length > 1 ? month : '0' + month;
-  var day = date.getDate().toString();
+  let day = date.getDate().toString();
   day = day.length > 1 ? day : '0' + day;
-  var dateString;
+  let newDateString;
   if (time === true) {
-    var hours = date.getHours();
+    let hours = date.getHours();
     hours = hours.length > 1 ? hours : '0' + hours;
-    var minutes = date.getMinutes();
-    dateString = `${year}-${month}-${day}_${hours}-${minutes}`;
+    let minutes = date.getMinutes();
+    newDateString = `${year}-${month}-${day}_${hours}-${minutes}`;
   } else {
-    dateString = `${month}-${day}-${year}`;
+    newDateString = `${month}-${day}-${year}`;
   }
-  return dateString;
+  return newDateString;
 };
 
 function getFullName(firstName, middleName, lastName) {
@@ -33,14 +35,14 @@ function getFullName(firstName, middleName, lastName) {
 // Keep current active accordion item open
 // ***************************************
 jQuery(document).ready(function ($) {
-  //  var active = $(".et_pb_accordion_item .et_pb_toggle_open");
-  //  var accordion = findAncestor(active, 'et_pb_accordion');
-  //  var accordionClasses = Object.values(active.classList);
-  //  var accordionClass = findSubStringInArray(accordionClasses, 'et_pb_accordion_item_');
+  //  let active = $(".et_pb_accordion_item .et_pb_toggle_open");
+  //  let accordion = findAncestor(active, 'et_pb_accordion');
+  //  let accordionClasses = Object.values(active.classList);
+  //  let accordionClass = findSubStringInArray(accordionClasses, 'et_pb_accordion_item_');
 
   //  accordionClass = accordionClasses[3];
 
-  var $activeId = $('.et_pb_accordion_item .et_pb_toggle_open').attr('id');
+  let $activeId = $('.et_pb_accordion_item .et_pb_toggle_open').attr('id');
   //    console.log('ActiveId: ' + $activeId + ' Active: ' + $active);
   //    Cookies.set('activeAccordionGroup', $active, { path: '' });
 
@@ -51,8 +53,8 @@ jQuery(document).ready(function ($) {
     //Cookies.set('activeAccordionGroup', $this, {path: ''});
   });
 
-  // var last = $.cookie('activeAccordionGroup');
-  var $last = Cookies.get('activeAccordionGroup');
+  // let last = $.cookie('activeAccordionGroup');
+  let $last = Cookies.get('activeAccordionGroup');
   // console.log($last);
   //	if ($last != null && $active != $last) {
   //		$active.removeClass('.et_pb_toggle_open').addClass(".et_pb_toggle_closed");
@@ -64,24 +66,24 @@ jQuery(document).ready(function ($) {
 // ***********************************************************************
 function nextAccordion(activeAccordion) {
   try {
-    var skipNumber = 1;
-    var toggleParent = findAncestor(activeAccordion, 'et_pb_toggle');
-    var accordion = findAncestor(toggleParent, 'et_pb_accordion');
-    var accordionClasses = Object.values(toggleParent.classList);
+    let skipNumber = 1;
+    let toggleParent = findAncestor(activeAccordion, 'et_pb_toggle');
+    let accordion = findAncestor(toggleParent, 'et_pb_accordion');
+    let accordionClasses = Object.values(toggleParent.classList);
 
     // *************************
     // TODO:
     // Why is this returning the first value in the array??
-    var accordionClass = findSubStringInArray(accordionClasses, 'et_pb_accordion_item_');
+    let accordionClass = findSubStringInArray(accordionClasses, 'et_pb_accordion_item_');
     // console.log(accordionClass);
     //  hard coded:
     accordionClass = accordionClasses[3];
     // *************************
-    var accordionNumber = Number(accordionClass.slice(-1));
-    var nextAccordionNumber = accordionNumber + skipNumber;
-    var nextAccordionItem = 'et_pb_accordion_item_' + nextAccordionNumber;
-    var nextAccordion = findChildByClassName(accordion, nextAccordionItem);
-    var nextAccordionTitle = findChildByClassName(nextAccordion, 'et_pb_toggle_title');
+    let accordionNumber = Number(accordionClass.slice(-1));
+    let nextAccordionNumber = accordionNumber + skipNumber;
+    let nextAccordionItem = 'et_pb_accordion_item_' + nextAccordionNumber;
+    let nextAccordion = findChildByClassName(accordion, nextAccordionItem);
+    let nextAccordionTitle = findChildByClassName(nextAccordion, 'et_pb_toggle_title');
     nextAccordionTitle.click();
     return nextAccordion;
   } catch (err) {
@@ -94,8 +96,8 @@ function nextAccordion(activeAccordion) {
 // ***********************************************************************
 function closeToggle(button) {
   try {
-    var toggleArea = findAncestor(button, 'et_pb_module');
-    var toggleTitle = findChildByClassName(nextAccordion, 'et_pb_toggle_title');
+    let toggleArea = findAncestor(button, 'et_pb_module');
+    let toggleTitle = findChildByClassName(nextAccordion, 'et_pb_toggle_title');
     toggleTitle.click();
   } catch (err) {
     console.log(err.message);
@@ -107,16 +109,16 @@ function closeToggle(button) {
 // ***********************************************************************
 function nextTab(button) {
   try {
-    var skipNumber = 1;
-    var tabValueArea = findAncestor(button, 'et_pb_tab');
-    var tabModule = findAncestor(tabValueArea, 'et_pb_module');
-    var tabClasses = Object.values(tabValueArea.classList);
-    var tabClass = findSubStringInArray(tabClasses, 'et_pb_tab_');
-    var tabNumber = Number(tabClass.slice(-1));
-    var nextTabNumber = tabNumber + skipNumber;
-    var newTab = 'et_pb_tab_' + nextTabNumber;
-    var tabControls = tabModule.getElementsByClassName('et_pb_tabs_controls')[0];
-    var tab = findChildByClassName(tabControls, newTab);
+    let skipNumber = 1;
+    let tabValueArea = findAncestor(button, 'et_pb_tab');
+    let tabModule = findAncestor(tabValueArea, 'et_pb_module');
+    let tabClasses = Object.values(tabValueArea.classList);
+    let tabClass = findSubStringInArray(tabClasses, 'et_pb_tab_');
+    let tabNumber = Number(tabClass.slice(-1));
+    let nextTabNumber = tabNumber + skipNumber;
+    let newTab = 'et_pb_tab_' + nextTabNumber;
+    let tabControls = tabModule.getElementsByClassName('et_pb_tabs_controls')[0];
+    let tab = findChildByClassName(tabControls, newTab);
     tab.click();
   } catch (err) {
     console.log(err.message);
@@ -142,7 +144,7 @@ function findAncestor(el, className) {
 // Find the first child matching class 'className' starting at element 'el'
 // ************************************************************************
 function findChildByClassName(el, className) {
-  for (var i = 0; i < el.childNodes.length; i++) {
+  for (let i = 0; i < el.childNodes.length; i++) {
     if (el.childNodes[i].classList) {
       if (el.childNodes[i].classList.contains(className))
         return el.childNodes[i];
@@ -174,9 +176,9 @@ function camelCaseToDash(myString) {
 // Refresh entire page
 // ***********************************************************************
 function refreshPage() {
-  var body = {};
+  let body = {};
   body['action'] = 'refresh_session';
-  var args = getDefaultAjaxBody();
+  let args = getDefaultAjaxBody();
   args['body'] = body;
   ajaxRequest(args);
   window.location.reload();

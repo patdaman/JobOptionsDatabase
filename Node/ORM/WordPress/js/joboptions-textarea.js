@@ -1,96 +1,121 @@
-/*
- * jQuery autoResize (textarea auto-resizer)
- * @copyright James Padolsey http://james.padolsey.com
- * @version 1.04
- */
-
-(function($){
-    
-    $.fn.autoResize = function(options) {
-        
-        // Just some abstracted details,
-        // to make plugin users happy:
-        var settings = $.extend({
-            onResize : function(){},
-            animate : true,
-            animateDuration : 150,
-            animateCallback : function(){},
-            extraSpace : 20,
-            limit: 1000
-        }, options);
-        
-        // Only textarea's auto-resize:
-        this.filter('textarea').each(function(){
+;(function($){    
+    //pass in just the context as a $(obj) or a settings JS object
+    $.fn.autogrow = function(opts) {
+        var that = $(this).css({overflow: 'hidden', resize: 'none'}) //prevent scrollies
+            , selector = that.selector
+            , defaults = {
+                context: $(document) //what to wire events to
+                , animate: true //if you want the size change to animate
+                , speed: 200 //speed of animation
+                , fixMinHeight: true //if you don't want the box to shrink below its initial size
+                , cloneClass: 'autogrowclone' //helper CSS class for clone if you need to add special rules
+                , onInitialize: false //resizes the textareas when the plugin is initialized
+            }
+        ;
+        opts = $.isPlainObject(opts) ? opts : {context: opts ? opts : $(document)};
+        opts = $.extend({}, defaults, opts);
+        that.each(function(i, elem){
+            var min, clone;
+            elem = $(elem);
+            //if the element is "invisible", we get an incorrect height value
+            //to get correct value, clone and append to the body. 
+            if (elem.is(':visible') || parseInt(elem.css('height'), 10) > 0) {
+                min = parseInt(elem.css('height'), 10) || elem.innerHeight();
+            } else {
+                clone = elem.clone()
+                    .addClass(opts.cloneClass)
+                    .val(elem.val())
+                    .css({
+                        position: 'absolute'
+                        , visibility: 'hidden'
+                        , display: 'block'
+                    })
+                ;
+                $('body').append(clone);
+                min = clone.innerHeight();
+                clone.remove();
+            }
+            if (opts.fixMinHeight) {
+                elem.data('autogrow-start-height', min); //set min height                                
+            }
+            elem.css('height', min);
             
-                // Get rid of scrollbars and disable WebKit resizing:
-            var textarea = $(this).css({resize:'none','overflow-y':'hidden'}),
-            
-                // Cache original height, for use later:
-                origHeight = textarea.height(),
-                
-                // Need clone of textarea, hidden off screen:
-                clone = (function(){
-                    
-                    // Properties which may effect space taken up by chracters:
-                    var props = ['height','width','lineHeight','textDecoration','letterSpacing'],
-                        propOb = {};
-                        
-                    // Create object of styles to apply:
-                    $.each(props, function(i, prop){
-                        propOb[prop] = textarea.css(prop);
-                    });
-                    
-                    // Clone the actual textarea removing unique properties
-                    // and insert before original textarea:
-                    return textarea.clone().removeAttr('id').removeAttr('name').css({
-                        position: 'absolute',
-                        top: 0,
-                        left: -9999
-                    }).css(propOb).attr('tabIndex','-1').insertBefore(textarea);
-					
-                })(),
-                lastScrollTop = null,
-                updateSize = function() {
-					
-                    // Prepare the clone:
-                    clone.height(0).val($(this).val()).scrollTop(10000);
-					
-                    // Find the height of text:
-                    var scrollTop = Math.max(clone.scrollTop(), origHeight) + settings.extraSpace,
-                        toChange = $(this).add(clone);
-						
-                    // Don't do anything if scrollTip hasen't changed:
-                    if (lastScrollTop === scrollTop) { return; }
-                    lastScrollTop = scrollTop;
-					
-                    // Check for limit:
-                    if ( scrollTop >= settings.limit ) {
-                        $(this).css('overflow-y','');
-                        return;
-                    }
-                    // Fire off callback:
-                    settings.onResize.call(this);
-					
-                    // Either animate or directly apply height:
-                    settings.animate && textarea.css('display') === 'block' ?
-                        toChange.stop().animate({height:scrollTop}, settings.animateDuration, settings.animateCallback)
-                        : toChange.height(scrollTop);
-                };
-            
-            // Bind namespaced handlers to appropriate events:
-            textarea
-                .unbind('.dynSiz')
-                .bind('keyup.dynSiz', updateSize)
-                .bind('keydown.dynSiz', updateSize)
-                .bind('change.dynSiz', updateSize);
-            
+            if (opts.onInitialize && elem.length) {
+                resize.call(elem[0]);
+            }
         });
-        
-        // Chain:
-        return this;
-        
-    };
+        opts.context
+            .on('keyup paste', selector, resize)
+        ;
     
-    
-    
+        function resize (e){
+            var box = $(this)
+                , oldHeight = box.innerHeight()
+                , newHeight = this.scrollHeight
+                , minHeight = box.data('autogrow-start-height') || 0
+                , clone
+            ;
+            if (oldHeight < newHeight) { //user is typing
+                this.scrollTop = 0; //try to reduce the top of the content hiding for a second
+                if(opts.animate) {
+                    box.stop().animate({height: newHeight}, {duration: opts.speed, complete: notifyGrown});
+                } else {
+                    box.innerHeight(newHeight);
+                    notifyGrown();
+                }
+                
+            } else if (!e || e.which == 8 || e.which == 46 || (e.ctrlKey && e.which == 88)) { //user is deleting, backspacing, or cutting
+                if (oldHeight > minHeight) { //shrink!
+                    //this cloning part is not particularly necessary. however, it helps with animation
+                    //since the only way to cleanly calculate where to shrink the box to is to incrementally
+                    //reduce the height of the box until the $.innerHeight() and the scrollHeight differ.
+                    //doing this on an exact clone to figure out the height first and then applying it to the
+                    //actual box makes it look cleaner to the user
+                    clone = box.clone()
+                        //add clone class for extra css rules
+                        .addClass(opts.cloneClass)
+                        //make "invisible", remove height restriction potentially imposed by existing CSS
+                        .css({position: 'absolute', zIndex:-10, height: ''}) 
+                        //populate with content for consistent measuring
+                        .val(box.val()) 
+                    ;
+                    box.after(clone); //append as close to the box as possible for best CSS matching for clone
+                    do { //reduce height until they don't match
+                        newHeight = clone[0].scrollHeight - 1;
+                        clone.innerHeight(newHeight);
+                    } while (newHeight === clone[0].scrollHeight);
+                    newHeight++; //adding one back eliminates a wiggle on deletion 
+                    clone.remove();
+                    box.focus(); // Fix issue with Chrome losing focus from the textarea.
+                    
+                    //if user selects all and deletes or holds down delete til beginning
+                    //user could get here and shrink whole box
+                    newHeight < minHeight && (newHeight = minHeight);
+                    if(oldHeight > newHeight) {
+                        if(opts.animate) {
+                            box.stop().animate({height: newHeight}, {duration: opts.speed, complete: notifyShrunk});
+                        } else {
+                            box.innerHeight(newHeight);
+                            notifyShrunk();
+                        }
+                    }
+                    
+                } else { //just set to the minHeight
+                    box.innerHeight(minHeight);
+                }
+            } 
+        }
+
+        // Trigger event to indicate a textarea has grown.
+        function notifyGrown() {
+            opts.context.trigger('autogrow:grow');
+        }
+
+        // Trigger event to indicate a textarea has shrunk.
+        function notifyShrunk() {
+            opts.context.trigger('autogrow:shrink');
+        }
+
+        return that;
+    }
 })(jQuery);
