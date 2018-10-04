@@ -5,4 +5,9 @@
 node_modules
 *.dbmdl
 *.jfm
-Node/ORM/JobOptionsApi/common/models/
+Node/ORM/JobOptionsApi/common/models/*.*
+Node/ORM/JobOptionsApi/documents/
+Databases/.vs/config/applicationhost.config
+Databases/.vs/JobOptions_Db/v15/.suo
+.vs/slnx.sqlite
+.vs/VSWorkspaceState.json

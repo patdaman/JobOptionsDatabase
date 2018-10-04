@@ -125,5 +125,53 @@
   "Note": {
     "dataSource": "Applications",
     "public": true
+  },
+  "CaseCodeTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "Interview": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "QuestionTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "Site": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "SectionTaskCodeTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "SpecialtyCodeTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "StateTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "ApplicantDisability": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "DisabilityTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "SpecialtyCodes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "TitleCodes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "ApplicantDisabilityCode": {
+    "dataSource": "Applications",
+    "public": true
   }
 }
