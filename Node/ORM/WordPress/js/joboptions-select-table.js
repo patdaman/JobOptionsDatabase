@@ -117,7 +117,7 @@ function handleAdminEditApplicantResponse() {
   populateDataTable ('applicant-interview-table','Interview','');
   populateDataTable ('applicant-note-table','Note','');
   populateDataTable ('applicant-disability-table','ApplicantDisability','');
-}
+};
 function addSelectTableButtons(selectTable) {
   new jQuery.fn.dataTable.Buttons(selectTable, {
     buttons: [

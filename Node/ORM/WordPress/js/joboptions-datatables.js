@@ -546,18 +546,44 @@ function initApplicantDocumentTable(data) {
     ],
     initComplete: function () {
       addButtons(this.DataTable(), 'New Document', adminAddForms['document']);
-      viewDocumentListener(this.DataTable());
+      // viewDocumentListener(this.DataTable());
+      documentTableSelectListener(this.DataTable());
     }
   });
 };
 function viewDocumentListener(documentTable) {
-  jQuery('#applicant-document tbody').on('click', 'button', function () {
-    let data = documentTable.row(jQuery(this).parents('tr')).data();
+  jQuery('#applicant-document-table tbody').on('click', 'button', function () {
+    var cell = documentTable.cell( { selected: true } );
+    console.log(cell);
+    // var idx = table.cell('.selected', 0).index();
+    let row = documentTable.row(jQuery(this).parents('tr'));
+    if (idx[0].column < 2)
+      return editDocument(row);
+    let data = row.data();
     let fileName = data.FileName;
     let documentId = data.id;
     let popUpWindow = window.open("", "", "height=500,width=720,menubar=no");
     let test1 = apiUrl + "Docs/disability/download/" + fileName;
     popUpWindow.document.write('<iframe allowTransparency="true" frameborder="0" scrolling="yes" style="width:100%;height:100%" src="' + test1 + '" type= "text/javascript"></iframe>');
+  });
+};
+function documentTableSelectListener(table) {
+  table.on('select', function (e, dt, type, indexes) {
+    let row = table.row(indexes[0].row);
+    let columnNumber = indexes[0].column;
+    table.cell(indexes).deselect();
+    if (debug)
+      console.log(`Column Number Selected: ${columnNumber}`);
+    if (columnNumber < 2) {
+      let data = row.data();
+      let fileName = data.FileName;
+      let documentId = data.id;
+      let popUpWindow = window.open("", "", "height=500,width=720,menubar=no");
+      let test1 = apiUrl + "Docs/disability/download/" + fileName;
+      popUpWindow.document.write('<iframe allowTransparency="true" frameborder="0" scrolling="yes" style="width:100%;height:100%" src="' + test1 + '" type= "text/javascript"></iframe>');
+    } else {
+      editDocument(row);
+    };
   });
 };
 function editDocument(row) {
@@ -703,10 +729,10 @@ function initApplicantDisabilityTable(data) {
       // { title: "Code", data: "DisabilityCode", className: "export", orderable: true, searchable: true },
       { data: null, defaultContent: "<button>Edit</button>", orderable: false, searchable: false, width: "1em", className: "edit-button" },
       {
-        title: "Authorized", data: "Authorized", className: "export", orderable: false, searchable: false,
+        title: "Approved", data: "Approved", className: "export", orderable: false, searchable: false,
         render: function (data, type, row, meta) {
-          return data === 1 ? '&#10004;' : '';
-          // return data === true ? '&#10004;' : '';
+          // return data === 1 ? '&#10004;' : '';
+          return data === true ? '&#10004;' : '';
         }
       },
       {

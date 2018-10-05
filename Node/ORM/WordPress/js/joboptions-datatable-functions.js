@@ -74,12 +74,15 @@ function displayRowChildren(table, indexes) {
   let row = table.row(indexes[0].row);
   if (row.child.isShown()) {
     row.child.hide();
-    // row.removeClass('shown');
     jQuery(row).removeClass('shown');
   } else {
     let args = getChildRequestArgs(row.data());
-    row.child(format(args));
-    // row.addClass('shown');
+    format(args, row.child);
+    // const tmpRow = table.row.add(row.data()).draw().node(),
+    //   childNode = jQuery(tmpRow).clone(true);
+    // row.child(childNode).show();
+    row.child.show();
+    // table.row(tmpRow).remove().draw();
     jQuery(row).addClass('shown');
   }
 };
@@ -92,7 +95,7 @@ function getChildRequestArgs(data) {
   if (data['id'])
     body['id'] = data['id'];
   // if (data['id'])
-    body['child-object'] = 'ApplicantDisabilityCode';
+  body['child-object'] = 'applicant-disability-code';
   if (debug)
     console.log(`Table Load Children of Object Name: ${body['object']}, id: ${body['id']}`);
   let args = getDefaultAjaxBody();
@@ -101,31 +104,41 @@ function getChildRequestArgs(data) {
   return args;
 }
 // function format(callback, args) {
-function format(args) {
+function format(args, callback) {
   let div = jQuery('<div/>').addClass('loading').text('Loading...');
   jQuery.ajax({
     // serverSide: true,
     url: ajaxurl,
-    type: args['type'],
+    dataType: 'json',
+    type: 'POST',
+    // type: args['type'],
     cache: false,
-    data: args['body'],
+    data: JSON.parse(JSON.stringify(args['body'])),
     success: function (data) {
-      let data = JSON.parse(response.responseText);
       if (debug)
         console.log(data);
-      let tbody = "";
-      $.each(data.data, function (index, value) {
-        tbody += "<tr><td>" + value.Code + " testingtesting " + value.Description + "this is data" + data + " and function( " + index + " ," + value + ")</td></tr>";
+      let json;
+      if (data && data !== '[]')
+        json = JSON.parse(data);
+      // if (!data || data == '[]' || Object.keys(data).length === 0) {
+      if (!json || json.length === 0) {
+        alert(`No ${args['body']['child-object'] ? args['body']['child-object'] + ' ' : ''}child row returned`);
+        return;
+      };
+      let tbody = "<tr><strong><td>Code</td><td>Description</td><td>Category</td></strong></tr>";
+      jQuery.each(json, function (index, value) {
+        console.log(`Index: ${index} Value: ${value}`);
+        tbody += "<tr><td>" + value['Code'] + "</td><td>" + value['Description'] + "</td><td>" + value['Category'] + "</td></tr>";
       });
       if (debug === true)
         console.log("<table>" + tbody + "</table>");
-      callback($("<table>" + tbody + "</table>")).show();
+      callback(jQuery("<table>" + tbody + "</table>")).show();
     },
     error: function (err) {
-      console.log('Error returned from AJAX.: \n' + JSON.stringify(args['body']));
+      console.log('Error returned from AJAX: ' + err.message + '\n' + 'Body of message: ' + JSON.stringify(args['body']));
     },
   });
-  return div;
+  // return div;
 };
 function displayRowDetailModal(table, indexes) {
   let rowRenderedData = table.cells(indexes[0].row, '').render('display'),
