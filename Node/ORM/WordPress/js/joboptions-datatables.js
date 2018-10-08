@@ -6,7 +6,7 @@ function initApplicantAlternateNameTable(data) {
     data.forEach(function (obj) {
       if (!obj.Object) {
         obj.Object = "AlternateName",
-        obj.ObjectTitle ="Alternate Name Detail";
+          obj.ObjectTitle = "Alternate Name Detail";
       };
     });
   jQuery('#applicant-alternate-name-table').DataTable({
@@ -48,6 +48,7 @@ function initApplicantAlternateNameTable(data) {
     initComplete: function () {
       addButtons(this.DataTable(), 'Add Name', adminAddForms['alternateName']);
       tableSelectListener(this.DataTable(), 'editAlternateName');
+      this.DataTable().columns.adjust();
     }
   });
 };
@@ -65,7 +66,7 @@ function initApplicantPhoneTable(data) {
     data.forEach(function (obj) {
       if (!obj.Object) {
         obj.Object = "Phone",
-        obj.ObjectTitle ="Contact Phone Detail";
+          obj.ObjectTitle = "Contact Phone Detail";
       };
     });
   jQuery('#applicant-phone-table').DataTable({
@@ -105,6 +106,7 @@ function initApplicantPhoneTable(data) {
       tableSelectListener(this.DataTable(), 'editPhone');
     }
   });
+  jQuery('#applicant-phone-table').DataTable().columns.adjust();
 };
 function editPhone(row) {
   let data = row.data();
@@ -120,7 +122,7 @@ function initApplicantAddressTable(data) {
     data.forEach(function (obj) {
       if (!obj.Object) {
         obj.Object = "Address",
-        obj.ObjectTitle ="Address Detail";
+          obj.ObjectTitle = "Address Detail";
       };
     });
   jQuery('#applicant-address-table').DataTable({
@@ -175,7 +177,7 @@ function initApplicantEducationTable(data) {
     data.forEach(function (obj) {
       if (!obj.Object) {
         obj.Object = "Education",
-        obj.ObjectTitle = "Education Detail";
+          obj.ObjectTitle = "Education Detail";
       };
     });
   jQuery('#applicant-education-table').DataTable({
@@ -234,7 +236,7 @@ function initApplicantPreviousEmployerTable(data) {
     data.forEach(function (obj) {
       if (!obj.Object) {
         obj.Object = "PreviousEmployer",
-        obj.ObjectTitle = "Previous Employer Detail";
+          obj.ObjectTitle = "Previous Employer Detail";
       };
     });
   jQuery('#applicant-previous-employer-table').DataTable({
@@ -305,7 +307,7 @@ function initApplicantReferenceTable(data) {
     data.forEach(function (obj) {
       if (!obj.Object) {
         obj.Object = "Reference",
-        obj.ObjectTitle = "Reference Detail";
+          obj.ObjectTitle = "Reference Detail";
       };
     });
   jQuery('#applicant-reference-table').DataTable({
@@ -369,7 +371,7 @@ function initApplicantEmergencyContactTable(data) {
     data.forEach(function (obj) {
       if (!obj.Object) {
         obj.Object = "EmergencyContact",
-        obj.ObjectTitle = "Emergency Contact Detail";
+          obj.ObjectTitle = "Emergency Contact Detail";
       };
     });
   jQuery('#applicant-emergency-contact-table').DataTable({
@@ -430,7 +432,7 @@ function initApplicantStatusTable(data) {
     data.forEach(function (obj) {
       if (!obj.Object) {
         obj.Object = "ApplicantStatus",
-        obj.ObjectTitle = "Status Detail";
+          obj.ObjectTitle = "Status Detail";
       };
     });
   jQuery('#applicant-status-table').DataTable({
@@ -507,7 +509,7 @@ function initApplicantDocumentTable(data) {
     data.forEach(function (obj) {
       if (!obj.Object) {
         obj.Object = "Document",
-        obj.ObjectTitle = "Documents";
+          obj.ObjectTitle = "Documents";
       };
     });
   jQuery('#applicant-document-table').DataTable({
@@ -553,7 +555,7 @@ function initApplicantDocumentTable(data) {
 };
 function viewDocumentListener(documentTable) {
   jQuery('#applicant-document-table tbody').on('click', 'button', function () {
-    var cell = documentTable.cell( { selected: true } );
+    var cell = documentTable.cell({ selected: true });
     console.log(cell);
     // var idx = table.cell('.selected', 0).index();
     let row = documentTable.row(jQuery(this).parents('tr'));
@@ -601,7 +603,7 @@ function initApplicantInterviewTable(data) {
     data.forEach(function (obj) {
       if (!obj.Object) {
         obj.Object = "ApplicantInterview",
-        obj.ObjectTitle = "Interview Details";
+          obj.ObjectTitle = "Interview Details";
       };
     });
   jQuery('#applicant-interview-table').DataTable({
@@ -658,7 +660,7 @@ function initApplicantNoteTable(data) {
     data.forEach(function (obj) {
       if (!obj.Object) {
         obj.Object = "Note",
-        obj.ObjectTitle = "Note Detail";
+          obj.ObjectTitle = "Note Detail";
       };
     });
   jQuery('#applicant-note-table').DataTable({
@@ -703,12 +705,14 @@ function initApplicantNoteTable(data) {
 /* ************************************************************************ */
 /* **************  Applicant Disabilities Admin Table  ******************** */
 /* ************************************************************************ */
+collapsedGroups = {};
 function initApplicantDisabilityTable(data) {
   if (data)
     data.forEach(function (obj) {
-      if (!obj.Object) { {}
-        obj.Object = "ApplicantDisability",
-        obj.ObjectTitle = "ApplicantDisability";
+      if (!obj.Object) {
+        obj.Object = "ApplicantDisabilityCode";
+        obj.ObjectTitle = "ApplicantDisabilityCode";
+        obj.ChildObject = "SpecialtyCode";
       };
     });
   jQuery('#applicant-disability-table').DataTable({
@@ -722,19 +726,23 @@ function initApplicantDisabilityTable(data) {
       selector: 'tr>td:nth-child(1), tr>td:nth-child(3)',
       items: 'cell',
     },
+    rowGroup: {
+      dataSrc: 'DisabilityType',
+      startRender: rowGroupRender(),
+    },
     columns: [
       { data: null, defaultContent: "<button>+</button>", searchable: false, orderable: false, width: "1em", className: "detail-control" /* className: "detail-button" */ },
       { title: "ApplicantId", data: "ApplicantId", className: "export", visible: false, orderable: false, searchable: false },
-      { title: "Type", data: "DisabilityType", className: "export", orderable: true, searchable: true },
-      // { title: "Code", data: "DisabilityCode", className: "export", orderable: true, searchable: true },
+      { title: "Code", data: "SpecialtyCode", className: "export", orderable: true, searchable: true },
       { data: null, defaultContent: "<button>Edit</button>", orderable: false, searchable: false, width: "1em", className: "edit-button" },
-      {
-        title: "Approved", data: "Approved", className: "export", orderable: false, searchable: false,
-        render: function (data, type, row, meta) {
-          // return data === 1 ? '&#10004;' : '';
-          return data === true ? '&#10004;' : '';
-        }
-      },
+      // {
+      //   title: "Approved", data: "Approved", className: "export", orderable: false, searchable: false,
+      //   render: function (data, type, row, meta) {
+      //     // return data === 1 ? '&#10004;' : '';
+      //     return data === true ? '&#10004;' : '';
+      //   }
+      // },
+      { title: "DisabilityType", data: "DisabilityType", className: "export", orderable: true, searchable: true, visible: false },
       {
         title: "Date Modified",
         data: "ModifyDate",
@@ -758,15 +766,15 @@ function initApplicantDisabilityTable(data) {
         visible: false,
       },
       { title: "Added By", data: "CreateUser", className: "export", orderable: false, searchable: false, visible: false },
-      { title: "Note", data: "Note", searchable: false, render: jQuery.fn.dataTable.render.ellipsis(20) },
+      { title: "Note", data: "Note", searchable: false, render: jQuery.fn.dataTable.render.ellipsis(40) },
       { title: "Note", data: "Note", searchable: true, visible: false, className: "export" },
       { title: "Object", data: "Object", searchable: false, visible: false },
       { title: "#", name: "id", data: "id", orderable: false, searchable: false, visible: false },
     ],
     initComplete: function () {
       addButtons(this.DataTable(), 'Add Disability Code', adminAddForms['disabilityCode']);
-      // tableSelectListener(this.DataTable());
       tableSelectListener(this.DataTable(), 'editDisabilityRow', true);
+      initRowGroupExpand(this.DataTable());
     }
   });
 };

@@ -83,6 +83,7 @@ function initApplicantSearch(data) {
       addFiltersToColumns(this.api());
       tableSelectListener(this.DataTable(), 'editApplicant');
       addSelectTableButtons(this.DataTable());
+      this.DataTable().columns.adjust();
     },
   });
 };
@@ -116,7 +117,8 @@ function handleAdminEditApplicantResponse() {
   populateDataTable ('applicant-document-table','Document','');
   populateDataTable ('applicant-interview-table','Interview','');
   populateDataTable ('applicant-note-table','Note','');
-  populateDataTable ('applicant-disability-table','ApplicantDisability','');
+  // populateDataTable ('applicant-disability-table','ApplicantDisability','');
+  populateDataTable ('applicant-disability-table','ApplicantDisabilityCode','');
 };
 function addSelectTableButtons(selectTable) {
   new jQuery.fn.dataTable.Buttons(selectTable, {

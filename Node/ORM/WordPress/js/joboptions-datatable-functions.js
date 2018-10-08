@@ -95,7 +95,7 @@ function getChildRequestArgs(data) {
   if (data['id'])
     body['id'] = data['id'];
   // if (data['id'])
-  body['child-object'] = 'applicant-disability-code';
+  body['child-object'] = data['ChildObject'];
   if (debug)
     console.log(`Table Load Children of Object Name: ${body['object']}, id: ${body['id']}`);
   let args = getDefaultAjaxBody();
@@ -341,6 +341,32 @@ function addButtons(table, addObjectTitle, formPostId) {
     extend: 'colvis',
     text: 'Display Column',
     columns: ':gt(0)'
+  });
+};
+function rowGroupRender() {
+  return function (rows, group) {
+    var collapsed = !!collapsedGroups[group];
+    rows.nodes().each(function (r) {
+      r.style.display = collapsed ? 'none' : '';
+    });
+    //     // let table = jQuery(this).closest('.datatable');
+    //     // let columnsVisible = table.DataTable().columns(':visible').count();
+    //     // console.log('Columns visible ' + columnsVisible);
+    //     let columnsVisible = 6;
+
+    return jQuery('<tr/>')
+      .append('<td colspan="8">' + group + ' (' + rows.count() + ')</td>')
+      // .append(`<td colspan="${columnsVisible}">${group} (${rows.count()})</td>`)
+      .attr('id', group)
+      .toggleClass('collapsed', collapsed);
+  };
+  // initRowGroupExpand(table, collapsedGroups);
+};
+function initRowGroupExpand(table) {
+  table.on('click', 'tr.dtrg-start', function () {
+    var name = jQuery(this).attr('id');
+    collapsedGroups[name] = !collapsedGroups[name];
+    table.draw(false);
   });
 };
 /* ************************************************************************ */
