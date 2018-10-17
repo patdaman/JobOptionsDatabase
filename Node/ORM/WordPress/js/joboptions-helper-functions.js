@@ -164,13 +164,27 @@ function reloadScript(src) {
 // dash-string to camelCaseString
 // ***********************************************************************
 function dashToCamelCase(myString) {
-  return myString.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+  return myString.replace(/-([a-z])/gi, function (g) { return g[1].toUpperCase(); });
 };
 // ***********************************************************************
 // camelCaseString to dash-string
 // ***********************************************************************
 function camelCaseToDash(myString) {
   return myString.replace(/([a-z][A-Z])/g, function (g) { return g[0] + '-' + g[1].toLowerCase() });
+};
+// ***********************************************************************
+// PascalCaseString to dash-string
+// ***********************************************************************
+function pascalCaseToDash(myString) {
+  return myString.replace(/([a-z][A-Z])/g, function (g) { return g[0] + '-' + g[1].toLowerCase() }).replace(/^\w/, c => c.toLowerCase());
+};
+// ***********************************************************************
+// dash-string to PascalCaseString
+// ***********************************************************************
+function dashToPascalCase(myString) {
+  // return myString.replace(/-([a-z])/gi, function (g) { return g[1].toUpperCase(); }).replace(/^\w/, c => c.toUpperCase());
+  myString = myString.replace(/-([a-z])/gi, function (g) { return g[1].toUpperCase(); });
+  return myString.replace(/_([a-z])/gi, function (g) { return g[1].toUpperCase(); }).replace(/^\w/, c => c.toUpperCase());
 };
 // ***********************************************************************
 // Refresh entire page
@@ -200,4 +214,25 @@ function getDefaultAjaxBody(args) {
   if (!args['async'])
     args['async'] = true;
   return args;
+}
+function getEvents(element) {
+  var elemEvents = jQuery._data(element, "events");
+  var allDocEvnts = jQuery._data(document, "events");
+  for(var evntType in allDocEvnts) {
+      if(allDocEvnts.hasOwnProperty(evntType)) {
+          var evts = allDocEvnts[evntType];
+          for(var i = 0; i < evts.length; i++) {
+              if(jQuery(element).is(evts[i].selector)) {
+                  if(elemEvents == null) {
+                      elemEvents = {};
+                  }
+                  if(!elemEvents.hasOwnProperty(evntType)) {
+                      elemEvents[evntType] = [];
+                  }
+                  elemEvents[evntType].push(evts[i]);
+              }
+          }
+      }
+  }
+  return elemEvents;
 }

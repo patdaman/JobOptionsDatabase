@@ -31,7 +31,8 @@ function initApplicantSearch(data) {
       { data: null, defaultContent: "<button>+</button>", searchable: false, orderable: false, width: "1em", className: "detail-button" },
       { title: "#", data: "ApplicantId", className: "export reorder" },
       { data: null, "defaultContent": "<button>Edit</button>", orderable: false, searchable: false, width: "1em", className: "edit-button" },
-      { title: "Name", className: "nameField export", searchable: true, orderable: true,
+      {
+        title: "Name", className: "nameField export", searchable: true, orderable: true,
         render: function (data, type, row, meta) {
           return getFullName(row["FirstName"], row["MiddleName"], row["LastName"]);
         },
@@ -49,7 +50,8 @@ function initApplicantSearch(data) {
         },
         className: "export"
       },
-      { title: "Date Available", data: "AvailableDate", type: "date",
+      {
+        title: "Date Available", data: "AvailableDate", type: "date",
         render: function (data, type, row, meta) {
           return getFormattedDate(data);
         },
@@ -105,20 +107,12 @@ function addFiltersToColumns(tableApi) {
     });
   });
 };
-function handleAdminEditApplicantResponse() {
-  populateDataTable ('applicant-alternate-name-table','AlternateName','');
-  populateDataTable ('applicant-phone-table','Phone','');
-  populateDataTable ('applicant-address-table','Address','');
-  populateDataTable ('applicant-education-table','Education','');
-  populateDataTable ('applicant-previous-employer-table','PreviousEmployer','');
-  populateDataTable ('applicant-reference-table','Reference','');
-  populateDataTable ('applicant-emergency-contact-table','EmergencyContact','');
-  populateDataTable ('applicant-status-table','ApplicantStatus','');
-  populateDataTable ('applicant-document-table','Document','');
-  populateDataTable ('applicant-interview-table','Interview','');
-  populateDataTable ('applicant-note-table','Note','');
-  // populateDataTable ('applicant-disability-table','ApplicantDisability','');
-  populateDataTable ('applicant-disability-table','ApplicantDisabilityCode','');
+function handleAdminEditApplicantResponse(args = []) {
+  jQuery("table[id$='-table']").each(function () {
+    let tableId = jQuery(this).attr('id');
+    let tableObject = dashToPascalCase(tableId.replace('-table', ''));
+    populateDataTable(tableId, tableObject);
+  });
 };
 function addSelectTableButtons(selectTable) {
   new jQuery.fn.dataTable.Buttons(selectTable, {

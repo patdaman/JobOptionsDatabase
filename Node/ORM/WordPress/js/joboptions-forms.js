@@ -15,7 +15,7 @@ function highlightActiveInputFields($) {
 };
 
 jQuery(document).ready(function ($) {
-  postDocumentWatcher($);
+  // postDocumentWatcher($);
 });
 function postDocumentWatcher($) {
   jQuery('input[type="file"]').change(function () {
@@ -92,17 +92,19 @@ jQuery(document).ready(function ($) {
 function addDocumentDropZones() {
   addFileDropZone('disability');
   addFileDropZone('resume');
+  addFileDropZone('veteran');
 };
-function addFileDropZone(fileType) {
+function addFileDropZone(documentType) {
   let dropHtml = '<form class="upload-document-form">.pdf .doc .docx .txt .png .jpg .gif';
-  dropHtml += '<input type="file" id="FILETYPE-doc-element" class="file-input" multiple accept=".pdf,.doc,.docx,.png,.jpg,.gif,.txt" onchange="handleFiles(this.files)">';
-  dropHtml += '<label class="upload-button" for="FILETYPE-doc-element">FILETYPE File(s)</label>';
+  dropHtml += '<input type="file" id="DOCUMENTTYPE-doc-element" class="file-input" multiple accept=".pdf,.doc,.docx,.png,.jpg,.gif,.txt" onchange="handleFiles(this.files, this.parentElement.parentElement)">';
+  dropHtml += '<label class="upload-button" for="DOCUMENTTYPE-doc-element">DOCUMENTTYPE file(s)</label>';
   dropHtml += '</form>';
-  dropHtml += '<div class="progress-bar center-block"><progress id="FILETYPE-progress-bar" max=100 value=0></progress></div>';
-  dropHtml += '<div id="FILETYPE-gallery" class="gallery" /></div>'
-  dropHtml = dropHtml.replace(/FILETYPE/g, fileType).valueOf();
-  jQuery(`#${fileType}-drop-area`).empty().append(dropHtml).find(`.file-input`).css('display', 'none');
-  initFileDrop(fileType);
+  dropHtml += '<div class="progress-bar center-block"><progress id="DOCUMENTTYPE-progress-bar" class="progress-bar-image" max=100 value=0></progress></div>';
+  dropHtml += '<div id="DOCUMENTTYPE-gallery" class="gallery" /></div>'
+  dropHtml = dropHtml.replace(/DOCUMENTTYPE/g, documentType).valueOf();
+  jQuery(`#${documentType}-drop-area`).find('*').not('label').remove();
+  jQuery(`#${documentType}-drop-area`).append(dropHtml).find(`.file-input`).css('display', 'none');
+  initFileDrop(documentType);
 };
 // ************************************************************************
 // 
@@ -110,30 +112,8 @@ function addFileDropZone(fileType) {
 jQuery(document).ready(function ($) {
   addMultiSelectWidget($);
 });
-// function addMultiSelectWidget ($) {
-//   jQuery("select.bs-multiselect").css('style', 'display: none');
-//   jQuery("select.bs-multiselect").attr('multiple', 'multiple');
-//   jQuery("select.bs-multiselect").bsMultiSelect({
-//     useCss: true,
-//     containerClass: 'dropdown-multiselect',
-//     dropDownMenuClass: 'dropdown-menu',
-//     dropDownItemClass:  'px-2',
-//     dropDownItemHoverClass: 'text-primary bg-light',
-//     selectedPanelClass: 'multiselect-form-control',
-//     selectedItemClass: 'badge',
-//     removeSelectedItemButtonClass: 'close',
-//     filterInputItemClass: '',
-//     filterInputClass: '',
-//     selectedPanelFocusClass : 'focus',
-//     selectedPanelDisabledClass: 'disabled',
-//     selectedItemContentDisabledClass: 'disabled'
-//   });
-// };
 function addMultiSelectWidget($) {
-//   jQuery("select.bs-multiselect").css('style', 'display: none');
-//   jQuery("select.bs-multiselect").attr('multiple', 'multiple');
-   jQuery(".multiselect").selectize();
-
+  jQuery(".selectize").selectize();
 }
 // ************************************************************************
 // 
@@ -141,19 +121,26 @@ function addMultiSelectWidget($) {
 jQuery(document).ready(function ($) {
   changeModifyInputSize($);
 });
-function changeModifyInputSize($) {
-  jQuery("input[name*='date']").each(function (i, obj) {
+function changeModifyInputSize() {
+  jQuery('input[name*="date"]').each(function (i, obj) {
     if (obj.getAttribute('value')) {
       let dateTime = new Date(obj.getAttribute('value'));
-      // obj.setAttribute('value',getFormattedDate(dateTime, true));
       obj.setAttribute('value', getFormattedDate(dateTime));
     }
   });
-  if (jQuery("input[type*='text']").attr('size') === '40') {
-    jQuery("input[type='text']").removeAttr('size');
-  };
+  jQuery('input[name="date"]').each(function (i, obj) {
+    if (obj.getAttribute('value')) {
+      let dateTime = new Date(obj.getAttribute('value'));
+      obj.setAttribute('value', getFormattedDate(dateTime));
+    }
+  });
+  jQuery('input[type="text"]').each(function () {
+    if (this.getAttribute('size') === '40')
+      this.removeAttribute('size');
+  });
   jQuery(".resize").removeAttr('size');
   jQuery(".resize").width(function () { return (this.value.length - 3) + "ch" });
+  jQuery(".form-group .selectize-control").closest("span").css("display", "block");
 };
 // ************************************************************************
 // Change boolean text values to checkbox on edit
@@ -208,14 +195,11 @@ function changeTextToTextArea() {
     new_span.classList.add(`${obj.getAttribute('name')}-textarea`);
     new_span.appendChild(new_element);
     obj.setAttribute('type', 'hidden');
-    jQuery(obj.parentElement).attr('style','visibility: hidden');
+    jQuery(obj.parentElement).attr('style', 'visibility: hidden');
     jQuery(new_span).insertAfter(obj.parentElement);
-    jQuery(new_element).change(function() {
+    jQuery(new_element).change(function () {
       jQuery(obj).val(jQuery(this).val());
     });
-    let events = jQuery(obj).data('events');
-    console.log(obj.getAttribute('name'));
-    console.log(events);
   });
   let autogrowOptions = {
     // context: jQuery(document),
@@ -228,22 +212,6 @@ function changeTextToTextArea() {
   jQuery('textarea').autogrow(autogrowOptions);
 };
 
-function copyEvents(source, destination) {
-  var events = source.data('events');
-  console.log(events);
-  // Iterate through all event types
-  jQuery.each(events, function(eventType, eventArray) {
-      // Iterate through every bound handler
-      jQuery.each(eventArray, function(index, event) {
-          // Take event namespaces into account
-          var eventToBind = event.namespace.length > 0
-              ? (event.type + '.' + event.namespace)
-              : (event.type);
-          // Bind event
-          destination.bind(eventToBind, event.data, event.handler);
-      });
-  });
-};
 // ************************************************************************
 // 
 // ************************************************************************
@@ -282,16 +250,54 @@ function toggleEdit(element) {
             field.setAttribute('type', 'text');
             field.setAttribute('readonly', '');
           }
-        // } else if (field.getAttribute('type') === 'text' || field.tagName.toLowerCase() === 'textarea' || field.getAttribute('type') === 'hidden') {
+          // } else if (field.getAttribute('type') === 'text' || field.tagName.toLowerCase() === 'textarea' || field.getAttribute('type') === 'hidden') {
         } else if (field.getAttribute('type') === 'text' || field.getAttribute('type') === 'hidden') {
           field.hasAttribute('readonly') ? field.removeAttribute('readonly') : field.setAttribute('readonly', '');
         }
         if (field.classList.contains("boolean") || field.classList.contains("wpcf7-select")) {
           field.hasAttribute('disabled') ? field.removeAttribute('disabled') : field.setAttribute('disabled', '');
-        }
-      }
-    }
+          if (field.classList.contains("selectize")) {
+            let editSelect = field.selectize;
+            let selectizeDropdown = field.nextSibling.firstChild;
+            selectizeDropdown.hasAttribute("disabled") ? editSelect.enable() : editSelect.disable();
+            selectizeDropdown.hasAttribute("disabled") ? selectizeDropdown.removeAttribute('disabled') : selectizeDropdown.setAttribute('disabled', '');
+            // selectizeDropdown.hasAttribute("disabled") ? selectizeDropdown.enable() : selectizeDropdown.disable();
+          };
+        };
+      };
+    };
   });
+};
+jQuery.expr[':'].nameCaseInsensitive = function (node, stackIndex, properties) {
+  return node.name.toLowerCase().indexOf(properties[3]) > -1 ;
+};
+function deleteObject(element) {
+  let formElement = jQuery(element).closest('form.wpcf7-form');
+  let object = formElement.find("[name='object']").attr('value');
+  console.log(object);
+  // let objectId = jQuery(`input:nameCaseInsensitive("${object.toLowerCase()}id")`).attr('value');
+  let objectId = formElement.find(`input:nameCaseInsensitive("${object.toLowerCase()}id")`).attr('value');
+  console.log('objectId');
+  console.log(objectId);
+  let id = objectId ? objectId 
+    : formElement.find(`[name*='${pascalCaseToDash(object)}-id']`).attr('value');
+  console.log('id');
+  console.log(id);
+  let tableName = `applicant-${pascalCaseToDash(object)}-table`.replace('applicant-applicant','applicant');
+  if (id) {
+    let body = {};
+    body['action'] = 'delete_object';
+    body['id'] = id;
+    body['object'] = object;
+    body['table'] = tableName;
+    body['popup'] = true;
+    let args = getDefaultAjaxBody();
+    args['element'] = element;
+    args['body'] = body;
+    ajaxRequest(args);
+  } else {
+    console.log('No ID found for deleting this object');
+  };
 };
 // ***********************************************************************
 // Function to listen for WordPress mail-sent event and process
@@ -336,7 +342,7 @@ document.addEventListener('wpcf7mailsent', function (event) {
     else
       nextElement = formElement;
     if (formClasses.contains('load-select-table'))
-      populateDataTable('applicant-search', 'vi_ApplicantSearch', '');
+      populateDataTable('applicant-search', 'vi_ApplicantSearch');
     if (formClasses.contains('load-next-form'))
       if (formClasses.contains('load-children')) {
         nextForm(formElementId, nextElement, true);
@@ -355,6 +361,9 @@ document.addEventListener('wpcf7mailsent', function (event) {
       let postId = formElementId.replace(/(.*wpcf7-f)(.*)(-.*)/, "$2");
       loadEditObjectForm(formElement.parentElement, postId, objectName, objectId)
     };
+    let popup = jQuery(formElement).closest('.pum');
+    if (popup)
+      popup.popmake('close');
   }
 });
 
@@ -410,9 +419,6 @@ function loadAddObjectForm(element, formId, applicantId, applicationId) {
   args['body'] = body;
   ajaxRequest(args);
 }
-// function loadAddObjectForm(element, formId) {
-//   loadEditObjectForm(element, formId);
-// };
 function loadEditObjectForm(element, formId, objectName, objectId) {
   let body = {};
   body['action'] = 'return_edit_object_form';
@@ -437,7 +443,8 @@ function ajaxRequest(args) {
   let element;
   if (typeof (args['element']) !== 'undefined') {
     element = args['element'];
-  }
+  };
+  body['element'] = '';
   // jQuery(element).empty();
   jQuery.ajax({
     url: ajaxurl,
@@ -445,19 +452,22 @@ function ajaxRequest(args) {
     data: body,
     success: function (data) {
       if (body['action'] === 'set_applicant_data') {
+        handleAdminEditApplicantResponse(body);
         let nextAccordionElement = nextAccordion(element);
         nextForm(body['element-id'], nextAccordionElement, true);
-        handleAdminEditApplicantResponse(element);
-      } else if (typeof handleAjaxFormResponse === 'function') {
+      } else if (body['action'] === 'delete_object') {
+        if (body['popup']) {
+          let popup = jQuery(element).closest('.pum');
+          if (popup)
+            popup.popmake('close');
+        };
+        if (body['table'] && body['object'])
+          populateDataTable(body['table'], body['object']);
+      } else if (typeof args['element'] !== 'undefined' && typeof handleAjaxFormResponse === 'function') {
         handleAjaxFormResponse(element, data);
       } else {
         return data;
       };
-      // } else if (typeof handleAjaxFormResponse === 'function' && (body['action'] === 'load_next' || body['action'] === 'return_shortcode')) {
-      //   handleAjaxFormResponse(element, data);
-      // } else {
-      //   console.log('Ajax data returned \n' + data);
-      // }
     },
     error: function (err) {
       console.log('Error returned from AJAX.: \n' + JSON.stringify(body));
@@ -526,11 +536,17 @@ function initForms() {
   formatSocialSecurityFields();
   formatPostalCodes();
   loadDynamicSelect();
-  postDocumentWatcher();
   changeTextToTextArea();
   reloadScript('/wp-content/plugins/cf7-conditional-fields/js/scripts.js');
   reloadScript('/wp-content/plugins/cf7-repeatable-fields/assets/js/');
   addDocumentDropZones();
+  addMultiSelectWidget();
   changeModifyInputSize();
-  addMultiSelectWidget ();
 };
+function openDocumentWindow(fileName, container) {
+  if (!container)
+    container = 'disability';
+  let popUpWindow = window.open("", "", "height=720,width=1024,menubar=no");
+  let fileUrl = encodeURI(`${apiUrl}Docs/${container}/download/${fileName}`);
+  popUpWindow.document.write(`<iframe allowTransparency="true" frameborder="0" scrolling="yes" style="width:100%;height:100%" src="${fileUrl}" type= "text/javascript"></iframe>`);
+}

@@ -94,10 +94,6 @@
     "dataSource": "Applications",
     "public": true
   },
-  "vi_Applicant": {
-    "dataSource": "Applications",
-    "public": true
-  },
   "vi_ApplicantSearch": {
     "dataSource": "Applications",
     "public": true
@@ -171,6 +167,18 @@
     "public": true
   },
   "ApplicantDisabilityCode": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "ApplicantEmployment": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "EmploymentTypes": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "ApplicantEmploymentCode": {
     "dataSource": "Applications",
     "public": true
   }

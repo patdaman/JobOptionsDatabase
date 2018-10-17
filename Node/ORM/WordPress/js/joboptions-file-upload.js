@@ -2,8 +2,6 @@
 // ************************ Drag and drop ***************** //
 // ******************************************************** //
 function initFileDrop(fileType) {
-  if (!fileType)
-    fileType = 'disability';
   if (document.getElementById(`${fileType}-drop-area`)) {
     let dropArea = document.getElementById(`${fileType}-drop-area`);
     // Prevent default drag behaviors
@@ -21,112 +19,159 @@ function initFileDrop(fileType) {
     // Handle dropped files
     dropArea.addEventListener('drop', handleDrop, false);
     function preventDefaults(e) {
-      e.preventDefault()
-      e.stopPropagation()
+      e.preventDefault();
+      e.stopPropagation();
     };
     function highlight(e) {
-      dropArea.classList.add('highlight')
+      dropArea.classList.add('highlight');
     };
     function unhighlight(e) {
-      dropArea.classList.remove('active')
+      dropArea.classList.remove('active');
     };
-    function handleDrop(e) {
-      var dt = e.dataTransfer;
-      var files = dt.files;
-      handleFiles(files);
+    function handleDrop(event) {
+      let dt = event.dataTransfer;
+      let files = dt.files;
+      handleFiles(files, this);
     };
-    let uploadProgress = [];
-    let progressBar = document.getElementById(`${fileType}-progress-bar`);
-    function initializeProgress(numFiles) {
-      progressBar.value = 0;
-      uploadProgress = [];
-      for (let i = numFiles; i > 0; i--) {
-        uploadProgress.push(0);
-      };
-    };
-    function updateProgress(fileNumber, percent) {
-      uploadProgress[fileNumber] = percent;
-      let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length;
-      console.debug('update', fileNumber, percent, total);
-      progressBar.value = total;
-    };
-    function handleFiles(files) {
-      files = [...files];
-      initializeProgress(files.length);
-      // files.forEach(uploadFile);
-      files.forEach(postDocument);
-      // files.forEach(previewFile);
-    };
-    function previewFile(file) {
-      let previewElement = createPreviewElement(file.name);
-      console.log('file type: ' + file.type);
-      if (file.type) {
-        if (file.type.startsWith('image/')) {
-          let reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onloadend = function () {
-            let img = document.createElement('img');
-            img.src = reader.result;
-            previewElement.appendChild(img);
-          };
-        };
-      };
-      document.getElementById(`${fileType}-gallery`).appendChild(previewElement);
-    };
-    function createPreviewElement(fileName) {
-      let previewElement = document.createElement('div');
-      previewElement.setAttribute('class', 'preview');
-      if (!fileName) {
-        fileName = 'File Uploaded';
-      };
-      console.log('create preview element: ' + fileName);
-      var fileText = document.createTextNode(fileName);
-      previewElement.appendChild(fileText);
-      return previewElement;
-    }
-    //Stolen from: https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications
-    function sendFile(file, documentUrl, i) {
-      return new Promise(function (resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        var fd = new FormData();
-        xhr.open("POST", documentUrl, true);
-        xhr.upload.addEventListener("progress", function (e) {
-          updateProgress(i, (e.loaded * 100.0 / e.total) || 100);
-        });
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState == 4 && xhr.status == 200) {
-            updateProgress(i, 100);
-            console.log(file.name);
-            previewFile(file);
-            resolve(JSON.parse(xhr.responseText));
-            if (debug)
-              console.log(xhr.responseText);
-          } else if (xhr.readyState == 4 && xhr.status != 200) {
-            console.log(`Error uploading file \nCode: ${xhr.status}\n`);
-          };
-        };
-        fd.append('file', file);
-        xhr.send(fd);
-      });
-    };
-    function postDocument(file, i) {
-      var promises = [];
-      // docType represents a subfolder in the file storage directory
-      //  ie - "disabled" or "resume"
-      if (file) {
-        promises.push(sendFile(file, `${apiUrl}docs/${fileType}/upload`, i));
-        Promise.all(promises).then(function (results) {
-          if (promises.length >= 1) {
-            results.forEach(function (resultOb) {
-              previewFile;
-              if (resultOb.result.files && resultOb.result.files.file[0].container) {
-                // cat[resultOb.result.files.file[0].container] = resultOb.result.files.file[0].name;
-                // console.log('File Name: ' + resultOb.result.files.file[0].name);
-              }
-            });
-          }
-        });
+  };
+};
+var uploadProgress = [];
+var progressBarId;
+var progressBar;
+var documentType;
+var container;
+
+function initializeProgress(numFiles) {
+  progressBar = document.getElementById(progressBarId);
+  progressBar.value = 0;
+  uploadProgress = [];
+  for (let i = numFiles; i > 0; i--) {
+    uploadProgress.push(0);
+  };
+};
+function updateProgress(fileNumber, percent) {
+  uploadProgress[fileNumber] = percent;
+  let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length;
+  progressBar.value = total;
+};
+function handleFiles(files, element) {
+  files = [...files];
+  let inputAreaId = element.getAttribute('id');
+  documentType = null;
+  container = inputAreaId.replace('-drop-area', '');
+  let typeSelect = jQuery(element).closest("form").find("[name='document-type']");
+  if (typeSelect[0] && typeSelect[0].value)
+    documentType = typeSelect[0].value;
+  else
+    documentType = container;
+  progressBarId = inputAreaId.replace('drop-area', 'progress-bar');
+  initializeProgress(files.length);
+  files.forEach(postDocument, container);
+};
+function previewFile(file) {
+  let previewElement = createPreviewElement(file.name);
+  if (file.type) {
+    if (file.type.startsWith('image/')) {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = function () {
+        let img = document.createElement('img');
+        img.src = reader.result;
+        previewElement.appendChild(img);
       };
     };
   };
+  document.getElementById(`${container}-gallery`).appendChild(previewElement);
+};
+function createPreviewElement(fileName) {
+  let previewElement = document.createElement('div');
+  previewElement.setAttribute('class', 'preview');
+  if (!fileName) {
+    fileName = 'File Uploaded';
+  };
+  var fileText = document.createTextNode(fileName);
+  previewElement.appendChild(fileText);
+  return previewElement;
+}
+function ajaxSendFile(file, i) {
+  return new Promise(function (resolve, reject) {
+    var data = new FormData();
+    data.append("action", "file_upload");
+    data.append("container", container);
+    data.append("document_type", documentType);
+    data.append("applicant_id", adminVars['applicantId']);
+    data.append("application_id", adminVars['applicationId']);
+    data.append("file_upload", file);
+    jQuery.ajax({
+      url: ajaxurl,
+      type: 'POST',
+      data: data,
+      cache: false,
+      dataType: 'json',
+      processData: false,
+      contentType: false,
+      success: function (data, textStatus, jqXHR) {
+        updateProgress(i, 100);
+        previewFile(file);
+        resolve(JSON.parse(jqXHR.responseText));
+        if (debug) {
+          console.log(`Text Status: ${textStatus}`);
+        };
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.log(`Error uploading file \nCode: ${textStatus}\n`);
+        console.log(`  ${errorThrown}\n`);
+      },
+      xhr: function () {
+        var xhr = jQuery.ajaxSettings.xhr();
+        xhr.upload.onprogress = function (e) { updateProgress(i, (e.loaded * 100.0 / e.total) || 100); };
+        // xhr.upload.onload = function () { resolve(JSON.parse(xhr.responseText)); if (debug) console.log(`XHR response: ${xhr.responseText}`); };
+        return xhr;
+      }
+    });
+  });
+}
+function postDocument(file, i) {
+  var promises = [];
+  if (file) {
+    promises.push(ajaxSendFile(file, i));
+    Promise.all(promises).then(function (results) {
+      if (promises.length >= 1) {
+        results.forEach(function (resultOb) {
+          previewFile;
+          console.log(resultOb);
+        });
+      }
+    });
+  };
+};
+function ajaxRetrieveFile(fileName, container, id) {
+  // return new Promise(function (resolve, reject) {
+  var data = new FormData();
+  data.append("action", "file_download");
+  data.append("id", id);
+  data.append("file_name", fileName);
+  data.append("container", container);
+  data.append("applicant_id", adminVars['applicantId']);
+  data.append("application_id", adminVars['applicationId']);
+  jQuery.ajax({
+    url: ajaxurl,
+    type: 'GET',
+    data: data,
+    dataType: 'json',
+    success: function (data, textStatus, jqXHR) {
+      if (debug) {
+        console.log(`Text Status: ${textStatus}`);
+      };
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log(`Error uploading file \nCode: ${textStatus}\n`);
+      console.log(`  ${errorThrown}\n`);
+    },
+    xhr: function () {
+      var xhr = jQuery.ajaxSettings.xhr();
+      return xhr;
+    }
+  });
+  // };
 };

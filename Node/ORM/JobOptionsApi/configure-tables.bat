@@ -4,6 +4,9 @@ start node %~dp0\server\bin\discover-schema.js -ds Applications -sn AddressTypes
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn AlternateName
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn Applicant
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn ApplicantDisability
+start node %~dp0\server\bin\discover-schema.js -ds Applications -sn ApplicantDisabilityCode
+start node %~dp0\server\bin\discover-schema.js -ds Applications -sn ApplicantEmployment
+start node %~dp0\server\bin\discover-schema.js -ds Applications -sn ApplicantEmploymentCode
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn ApplicantLocation
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn ApplicantPosition
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn ApplicantStatus
@@ -15,6 +18,7 @@ start node %~dp0\server\bin\discover-schema.js -ds Applications -sn Document
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn DocumentTypes
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn Education
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn EmergencyContact
+start node %~dp0\server\bin\discover-schema.js -ds Applications -sn EmploymentTypes
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn EthnicityTypes
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn GenderTypes
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn Interview
@@ -36,4 +40,4 @@ start node %~dp0\server\bin\discover-schema.js -ds Applications -sn StateTypes
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn StatusTypes
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn TitleCodes
 start node %~dp0\server\bin\discover-schema.js -ds Applications -sn vi_ApplicantSearch
-start node %~dp0\server\bin\discover-schema.js -ds Applications -sn vi_Applicant
+

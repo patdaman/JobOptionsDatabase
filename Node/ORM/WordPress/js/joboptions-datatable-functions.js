@@ -1,6 +1,26 @@
 function populateDataTable(tableName, objectName, params) {
+  if (objectName.toLocaleLowerCase().startsWith('vi_'))
+    objectName = objectName.substring(0, 3) + dashToPascalCase(objectName.substring(3));
+  else
+    objectName = dashToPascalCase(objectName);
+  let tableFunction = `init${dashToPascalCase(tableName)}`;
+  tableName = pascalCaseToDash(tableName);
+  let data = { 'object': objectName.replace(/[^a-zA-Z0-9-_]/g, '') };
   if (typeof (params) === 'undefined')
-    params = '';
+    params = {};
+  params['applicant-id'] = adminVars['applicantId'];
+  params['application-id'] = adminVars['applicationId'];
+  if (params['action'])
+    data['action'] = params['action'];
+  else
+    data['action'] = 'get_table_data';
+  if (params['object'])
+    data['object'] = params['object'];
+  if (objectName.toUpperCase().endsWith('CODE')) {
+    data['action'] = 'get_table_children';
+    params['parent'] = objectName.replace(/code$/i, '');;
+  }
+  data['params'] = params;
   if (debug) {
     console.log('Ajax URL: ' + ajaxurl);
     console.log('Table Name: ' + tableName);
@@ -11,25 +31,25 @@ function populateDataTable(tableName, objectName, params) {
     let tableElement = `<table id="${tableName}" class="display" style="width:100%; display: none;"></table>`;
     jQuery(tableParent).append(tableElement);
   };
+  jQuery(`#${tableName}`).attr('data-object', objectName);
   jQuery.ajax({
     url: ajaxurl,
     type: "POST",
     dataType: 'json',
-    data: { 'Object': objectName.replace(/[^a-zA-Z0-9-_]/g, ''), 'action': 'get_table_data', 'params': params },
+    data: data,
     success: function (data) {
       if (typeof (data) === 'string') {
         data = JSON.parse(data);
       };
       jQuery(`#${tableName}`).css('display', '');
-      let tableInit = `init${dashToCamelCase(tableName).replace(/^\w/, c => c.toUpperCase())}`;
-      if (debug) { console.log(`Table Init Function: ${tableInit}`) };
-      if (debug) { console.log(`${tableInit} received ${JSON.stringify(data).substring(0, 100)}`) };
-      if (typeof window[tableInit] === "function") {
-        table = window[tableInit](data);
+      if (debug) { console.log(`Table Init Function: ${tableFunction}`) };
+      if (debug) { console.log(`${tableFunction} received ${JSON.stringify(data).substring(0, 300)}`) };
+      if (typeof window[tableFunction] === "function") {
+        table = window[tableFunction](data);
       } else {
-        console.log(`${tableInit} is not a function.`);
-        alert(`${tableInit} is not a function.`);
-        console.log(`${tableInit} is a(n) ${typeof (window[tableInit])}.`);
+        console.log(`${tableFunction} is not a function.`);
+        alert(`${tableFunction} is not a function.`);
+        console.log(`${tableFunction} is a(n) ${typeof (window[tableFunction])}.`);
       };
     },
     error: function (err) {
@@ -64,10 +84,12 @@ function tableSelectListener(table, editFunctionName, hasChildren) {
 };
 function displayEditModal(title, formId, objectName, objectId) {
   jQuery(`#pum-${modals['edit']} .pum-title`).empty().append(title);
+  jQuery(`#pum-${modals['edit']} .pum-content div[name='edit-modal']`).empty();
   loadEditObjectForm(jQuery(`#pum-${modals['edit']} .pum-content div[name='edit-modal']`)[0], formId, objectName, objectId);
 };
 function displayAddModal(title, formId, applicantId, applicationId) {
   jQuery(`#pum-${modals['add']} .pum-title`).empty().append(title);
+  jQuery(`#pum-${modals['add']} .pum-content div[name='add-modal']`).empty();
   loadAddObjectForm(jQuery(`#pum-${modals['add']} .pum-content div[name='add-modal']`)[0], formId, applicantId, applicationId);
 };
 function displayRowChildren(table, indexes) {
@@ -94,8 +116,14 @@ function getChildRequestArgs(data) {
     body['object'] = data['Object'];
   if (data['id'])
     body['id'] = data['id'];
+  let type = Object.keys(data).filter(function (propertyName) {
+    return propertyName.indexOf("Type");
+  });
+  console.log(type);
+  if (type)
+    body['type'] = data[type];
   // if (data['id'])
-  body['child-object'] = data['ChildObject'];
+  body['child'] = data['ChildObject'];
   if (debug)
     console.log(`Table Load Children of Object Name: ${body['object']}, id: ${body['id']}`);
   let args = getDefaultAjaxBody();
@@ -311,7 +339,6 @@ function addRowDetailButtons(table, header = 'Applicant Data', buttons = []) {
       // }
     });
   };
-  buttonIndex++;
 };
 function addButtons(table, addObjectTitle, formPostId) {
   table.button().add(0, {
@@ -341,6 +368,18 @@ function addButtons(table, addObjectTitle, formPostId) {
     extend: 'colvis',
     text: 'Display Column',
     columns: ':gt(0)'
+  });
+  table.button().add(3, {
+    text: 'Refresh',
+    action: function (e, dt, node, config) {
+      let tableNode = dt.table().node();
+      let tableId = tableNode.getAttribute('id');
+      console.log(`Table Id: ${tableId}`);
+      // let tableObject = dashToPascalCase(tableId.replace('applicant-', '').replace('-table', ''))
+      let tableObject = dashToPascalCase(tableNode.getAttribute('data-object'));
+      console.log(`Table Object: ${tableObject}`);
+      populateDataTable(tableId, tableObject);
+    }
   });
 };
 function rowGroupRender() {
