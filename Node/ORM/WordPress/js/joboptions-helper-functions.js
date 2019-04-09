@@ -34,33 +34,33 @@ function getFullName(firstName, middleName, lastName) {
 // TODO: Cookies
 // Keep current active accordion item open
 // ***************************************
-jQuery(document).ready(function ($) {
-  //  let active = $(".et_pb_accordion_item .et_pb_toggle_open");
-  //  let accordion = findAncestor(active, 'et_pb_accordion');
-  //  let accordionClasses = Object.values(active.classList);
-  //  let accordionClass = findSubStringInArray(accordionClasses, 'et_pb_accordion_item_');
+// jQuery(document).ready(function ($) {
+//   //  let active = $(".et_pb_accordion_item .et_pb_toggle_open");
+//   //  let accordion = findAncestor(active, 'et_pb_accordion');
+//   //  let accordionClasses = Object.values(active.classList);
+//   //  let accordionClass = findSubStringInArray(accordionClasses, 'et_pb_accordion_item_');
 
-  //  accordionClass = accordionClasses[3];
+//   //  accordionClass = accordionClasses[3];
 
-  let $activeId = $('.et_pb_accordion_item .et_pb_toggle_open').attr('id');
-  //    console.log('ActiveId: ' + $activeId + ' Active: ' + $active);
-  //    Cookies.set('activeAccordionGroup', $active, { path: '' });
+//   let activeId = jQuery('.et_pb_accordion_item .et_pb_toggle_open').attr('id');
+//   //    console.log('ActiveId: ' + $activeId + ' Active: ' + $active);
+//   //    Cookies.set('activeAccordionGroup', $active, { path: '' });
 
-  $('.et_pb_toggle_title').click(function () {
-    $this = $(this);
-    //    console.log($this);
-    //Cookies.remove('activeAccordionGroup');
-    //Cookies.set('activeAccordionGroup', $this, {path: ''});
-  });
+//   jQuery('.et_pb_toggle_title').click(function () {
+//     this = jQuery(this);
+//     //    console.log($this);
+//     //Cookies.remove('activeAccordionGroup');
+//     //Cookies.set('activeAccordionGroup', $this, {path: ''});
+//   });
 
-  // let last = $.cookie('activeAccordionGroup');
-  let $last = Cookies.get('activeAccordionGroup');
-  // console.log($last);
-  //	if ($last != null && $active != $last) {
-  //		$active.removeClass('.et_pb_toggle_open').addClass(".et_pb_toggle_closed");
-  // $last.addClass(".et_pb_toggle_open");
-  //	}
-});
+//   // let last = $.cookie('activeAccordionGroup');
+//   let last = Cookies.get('activeAccordionGroup');
+//   // console.log($last);
+//   //	if ($last != null && $active != $last) {
+//   //		$active.removeClass('.et_pb_toggle_open').addClass(".et_pb_toggle_closed");
+//   // $last.addClass(".et_pb_toggle_open");
+//   //	}
+// });
 // ***********************************************************************
 // Function to search for next DIVI accordion module and clicks to open it
 // ***********************************************************************
@@ -201,19 +201,23 @@ function refreshPage() {
 // Generate object with default body for WordPress AJAX requests
 // ***********************************************************************
 function getDefaultAjaxBody(args) {
+  let ajaxArgs = {};
   if (!args)
     args = {};
-  if (!args['body'])
-    args['body'] = {};
-  if (!args['dataType'])
-    args['dataType'] = 'json';
-  if (!args['type'])
-    args['type'] = 'POST';
-  if (!args['params'])
-    args['params'] = '';
-  if (!args['async'])
-    args['async'] = true;
-  return args;
+  for (var k in args) { if (k !== 'body') ajaxArgs[k] = args[k]; };
+  let body = args['body'] ? args['body'] : {};
+  if (security_tokens && typeof(security_tokens.ajax_nonce) !== 'undefined')
+    body['security'] = security_tokens.ajax_nonce;
+  ajaxArgs['dataType'] = args['dataType'] ? args['dataType'] : 'json';
+  ajaxArgs['type'] = args['type'] ? args['type'] : 'POST';
+  // ajaxArgs['params'] = args['params'] ? args['params'] : '';
+  if (args['params'])
+    ajaxArgs['params'] = args['params'];
+  ajaxArgs['async'] = args['async'] ? args['async'] : true;
+  ajaxArgs['url'] = args['url'] ? args['url'] : ajaxurl;
+  ajaxArgs['body'] = (Array.isArray(body)) ? JSON.parse(JSON.stringify(body)) : body;
+  // args['body'] = JSON.parse(JSON.stringify(body));
+  return ajaxArgs;
 }
 function getEvents(element) {
   var elemEvents = jQuery._data(element, "events");
@@ -236,3 +240,10 @@ function getEvents(element) {
   }
   return elemEvents;
 }
+jQuery.fn.isBound = function(type, fn) {
+  var data = jQuery._data(this[0], 'events')[type];
+  if (data === undefined || data.length === 0) {
+      return false;
+  };
+  return (-1 !== jQuery.inArray(fn, data));
+};

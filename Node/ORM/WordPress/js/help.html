@@ -1,0 +1,70 @@
+<!-- ***********************************************
+    Hidden fields for vi_ApplicantSearch GET via API
+-- *************************************************
+-->[dynamichidden object "vi_ApplicantSearch"]<!--
+--  ********************************************** --
+-->
+<div class="form-group">
+    <label class="formlabel">ApplicantId:</label>[number applicant-id][select applicant-id-operator "equals" "contains" "starts with" "ends with"]
+    </div>
+    
+    <div class="form-group">
+    <label class="formlabel"></label>[checkbox demographic-search "Additional Search Fields"]
+    </div>
+    [group applicant-demographic-search-group]
+    
+    <div class="form-group">
+    <label class="formlabel">First Name:</label>[text first-name][select first-name-operator "equals" "contains" "starts with" "ends with"]
+    </div>
+    
+    <div class="form-group">
+    <label class="formlabel">Last Name:</label>[text last-name][select last-name-operator "equals" "contains" "starts with" "ends with"]
+    </div>
+    
+    <div class="spacer"></div>
+    
+    <div class="form-group">
+    <label class="formlabel">Social Security:</label>[text social-security][select social-security-operator "equals" "contains" "starts with" "ends with"]
+    </div>
+    
+    <div class="form-group">
+    <label class="formlabel">Date of Birth:</label>[date birthdate][select birthdate-operator "equals" ">=" "<=" "between"][group birthdate-range-group][select lte-birthdate-operator "<="] [date lte-birthdate][/group]
+    </div>
+    
+    <div class="spacer"></div>
+    
+    <div class="form-group">
+    <label class="formlabel">Phone Number:</label>[tel phone-number] [dynamichidden phone-number-operator "contains"]
+    </div>
+    
+    <div class="form-group">
+    <label class="formlabel">Email:</label>[text email] [select email-operator "equals" "contains" "starts with" "ends with"]
+    </div>
+    
+    <div class="spacer"></div>
+    [/group]
+    
+    <div class="form-group">
+    <label class="formlabel"></label>[dynamicselect applicant-status class:applicant class:selectize multiple "get_types type=status placeholder=Status"]
+    </div>
+    [dynamichidden applicant-status-operator "includes"]
+    
+    <div class="form-group">
+    <label class="formlabel"></label>[dynamicselect gender class:applicant "get_types type=gender placeholder=Gender"] [dynamicselect ethnicity class:applicant "get_types type=ethnicity placeholder=Ethnicity"]
+    </div>
+    
+    <div class="form-group">
+    <label class="formlabel">Disabled:</label>[checkbox disabled label_first exclusive "yes|true" "no|false"]
+    </div>
+    
+    <div class="form-group">
+    <label class="formlabel">Application Date:</label>[select gte-application-date-operator disabled ">="][date gte-application-date max:today]
+    </div>
+    
+    <div class="form-group">
+    <label class="formlabel">Application Date:</label>[select lte-application-date-operator disabled "<="][date lte-application-date max:today]
+    </div>
+    
+    <div class="form-group">
+    <label class="formlabel"> </label>[submit class:next-accordion class:load-select-table id:search "Search"]
+    </div>

@@ -2,6 +2,7 @@
 /* ******************  Applicant Alternate Name Table  ********************** */
 /* ************************************************************************** */
 function initAlternateNameTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) {
@@ -55,13 +56,14 @@ function initAlternateNameTable(data) {
 function editAlternateName(row) {
   let data = row.data();
   let id = data.id ? data.id : '';
-  let title = `Edit ${data.FirstName + data.MiddleName + data.LastName ? getFullName(data.FirstName, data.MiddleName, data.LastName) : 'Name'}`;
+  let title = `${data.FirstName + data.MiddleName + data.LastName ? getFullName(data.FirstName, data.MiddleName, data.LastName) : 'Edit Name'}`;
   displayEditModal(title, editForms['alternateName'], 'AlternateName', id);
 };
 /* ************************************************************************** */
 /* ******************  Applicant Contact Phone Table  *********************** */
 /* ************************************************************************** */
 function initPhoneTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) {
@@ -111,13 +113,14 @@ function initPhoneTable(data) {
 function editPhone(row) {
   let data = row.data();
   let id = data.id ? data.id : '';
-  let title = `Edit ${data.PhoneType ? data.PhoneType + ' ' : ''}Phone`;
+  let title = `${data.PhoneType ? data.PhoneType + ' ' : ''}Phone`;
   displayEditModal(title, editForms['phone'], 'Phone', id);
 };
 /* ************************************************************************** */
 /* *********************  Applicant Address Table  ************************** */
 /* ************************************************************************** */
 function initAddressTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) {
@@ -167,13 +170,14 @@ function initAddressTable(data) {
 function editAddress(row) {
   let data = row.data();
   let id = data.id ? data.id : '';
-  let title = `Edit ${data.AddressType ? data.AddressType + ' ' : ''}Address`;
+  let title = `${data.AddressType ? data.AddressType + ' ' : ''}Address`;
   displayEditModal(title, editForms['address'], 'Address', id);
 };
 /* ************************************************************************** */
 /* ********************  Applicant Education Table  ************************* */
 /* ************************************************************************** */
 function initEducationTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) {
@@ -197,7 +201,7 @@ function initEducationTable(data) {
       { title: "ApplicantId", data: "ApplicantId", className: 'export', searchable: false, visible: false },
       { title: "Level", data: "Level", className: 'export', orderable: false, searchable: false },
       { data: null, defaultContent: "<button>Edit</button>", orderable: false, searchable: false, width: "1em" },
-
+      { title: "Name", data: "Name", className: 'export', orderable: false, searchable: true },
       { title: "Graduated", data: "Graduated", orderable: false, searchable: true, className: "export" },
       { title: "Address", data: "Address", searchable: false, className: "export", visible: false },
       { title: "City", data: "City", searchable: true, className: "export", visible: false },
@@ -227,13 +231,14 @@ function initEducationTable(data) {
 function editEducation(row) {
   let data = row.data();
   let id = data.id ? data.id : '';
-  let title = `Edit ${data.Level ? data.Level : 'School'}`;
+  let title = `${data.Level ? data.Level : 'School'}`;
   displayEditModal(title, editForms['education'], 'Education', id);
 };
 /* ************************************************************************** */
 /* *****************  Applicant Previous Employer Table  ******************** */
 /* ************************************************************************** */
 function initPreviousEmployerTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) {
@@ -298,7 +303,7 @@ function initPreviousEmployerTable(data) {
 function editPreviousEmployer(row) {
   let data = row.data();
   let id = data.id ? data.id : '';
-  let title = `Edit Employer ${data.CompanyName ? data.CompanyName : ''}`;
+  let title = `${data.CompanyName ? data.CompanyName : 'Edit Employer'}`;
   displayEditModal(title, editForms['previousEmployer'], 'PreviousEmployer', id);
 };
 
@@ -306,6 +311,7 @@ function editPreviousEmployer(row) {
 /* ********************  Applicant References Table  ************************ */
 /* ************************************************************************** */
 function initReferenceTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) {
@@ -364,13 +370,14 @@ function initReferenceTable(data) {
 function editReference(row) {
   let data = row.data();
   let id = data.id ? data.id : '';
-  let title = `Edit Reference ${data.Name ? '- ' + data.Name : ''}`;
+  let title = `${data.Name ? data.Name : 'Edit Reference'}`;
   displayEditModal(title, editForms['reference'], 'Reference', id);
 };
 /* ************************************************************************** */
 /* *****************  Applicant Emergency Contact Table  ******************** */
 /* ************************************************************************** */
 function initEmergencyContactTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) {
@@ -426,13 +433,14 @@ function initEmergencyContactTable(data) {
 function editEmergencyContact(row) {
   let data = row.data();
   let id = data.id ? data.id : '';
-  let title = `Edit Emergency Contact ${data.FirstName + data.LastName ? '- ' + getFullName(data.FirstName, '', data.LastName) : ''}`;
+  let title = `${data.FirstName + data.LastName ? '- ' + getFullName(data.FirstName, '', data.LastName) : 'Edit Contact'}`;
   displayEditModal(title, editForms['emergencyContact'], 'EmergencyContact', id);;
 };
 /* ************************************************************************** */
 /* ******************  Applicant Status Admin Table  ************************ */
 /* ************************************************************************** */
 function initApplicantStatusTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) {
@@ -504,13 +512,14 @@ function initApplicantStatusTable(data) {
 function editStatus(row) {
   let data = row.data();
   let id = data.id ? data.id : '';
-  let title = `Edit Status ${data.StatusType ? data.StatusType + ' ' : ''}Detail`;
+  let title = `${data.StatusType ? data.StatusType : 'Status'} Detail`;
   displayEditModal(title, adminEditForms['status'], 'ApplicantStatus', id);
 };
 /* ************************************************************************** */
 /* ******************  Applicant Document Admin Table  ********************** */
 /* ************************************************************************** */
 function initDocumentTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) {
@@ -560,7 +569,6 @@ function initDocumentTable(data) {
     ],
     initComplete: function () {
       addButtons(this.DataTable(), 'New Document', adminAddForms['document']);
-      // viewDocumentListener(this.DataTable());
       documentTableSelectListener(this.DataTable());
     }
   });
@@ -590,6 +598,7 @@ function editDocument(row) {
 /* ******************  Applicant Interview Admin Table  ********************* */
 /* ************************************************************************** */
 function initInterviewTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) {
@@ -641,21 +650,22 @@ function initInterviewTable(data) {
 function editInterview(row) {
   let data = row.data();
   let id = data.id ? data.id : '';
-  let title = `Edit Interview ${data.QuestionType ? data.QuestionType + ' ' : ''}Detail`;
+  let title = `${data.QuestionType ? data.QuestionType : 'Edit'} Detail`;
   displayEditModal(title, adminEditForms['interview'], 'Interview', id);
 };
 /* ************************************************************************ */
 /* ******************  Applicant Notes Admin Table  *********************** */
 /* ************************************************************************ */
-function initNoteTable(data) {
+function initAllNoteTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) {
-        obj.Object = "Note",
+        obj.Object = "AllNote",
           obj.ObjectTitle = "Note Detail";
       };
     });
-  jQuery('#note-table').DataTable({
+  jQuery('#all-note-table').DataTable({
     data: data,
     dom: '<Bf<t>>',
     buttons: [],
@@ -673,19 +683,18 @@ function initNoteTable(data) {
         title: "Date",
         data: "CreateDate",
         type: "date",
-        order: 'asc',
+        order: 'desc',
         orderable: true,
         className: 'export',
         render: function (data, type, row, meta) {
           return getFormattedDate(data);
         },
       },
-      { title: "Type", data: "NoteType", className: "export", searchable: false },
+      { title: "Type", data: "TableName", className: "export", searchable: false },
       { title: "Added By", data: "CreateUser", className: "export", searchable: false },
-      { title: "Note", data: "Note", searchable: false, render: jQuery.fn.dataTable.render.ellipsis(20) },
+      { title: "Note", data: "Note", searchable: false, render: jQuery.fn.dataTable.render.ellipsis(75) },
       { title: "Note", data: "Note", searchable: true, visible: false, className: "export" },
       { title: "Object", data: "Object", searchable: false, visible: false },
-      { title: "ApplicationId", data: "ApplicationId", visible: false, searchable: false },
       { title: "#", name: "id", data: "id", orderable: false, searchable: false, visible: false },
     ],
     initComplete: function () {
@@ -699,6 +708,7 @@ function initNoteTable(data) {
 /* ************************************************************************ */
 collapsedGroups = {};
 function initApplicantDisabilityCodeTable(data) {
+  // if (data && Array.isArray(data))
   if (data)
     data.forEach(function (obj) {
       if (!obj.Object) obj.Object = "ApplicantDisabilityCode";
@@ -788,7 +798,7 @@ function initApplicantDisabilityCodeTable(data) {
 function editDisabilityRow(row) {
   let data = row.data();
   let id = data.id ? data.id : '';
-  let title = `Edit Disability ${data.DisabilityCode ? data.DisabilityCode + ' ' : ''} ${data.DisabilityType ? '- ' + data.DisabilityType : ''} `;
+  let title = `${data.DisabilityCode ? data.DisabilityCode + ' - ' : ''} ${data.DisabilityType ? data.DisabilityType + ' ' : ''}Disability `;
   displayEditModal(title, adminEditForms['disability'], 'ApplicantDisabilityCode', id);
 };
 
@@ -798,7 +808,8 @@ function editDisabilityRow(row) {
 collapsedGroups = {};
 function initApplicantEmploymentCodeTable(data = []) {
   // data = null;
-  if (Array.isArray(data)) 
+  // if (data && Array.isArray(data))
+  if (data)
     data.forEach(function (obj) {
       if (!obj.Object) obj.Object = "ApplicantEmploymentCode";
       if (!obj.ObjectTitle) obj.ObjectTitle = "Applicant Employment";
@@ -887,6 +898,6 @@ function initApplicantEmploymentCodeTable(data = []) {
 function editEmploymentRow(row) {
   let data = row.data();
   let id = data.id ? data.id : '';
-  let title = `Edit Employment ${data.typeName ? data.typeName : data.typeName} ${data.codeDescription ? ' - ' + data.codeDescription : ''} `;
+  let title = `${data.typeName ? data.typeName : data.typeName} ${data.codeDescription ? data.codeDescription : 'Employment'} Code`;
   displayEditModal(title, adminEditForms['employment'], 'ApplicantEmploymentCode', id);
 };

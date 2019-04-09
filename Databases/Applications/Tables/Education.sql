@@ -11,7 +11,7 @@
     [GPA]           VARCHAR (8)   NULL,
     [City]          VARCHAR (128) NULL,
     [State]         VARCHAR (50)  NULL,
-    [Zip]           VARCHAR (50)  NULL,
+    [PostalCode]    VARCHAR (50)  NULL,
     [Address]       VARCHAR (256) NULL,
     [Other]         VARCHAR (MAX) NULL,
     [CreateDate]    DATETIME2 (0) CONSTRAINT [DF_Education_CreateDate] DEFAULT (getdate()) NOT NULL,
@@ -21,6 +21,8 @@
     CONSTRAINT [PK_Education] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_Education_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+
 
 
 

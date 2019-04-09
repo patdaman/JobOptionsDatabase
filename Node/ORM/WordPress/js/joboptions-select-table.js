@@ -38,7 +38,8 @@ function initApplicantSearch(data) {
         },
       },
       { title: "Application #", data: "ApplicationId", visible: false, searchable: false, className: "export" },
-      { title: "Phone Number", type: "phoneNumber", data: "PhoneNumbers", orderable: false, searchable: true, className: "phoneField export" },
+      { title: "Phone Number", type: "phoneNumber", data: "PhoneNumbers", searchable: false, className: "phoneField", render: jQuery.fn.dataTable.render.ellipsis(20) },
+      { title: "Phone Number", type: "phoneNumber", data: "PhoneNumbers", orderable: false, searchable: true, className: "phoneField export", visible: false },
       { title: "Email", data: "Email", orderable: false, className: "export" },
       { title: "Disabled", data: "Disabled", searchable: false, orderable: false, className: "export" },
       {
@@ -50,6 +51,10 @@ function initApplicantSearch(data) {
         },
         className: "export"
       },
+      { title: "Disability", data: "DisabilityTypes", searchable: false, render: jQuery.fn.dataTable.render.ellipsis(30) },
+      { title: "Disability", data: "DisabilityTypes", searchable: true, orderable: false, className: "export", visible: false },
+      { title: "Codes", data: "DisabilityCodes", searchable: false, render: jQuery.fn.dataTable.render.ellipsis(30) },
+      { title: "Codes", data: "DisabilityCodes", searchable: true, orderable: false, className: "export", visible: false },
       {
         title: "Date Available", data: "AvailableDate", type: "date",
         render: function (data, type, row, meta) {
@@ -57,6 +62,8 @@ function initApplicantSearch(data) {
         },
         className: "export"
       },
+      { title: "Gender", data: "Gender", className: "export" },
+      { title: "Ethnicity", data: "Ethnicity", className: "export" },
       { title: "Consideration", data: "Consideration", orderable: false, className: "export" },
       { title: "Status", data: "CurrentStatus", orderable: false, className: "export" },
       { title: "Positions", data: "Positions", orderable: false, className: "export" },
@@ -72,11 +79,14 @@ function initApplicantSearch(data) {
       { title: "Driver's License", data: "HasDriversLicense", searchable: false, orderable: false, visible: false, className: "export" },
       { title: "State Licensed", data: "DriversLicenseState", searchable: false, orderable: false, visible: false, className: "export" },
       { title: "On Call", data: "OnCall", searchable: false, orderable: false, visible: false, className: "export" },
+      { title: "Full Time", data: "FullTime", searchable: false, orderable: false, visible: false, className: "export" },
+      { title: "Part Time", data: "PartTime", searchable: false, orderable: false, visible: false, className: "export" },
       { title: "Temporary", data: "Temporary", searchable: false, orderable: false, visible: false, className: "export" },
       { title: "Weekends", data: "Weekends", searchable: false, orderable: false, visible: false, className: "export" },
       { title: "Evenings", data: "Evenings", searchable: false, orderable: false, visible: false, className: "export" },
       { title: "Nights", data: "Nights", searchable: false, orderable: false, visible: false, className: "export" },
       { title: "Referral", data: "Referral", searchable: false, orderable: false, className: "export" },
+      { title: "Referral Detail", data: "ReferralDetail", searchable: true, orderable: false, className: "export", visible: false },
       { title: "ApplicantId", data: "ApplicantId", visible: false, searchable: false },
       { title: "Object", data: "Object", visible: false, searchable: false },
     ],
@@ -90,7 +100,7 @@ function initApplicantSearch(data) {
   });
 };
 function addFiltersToColumns(tableApi) {
-  tableApi.columns([8, 11, 12, 13, 14, 15]).every(function () {
+  tableApi.columns([9, 18, 19, 20, 21]).every(function () {
     let column = this;
     let select = jQuery('<select><option value="">All</option></select>')
       .appendTo(jQuery(column.header()))

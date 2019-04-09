@@ -119,6 +119,25 @@
     <Build Include="Tables\CodeTypes.sql" />
     <Build Include="Tables\ApplicantDisabilityCode.sql" />
     <Build Include="Tables\ApplicantDisability.sql" />
+    <Build Include="Tables\userIdentity.sql" />
+    <Build Include="Tables\userCredential.sql" />
+    <Build Include="Tables\user.sql" />
+    <Build Include="Tables\RoleMapping.sql" />
+    <Build Include="Tables\Role.sql" />
+    <Build Include="Tables\ReferringAgencyTypes.sql" />
+    <Build Include="Tables\EmploymentTypes.sql" />
+    <Build Include="Tables\EmploymentDefaults.sql" />
+    <Build Include="Tables\EmployeeTitle.sql" />
+    <Build Include="Tables\EmployeeDepartment.sql" />
+    <Build Include="Tables\ApplicantEmploymentCode.sql" />
+    <Build Include="Tables\ApplicantEmployment.sql" />
+    <Build Include="Tables\ApiUser.sql" />
+    <Build Include="Tables\ACL.sql" />
+    <Build Include="Tables\accessToken.sql" />
+    <Build Include="Views\vi_AllNotes.sql" />
+    <Build Include="Views\AllNotes.sql" />
+    <Build Include="Stored Procedures\usb_TruncateData.sql" />
+    <Build Include="Stored Procedures\usb_GetAllNotes.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\project_databaseserver.scmp" />

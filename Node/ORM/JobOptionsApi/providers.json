@@ -1,0 +1,39 @@
+{
+  "ldap": {
+    "provider": "ldap",
+    "authScheme": "ldap",
+    "module": "passport-ldapauth",
+    "authPath": "/auth/ldap",
+    "successRedirect": "/explorer",
+    "failureRedirect": "/failure",
+    "failureFlash": true,
+    "session": false,
+    "profileAttributesFromLDAP": {
+      "familyName": "sn",
+      "givenName": "givenName",
+      "username": "cn",
+      "login": "uid",
+      "id": "cn",
+      "email": "mail",
+      "groups": "_groups"
+    },
+    "json": true,
+    "server": {
+      "url": "ldaps://192.168.1.217:636",
+      "bindDn": "IMB@joboptionsinc.org",
+      "bindCredentials": "*&^mnb09",
+      "searchBase": "DC=joboptionsinc,DC=org",
+      "searchAttributes": [
+        "cn",
+        "mail",
+        "samaccountname",
+        "memberof",
+        "_groups",
+        "sn",
+        "givenname",
+        "userprincipalname"
+      ],
+      "searchFilter": "(samaccountname={{username}})"
+    }
+  }
+}

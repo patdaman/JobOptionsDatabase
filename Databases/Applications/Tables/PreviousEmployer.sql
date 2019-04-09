@@ -5,6 +5,9 @@
     [StartDate]            DATETIME2 (0) NULL,
     [EndDate]              DATETIME2 (0) NULL,
     [Address]              VARCHAR (512) NULL,
+    [City]                 VARCHAR (64)  NULL,
+    [State]                VARCHAR (32)  NULL,
+    [PostalCode]           VARCHAR (32)  NULL,
     [Duties]               VARCHAR (256) NULL,
     [SupervisorName]       VARCHAR (256) NULL,
     [SupervisorTitle]      VARCHAR (128) NULL,
@@ -18,6 +21,8 @@
     CONSTRAINT [PK_PreviousEmployer] PRIMARY KEY CLUSTERED ([id] ASC),
     CONSTRAINT [FK_PreviousEmployer_Applicant] FOREIGN KEY ([ApplicantId]) REFERENCES [dbo].[Applicant] ([id]) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+
 
 
 

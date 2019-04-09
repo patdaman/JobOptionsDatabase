@@ -32,6 +32,8 @@ function populateDataTable(tableName, objectName, params) {
     jQuery(tableParent).append(tableElement);
   };
   jQuery(`#${tableName}`).attr('data-object', objectName);
+  let args = getDefaultAjaxBody({ 'body' : data });
+  data = args['body'];
   jQuery.ajax({
     url: ajaxurl,
     type: "POST",
@@ -56,6 +58,7 @@ function populateDataTable(tableName, objectName, params) {
       console.log(err.responseText);
     }
   });
+  
 };
 function detailModalListener(table) {
   table.on('select', function (e, dt, type, indexes) {
@@ -67,8 +70,10 @@ function tableSelectListener(table, editFunctionName, hasChildren) {
     let row = table.row(indexes[0].row);
     let columnNumber = indexes[0].column;
     table.cell(indexes).deselect();
-    if (debug)
-      console.log(`Column Number Selected: ${columnNumber}`);
+    if (debug) {
+      console.log(`Column Number Selected: ${columnNumber}\nColumn:`);
+      console.log(table.cell(indexes));
+    };
     if (columnNumber < 2) {
       if (hasChildren && hasChildren === true) {
         displayRowChildren(dt, indexes);
@@ -134,6 +139,7 @@ function getChildRequestArgs(data) {
 // function format(callback, args) {
 function format(args, callback) {
   let div = jQuery('<div/>').addClass('loading').text('Loading...');
+  let args = getDefaultAjaxBody(args);
   jQuery.ajax({
     // serverSide: true,
     url: ajaxurl,

@@ -6,31 +6,22 @@ jQuery(document).ready(function ($) {
   highlightActiveInputFields($);
 });
 function highlightActiveInputFields($) {
-  jQuery('.wpcf7-form input, select, radio, checkbox').not('.wpcf7-submit').focus(function () {
+  jQuery('.wpcf7-form input, select, radio, checkbox').not('.wpcf7-submit').not('bound-focused').focus(function () {
     jQuery(this).addClass('focused');
   })
     .blur(function () {
       jQuery(this).removeClass('focused');
-    });
-};
-
-jQuery(document).ready(function ($) {
-  // postDocumentWatcher($);
-});
-function postDocumentWatcher($) {
-  jQuery('input[type="file"]').change(function () {
-    let elementId = this.getAttribute('id');
-    postDocument(elementId);
-  });
+    })
+    .addClass('bound-focused');
 };
 // ***********************************************************************
 // Formatting US phone numbers
 // ***********************************************************************
 jQuery(document).ready(function ($) {
-  formatTelephoneFields($);
+  formatTelephoneFields();
 });
 function formatTelephoneFields($) {
-  jQuery("input[type='tel'], input[type='tel*'], .wpcf7-validates-as-tel, input.phone-number").attr('maxlength', '14').keyup(function () {
+  jQuery("input[type='tel'], input[type='tel*'], .wpcf7-validates-as-tel, input.phone-number").not('.bound-phone').attr('maxlength', '14').keyup(function () {
     let curchr = this.value.length;
     let curval = jQuery(this).val();
     if (curchr == 3) {
@@ -38,16 +29,17 @@ function formatTelephoneFields($) {
     } else if (curchr == 9) {
       jQuery(this).val(curval + '-');
     }
-  });
+  })
+    .addClass('bound-phone');
 };
 // ***********************************************************************
 // Formatting for Social Security Numbers
 // ***********************************************************************
 jQuery(document).ready(function ($) {
-  formatSocialSecurityFields($);
+  formatSocialSecurityFields();
 });
 function formatSocialSecurityFields($) {
-  jQuery(".social-security, input[name*='social-security']").attr('maxlength', '11').keyup(function () {
+  jQuery(".social-security, input[name*='social-security']").not('.bound').attr('maxlength', '11').not('bound-social-security').keyup(function () {
     if (this.value) {
       let curchr = this.value.length;
       let curval = jQuery(this).val();
@@ -57,7 +49,8 @@ function formatSocialSecurityFields($) {
         jQuery(this).val(curval + '-');
       }
     }
-  });
+  })
+    .addClass('bound-social-security');
 };
 // ***********************************************************************
 // Formatting for US Zip Codes
@@ -66,27 +59,28 @@ jQuery(document).ready(function ($) {
   formatPostalCodes($);
 });
 function formatPostalCodes($) {
-  jQuery("input[type='zip'], input[type='zip*'], input[name*='zip'], input[name*='postal-code'], input[name='zip'], input[name*='zip'").keyup(function () {
+  jQuery("input[type='zip'], input[type='zip*'], input[name*='zip'], input[name*='postal-code'], input[name='zip'], input[name*='zip'").not('.bound-postal-code').keyup(function () {
     let curchr = this.value.length;
     let curval = jQuery(this).val();
     if (curchr == 5) {
       jQuery(this).val(curval.substring(0, 5) + '-');
     }
-  });
+  })
+    .addClass('bound-postal-code');;
 };
 // ************************************************************************
 // Set all <span> elements containing dynamic hidden fields to display:none
 // ************************************************************************
 jQuery(document).ready(function ($) {
-  hideDynamicObjects($);
+  hideDynamicObjects();
 });
-function hideDynamicObjects($) {
+function hideDynamicObjects() {
   jQuery(".wpcf7-dynamichidden").parent().css('display', 'none');
 };
 // ************************************************************************
 // Change file input to drop zones
 // ************************************************************************
-jQuery(document).ready(function ($) {
+jQuery(document).ready(function () {
   addDocumentDropZones();
 });
 function addDocumentDropZones() {
@@ -110,10 +104,119 @@ function addFileDropZone(documentType) {
 // 
 // ************************************************************************
 jQuery(document).ready(function ($) {
-  addMultiSelectWidget($);
+  addMultiSelectWidget();
 });
 function addMultiSelectWidget($) {
-  jQuery(".selectize").selectize();
+  // let options = {
+  //   selectOnTab: true,
+  //   create: true,
+  //   createOnBlur: false, // <-- selects user entered item when clicked outside of dropdown
+  //   createFilter: '', // <-- regex for user entered item
+  //   persist: true, // <-- true leaves user submitted in drop down list if deselected
+  //   items: [], // <-- option items
+  //   delimiter: ',', // <-- item delimiter
+  //   maxOptions: 1000, 
+  //   maxItems: null, // <-- Max items selected
+  //   hideSelected: null, // <removes from dropdown when already selected
+  //                       //   Single defaults to false, multiple to true
+  //   closeAfterSelect: false,
+  //   allowEmptyOptions: true, // <-- first item value = "" as a placeholder
+  //   loadThrottle: 300, // <-- ms to wait for requesting values
+  //   loadingClass: 'loading', 
+  //   preload: false, 
+  //   dropdownParent: null, // <-- 'body' will append to select element, 'null' as child of Selectize controll
+  //   addPrecedence: false, // <-- if true, the "Add..." option is the default selection in the dropdown
+  //   diacritics: true, // <-- allow international character support
+  //   optgroups: [],	// <-- Option groups that options will be bucketed into. If your element is a <select> with <optgroup>s this property gets populated automatically. Make sure each object in the array has a property named whatever optgroupValueField is set to.
+  //   dataAttr: 'data-data',	// <-- The <option> attribute from which to read JSON data about the option.
+  //   valueField: 'value',	// <-- The name of the property to use as the value when an item is selected.
+  //   optgroupValueField: 'value',	// <-- The name of the option group property that serves as its unique identifier.
+  //   labelField: 'text',	// <-- The name of the property to render as an option / item label (not needed when custom rendering functions are defined).
+  //   optgroupLabelField: 'label',	// <-- The name of the property to render as an option group label (not needed when custom rendering functions are defined).
+  //   optgroupField: 'optgroup',	// <-- The name of the property to group items by.
+  //   disabledField: 'disabled',	// <-- The name of the property to disabled option and optgroup.
+  //   sortField: 'optgroup',	// <-- A single field or an array of fields to sort by. Each item in the array should be an object containing at least a field property. Optionally, direction can be set to 'asc' or 'desc'. The order of the array defines the sort precedence. Unless present, a special `$score` field will be automatically added to the beginning of the sort list. This will make results sorted primarily by match quality (descending).
+  //   $score: 'order' - or - ['order'], // <-- You can override the `$score` function. For more information, see the sifter documentation.
+  //   searchField: ['text'],	// <-- 	An array of property names to analyze when filtering options.
+  //   searchConjunction: '(and/or)',	// <-- When searching for multiple terms (separated by space), this is the operator used. Can be 'and' or 'or' .
+  //   lockOptgroupOrder: 'true/false',	// <-- If truthy, Selectize will make all optgroups be in the same order as they were added (by the `$order` property). Otherwise, it will order based on the score of the results in each.
+  //   copyClassesToDropdown: 'true/false',	// <-- Copy the original input classes to the dropdown element.
+  //   openOnFocus: false,
+  // };
+  jQuery(".selectize").not('.selectized').not('[multiple]').not('[multiple="multiple"]').each(function () {
+    let createCustom = false;
+    if (jQuery(this).hasClass('allow-custom'))
+      createCustom = true;
+    let thisSelect = jQuery(this).selectize({
+      selectOnTab: true,
+      create: createCustom,
+      createOnBlur: true,
+      loadThrottle: 300,
+      addPrecedence: false,
+      allowEmptyOptions: false,
+      openOnFocus: false,
+      onInitialize: function () {
+        var that = this;
+        this.$control.on("click", function () {
+          that.ignoreFocusOpen = true;
+          setTimeout(function () {
+            that.ignoreFocusOpen = false;
+          }, 50);
+        });
+      },
+      onFocus: function () {
+        if (!this.ignoreFocusOpen) {
+          this.open();
+        };
+      },
+    });
+    let newSelect = jQuery(thisSelect)[0].selectize;
+    if (jQuery(this).hasClass('editable'))
+      newSelect.disable();
+  });
+  jQuery('select.selectize[multiple="multiple"]').not('.selectized').each(function () {
+    let createCustom = false,
+      dropDownHeaderMessage = 'Select all that apply';
+    if (jQuery(this).hasClass('allow-custom')) {
+      createCustom = true;
+      dropDownHeaderMessage = dropDownHeaderMessage + ' or Type your own';
+    }
+    let thisSelect = jQuery(this).selectize({
+      plugins: { 'remove_button': true, 'dropdown_header': { title: dropDownHeaderMessage } },
+      selectOnTab: true,
+      create: createCustom,
+      createOnBlur: true,
+      loadThrottle: 300,
+      addPrecedence: false,
+      allowEmptyOptions: false,
+      closeAfterSelect: false,
+      openOnFocus: false,
+      //Close dropdown on clicking on control in focus
+      onInitialize: function () {
+        var that = this;
+        this.$control.on('mousedown', function () {
+          if (that.isOpen)
+            that.close();
+          else
+            that.open();
+        });
+      },
+    });
+    let newSelect = jQuery(thisSelect)[0].selectize;
+    if (jQuery(this).hasClass('editable'))
+      newSelect.disable();
+  });
+  jQuery('.selectize-input input').not('bound-spacebar').on('keydown', function (e) {
+    var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+    if (key == 32) {
+      e.stopPropagation();
+    };
+  })
+    .addClass('bound-spacebar');
+  jQuery('select.selectized[name$="code[]"').each(function () {
+    let codeSelect = this.selectize;
+    codeSelect.updateOption('create', false);
+  });
 }
 // ************************************************************************
 // 
@@ -126,18 +229,43 @@ function changeModifyInputSize() {
     if (obj.getAttribute('value')) {
       let dateTime = new Date(obj.getAttribute('value'));
       obj.setAttribute('value', getFormattedDate(dateTime));
-    }
+    };
   });
   jQuery('input[name="date"]').each(function (i, obj) {
     if (obj.getAttribute('value')) {
       let dateTime = new Date(obj.getAttribute('value'));
       obj.setAttribute('value', getFormattedDate(dateTime));
-    }
+    };
   });
-  jQuery('input[type="text"]').each(function () {
-    if (this.getAttribute('size') === '40')
-      this.removeAttribute('size');
+  jQuery('input').not('.bound-carriage-return').each(function () {
+    jQuery(this).on('keydown', function (e) {
+      var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : e.which ? e.which : 0;
+      switch (key) {
+        case 13: {
+          if (!jQuery(e.target).is('textarea'))
+            e.preventDefault();
+          break;
+        }
+      };
+    });
+    jQuery(this).addClass('bound-carriage-return');
   });
+  jQuery('input[type="text"],textarea').not('.bound-spaces').each(function () {
+    jQuery(this).on('keydown', function (e) {
+      var key = e.charCode ? e.charCode : e.keyCode ? e.keyCode : e.which ? e.which : 0;
+      switch (key) {
+        case 32: {
+          e.stopPropagation();
+          break;
+        }
+      };
+    });
+    jQuery(this).addClass('bound-spaces');
+  });
+  // jQuery('input[type="text"]').each(function () {
+  //   if (this.getAttribute('size') === '40')
+  //     this.removeAttribute('size');
+  // });
   jQuery(".resize").removeAttr('size');
   jQuery(".resize").width(function () { return (this.value.length - 3) + "ch" });
   jQuery(".form-group .selectize-control").closest("span").css("display", "block");
@@ -146,10 +274,10 @@ function changeModifyInputSize() {
 // Change boolean text values to checkbox on edit
 // ************************************************************************
 jQuery(document).ready(function ($) {
-  changeBooleanToCheckbox($);
+  changeBooleanToCheckbox();
 });
 function changeBooleanToCheckbox() {
-  jQuery(".boolean").each(function (i, obj) {
+  jQuery(".boolean").not('.bound').each(function (i, obj) {
     let elementClassArray = obj.className.split(" ");
     let elementClassList = elementClassArray.filter(function (item) {
       return item.indexOf("dynamic") === -1;
@@ -160,17 +288,18 @@ function changeBooleanToCheckbox() {
     obj.getAttribute('value') === "true" ? obj.checked = true : obj.checked = false;
     obj.onclick = function () { this.value === "true" ? this.value = "false" : this.value = "true"; };
     obj.setAttribute('disabled', '');
-  });
+  })
+    .addClass('bound');
 };
 // ************************************************************************
 // Change text values to textarea with class="textarea"
 // ************************************************************************
 jQuery(document).ready(function ($) {
-  changeTextToTextArea($);
+  changeTextToTextArea();
 });
 function changeTextToTextArea() {
   let nodeNameArray = ['type', 'value', 'max-size', 'size'];
-  jQuery('input.wpcf7-form-control.textarea').each(function (i, obj) {
+  jQuery('input.wpcf7-form-control.textarea').not('.bound').each(function (i, obj) {
     let textValue = obj.getAttribute('value');
     // obj.setAttribute('form', jQuery(obj).closest('[role=form]').attr('id'));
     obj.classList.remove('textarea');
@@ -209,7 +338,7 @@ function changeTextToTextArea() {
     // cloneClass: 'autogrowclone', // Helper CSS for the clone used to match another textbox nearby
     onInitialize: true
   };
-  jQuery('textarea').autogrow(autogrowOptions);
+  jQuery('textarea').not('.bound').autogrow(autogrowOptions).addClass('bound');
 };
 
 // ************************************************************************
@@ -219,7 +348,7 @@ jQuery(document).ready(function ($) {
   loadDynamicSelect($);
 });
 function loadDynamicSelect($) {
-  jQuery(".wpcf7-select").each(function (i, obj) {
+  jQuery(".wpcf7-select").not('.selectize').each(function (i, obj) {
     if (obj.classList.contains('editable') || obj.classList.contains('not-editable'))
       obj.setAttribute('disabled', '');
   });
@@ -254,14 +383,17 @@ function toggleEdit(element) {
         } else if (field.getAttribute('type') === 'text' || field.getAttribute('type') === 'hidden') {
           field.hasAttribute('readonly') ? field.removeAttribute('readonly') : field.setAttribute('readonly', '');
         }
-        if (field.classList.contains("boolean") || field.classList.contains("wpcf7-select")) {
+        if (field.classList.contains("boolean"))
           field.hasAttribute('disabled') ? field.removeAttribute('disabled') : field.setAttribute('disabled', '');
+        if (field.classList.contains("wpcf7-select")) {
           if (field.classList.contains("selectize")) {
             let editSelect = field.selectize;
-            let selectizeDropdown = field.nextSibling.firstChild;
-            selectizeDropdown.hasAttribute("disabled") ? editSelect.enable() : editSelect.disable();
-            selectizeDropdown.hasAttribute("disabled") ? selectizeDropdown.removeAttribute('disabled') : selectizeDropdown.setAttribute('disabled', '');
-            // selectizeDropdown.hasAttribute("disabled") ? selectizeDropdown.enable() : selectizeDropdown.disable();
+            if (editSelect.isDisabled)
+              editSelect.enable()
+            else
+              editSelect.disable();
+          } else {
+            field.hasAttribute('disabled') ? field.removeAttribute('disabled') : field.setAttribute('disabled', '');
           };
         };
       };
@@ -269,34 +401,46 @@ function toggleEdit(element) {
   });
 };
 jQuery.expr[':'].nameCaseInsensitive = function (node, stackIndex, properties) {
-  return node.name.toLowerCase().indexOf(properties[3]) > -1 ;
+  return node.name.toLowerCase().indexOf(properties[3]) > -1;
 };
 function deleteObject(element) {
   let formElement = jQuery(element).closest('form.wpcf7-form');
   let object = formElement.find("[name='object']").attr('value');
+  object = object ? object
+    : formElement.find("[name='Object']").attr('value');
+  let parentObject = formElement.find("[name='parent-object']").attr('value');
+  parentObject = parentObject ? parentObject
+    : formElement.find("[name='ParentObject']").attr('value');
   console.log(object);
-  // let objectId = jQuery(`input:nameCaseInsensitive("${object.toLowerCase()}id")`).attr('value');
-  let objectId = formElement.find(`input:nameCaseInsensitive("${object.toLowerCase()}id")`).attr('value');
-  console.log('objectId');
-  console.log(objectId);
-  let id = objectId ? objectId 
+  // let objectId = jQuery(`formElement input:nameCaseInsensitive("${object.toLowerCase()}id")`).attr('value');
+  // let objectId = formElement.find(`input:nameCaseInsensitive("${object.toLowerCase()}-id")`).attr('value');
+  let objectId = formElement.find(`[name="${dashToPascalCase(object)}Id"]`).attr('value');
+  let id = objectId ? objectId
     : formElement.find(`[name*='${pascalCaseToDash(object)}-id']`).attr('value');
-  console.log('id');
-  console.log(id);
-  let tableName = `applicant-${pascalCaseToDash(object)}-table`.replace('applicant-applicant','applicant');
-  if (id) {
-    let body = {};
-    body['action'] = 'delete_object';
-    body['id'] = id;
-    body['object'] = object;
-    body['table'] = tableName;
-    body['popup'] = true;
-    let args = getDefaultAjaxBody();
-    args['element'] = element;
-    args['body'] = body;
-    ajaxRequest(args);
-  } else {
-    console.log('No ID found for deleting this object');
+  if (!id && parentObject) {
+    let parentObjectId = formElement.find(`[name="${dashToPascalCase(parentObject)}Id"]`).attr('value');
+    id = parentObjectId ? parentObjectId
+      : formElement.find(`[name*='${pascalCaseToDash(parentObject)}-id']`).attr('value');
+    object = (id && parentObject) ? parentObject : object;
+  }
+
+  let message = `Delete ${object}: ${id}\nAre you sure?`;
+  let tableName = `${pascalCaseToDash(object)}-table`//.replace('applicant-applicant', 'applicant');
+  if (confirm(message)) {
+    if (id && object) {
+      let body = {};
+      body['action'] = 'delete_object';
+      body['id'] = id;
+      body['object'] = object;
+      body['table'] = tableName;
+      body['popup'] = true;
+      let args = getDefaultAjaxBody();
+      args['element'] = element;
+      args['body'] = body;
+      ajaxRequest(args);
+    } else {
+      console.log('No ID found for deleting this object');
+    };
   };
 };
 // ***********************************************************************
@@ -314,25 +458,36 @@ document.addEventListener('wpcf7mailsent', function (event) {
   let formElement = event.target;
   let formElementId = formElement.id;
   let submitButton = formElement.getElementsByClassName('wpcf7-submit')[0];
+  let form = jQuery(submitButton).closest('form.wpcf7-form');
   let formClasses = submitButton.classList;
   if (formClasses) {
     let objectName,
       objectId,
       nextElement;
-    try {
-      objectName = jQuery(formElement).find(`input[name="object"]`).val().replace(`%5C`, ``);
-    } catch (e) {
-      if (debug) console.log(`No Object found in form \n${e.toString().substring(0, 200)}...`);
-    };
-    if (objectName) {
-      try {
-        objectId = jQuery(formElement).find(`input[name="${objectName}Id"]`).val().replace(`%5C`, ``);
-        console.log('object Id: ');
-        console.log(objectId);
-      } catch (e) {
-        if (debug) console.log(`No Object ID found in form \n${e.toString().substring(0, 200)}...`);
-      };
-    };
+    // try {
+    //   objectName = jQuery(formElement).find(`:nameCaseInsensitive(input"object")`).val().replace(`%5C`, ``);
+    // } catch (e) {
+    //   if (debug) console.log(`No Object found in form \n${e.toString().substring(0, 200)}...`);
+    // };
+    // if (objectName && objectName.length > 0) {
+    //   try {
+    //     objectId = jQuery(formElement).find(`input:nameCaseInsensitive("${objectName}Id")`).val().replace(`%5C`, ``);
+    //     if (!objectId || objectId.length < 1)
+    //       objectId = jQuery(formElement).find(`input:nameCaseInsensitive("${objectName}-id")`).val().replace(`%5C`, ``);
+    //     if (!objectId || objectId.length < 1)
+    //       objectId = jQuery(formElement).find(`input:nameCaseInsensitive("${objectName}_id")`).val().replace(`%5C`, ``);
+    //     if (!objectId || objectId.length < 1)
+    //       throw `Could not find an Object ID in form #${formId}`;
+    //   } catch (e) {
+    //     if (debug) console.log(`No Object ID found in form \n${e.toString().substring(0, 200)}...`);
+    //   };
+    // };
+    objectName = form.find("[name='object']").attr('value');
+    objectName = objectName ? objectName
+      : form.find("[name='Object']").attr('value');;
+    objectId = form.find(`[name="${dashToPascalCase(objectName)}Id"]`).attr('value');
+    objectId = objectId ? objectId
+      : form.find(`[name*='${pascalCaseToDash(objectName)}-id']`).attr('value');
     if (formClasses.contains('next-accordion'))
       nextElement = nextAccordion(formElement);
     else if (formClasses.contains('next-tab'))
@@ -344,26 +499,17 @@ document.addEventListener('wpcf7mailsent', function (event) {
     if (formClasses.contains('load-select-table'))
       populateDataTable('applicant-search', 'vi_ApplicantSearch');
     if (formClasses.contains('load-next-form'))
-      if (formClasses.contains('load-children')) {
-        nextForm(formElementId, nextElement, true);
-
-      } else {
-        nextForm(formElementId, nextElement);
-      };
-    if (formClasses.contains('refresh-table')) {
+      nextForm(formElementId, nextElement, formClasses.contains('load-children'));
+    let popup = jQuery(formElement).closest('.pum');
+    if (popup.length > 0) {
       if (objectName) {
-        let classArray = Array.from(formClasses);
-        let dataTable = classArray.filter(function (v) { return /table-/.test(v) });
-        if (dataTable && dataTable.length > 0)
-          populateDataTable(`${dataTable[0].replace('table-', '')}-table`, objectName);
+        populateDataTable(`${objectName}-table`, objectName);
       };
+      popup.popmake('close');
     } else if (formClasses.contains('save')) {
       let postId = formElementId.replace(/(.*wpcf7-f)(.*)(-.*)/, "$2");
       loadEditObjectForm(formElement.parentElement, postId, objectName, objectId)
     };
-    let popup = jQuery(formElement).closest('.pum');
-    if (popup)
-      popup.popmake('close');
   }
 });
 
@@ -439,7 +585,8 @@ function loadEditObjectForm(element, formId, objectName, objectId) {
 // Function to request AJAX data
 // ***********************************************************************
 function ajaxRequest(args) {
-  let body = JSON.parse(JSON.stringify(args['body']));
+  args = getDefaultAjaxBody(args);
+  let body = args['body'];
   let element;
   if (typeof (args['element']) !== 'undefined') {
     element = args['element'];
@@ -449,7 +596,7 @@ function ajaxRequest(args) {
   jQuery.ajax({
     url: ajaxurl,
     type: args['type'],
-    data: body,
+    data: args['body'],
     success: function (data) {
       if (body['action'] === 'set_applicant_data') {
         handleAdminEditApplicantResponse(body);
@@ -538,7 +685,6 @@ function initForms() {
   loadDynamicSelect();
   changeTextToTextArea();
   reloadScript('/wp-content/plugins/cf7-conditional-fields/js/scripts.js');
-  reloadScript('/wp-content/plugins/cf7-repeatable-fields/assets/js/');
   addDocumentDropZones();
   addMultiSelectWidget();
   changeModifyInputSize();

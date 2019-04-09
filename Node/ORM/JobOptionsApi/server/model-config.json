@@ -1,7 +1,8 @@
 {
   "_meta": {
     "sources": [
-      "../common/models"
+      "../common/models",
+      "../node_modules/loopback-component-passport/lib/models"
     ],
     "mixins": [
       "loopback/common/mixins",
@@ -10,8 +11,40 @@
       "./mixins"
     ]
   },
+  "user": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "userIdentity": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "userCredential": {
+    "dataSource": "Applications",
+    "public": false
+  },
+  "accessToken": {
+    "dataSource": "Applications",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "Applications",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "Applications",
+    "public": false
+  },
+  "Role": {
+    "dataSource": "Applications",
+    "public": false
+  },
   "Doc": {
     "dataSource": "storage",
+    "public": true
+  },
+  "AllNotes": {
+    "dataSource": "Applications",
     "public": true
   },
   "Applicant": {
@@ -179,6 +212,10 @@
     "public": true
   },
   "ApplicantEmploymentCode": {
+    "dataSource": "Applications",
+    "public": true
+  },
+  "vi_AllNotes": {
     "dataSource": "Applications",
     "public": true
   }
